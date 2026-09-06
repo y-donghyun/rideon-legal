@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>홈 · Rideon</title>
+<meta name="description" content="Rideon 홈">
+<style>
+:root {
+  color-scheme: light dark;
+  --bg: #ffffff;
+  --fg: #1a1a1a;
+  --muted: #5c5c5c;
+  --rule: #e2e2e2;
+  --accent: #d94f2b;
+  --card: #f7f7f7;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #121212;
+    --fg: #ececec;
+    --muted: #a0a0a0;
+    --rule: #2c2c2c;
+    --accent: #ff7043;
+    --card: #1c1c1c;
+  }
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--fg);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans KR", Roboto, sans-serif;
+  line-height: 1.75;
+  -webkit-text-size-adjust: 100%;
+}
+.wrap { max-width: 46rem; margin: 0 auto; padding: 2.5rem 1.25rem 5rem; }
+header { border-bottom: 1px solid var(--rule); padding-bottom: 1rem; margin-bottom: 2rem; }
+.brand { font-weight: 700; font-size: 1.05rem; letter-spacing: 0.02em; color: var(--accent); text-decoration: none; }
+nav { margin-top: 0.75rem; display: flex; gap: 1rem; flex-wrap: wrap; font-size: 0.9rem; }
+nav a { color: var(--muted); text-decoration: none; }
+nav a:hover, nav a[aria-current="page"] { color: var(--fg); text-decoration: underline; }
+h1 { font-size: 1.7rem; line-height: 1.35; margin: 0 0 1.5rem; }
+h2 { font-size: 1.2rem; margin: 2.5rem 0 0.75rem; padding-top: 0.5rem; border-top: 1px solid var(--rule); }
+h3 { font-size: 1rem; margin: 1.75rem 0 0.5rem; color: var(--muted); }
+p, li { font-size: 0.98rem; }
+ul { padding-left: 1.25rem; }
+li { margin: 0.35rem 0; }
+hr { border: 0; border-top: 1px solid var(--rule); margin: 2rem 0; }
+code { background: var(--card); padding: 0.1em 0.35em; border-radius: 4px; font-size: 0.9em; }
+a { color: var(--accent); }
+strong { font-weight: 700; }
+footer { margin-top: 4rem; padding-top: 1.5rem; border-top: 1px solid var(--rule); color: var(--muted); font-size: 0.85rem; }
+table { border-collapse: collapse; width: 100%; }
+</style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <a class="brand" href="./">Rideon</a>
+      <nav>
+      <a href="./" aria-current="page">Rideon</a>
+      <a href="./privacy.html">개인정보처리방침</a>
+      <a href="./terms.html">이용약관</a>
+      </nav>
+    </header>
+    <main>
+<h1>Rideon</h1>
+<p>오토바이 라이더를 위한 기록·공유 앱입니다. 주행한 경로를 기록하고, 다녀온 장소를 남기고, 함께 달릴 사람을 찾습니다.</p>
+<h2>문서</h2>
+<ul>
+<li><a href="./privacy.html">개인정보처리방침</a></li>
+<li><a href="./terms.html">이용약관</a></li>
+</ul>
+<p>이 페이지의 문안은 앱 안에서 보이는 전문과 <strong>같은 원본</strong>에서 생성됩니다.</p>
+    </main>
+    <footer>
+      Rideon — 라이딩을 기록하고 나누는 앱
+    </footer>
+  </div>
+</body>
+</html>
