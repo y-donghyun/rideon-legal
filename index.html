@@ -3,27 +3,23 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>홈 · Rideon</title>
-<meta name="description" content="Rideon 홈">
+<title>Rideon — 라이딩을 기록하고 나누는 앱</title>
+<meta name="description" content="오토바이 라이더를 위한 기록·공유 앱. 주행 경로를 기록하고, 다녀온 장소를 남기고, 함께 달릴 사람을 찾습니다.">
+<link rel="icon" href="./icon.png">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Rideon — 라이딩을 기록하고 나누는 앱">
+<meta property="og:description" content="달린 길이 그대로 남습니다. 기록 · 장소 · 코스 · 함께 달리기.">
+<meta property="og:image" content="https://rideon-app.com/icon.png">
+<meta property="og:url" content="https://rideon-app.com/">
 <style>
 :root {
-  color-scheme: light dark;
-  --bg: #ffffff;
-  --fg: #1a1a1a;
-  --muted: #5c5c5c;
-  --rule: #e2e2e2;
-  --accent: #d94f2b;
-  --card: #f7f7f7;
-}
-@media (prefers-color-scheme: dark) {
-  :root {
-    --bg: #121212;
-    --fg: #ececec;
-    --muted: #a0a0a0;
-    --rule: #2c2c2c;
-    --accent: #ff7043;
-    --card: #1c1c1c;
-  }
+  color-scheme: dark;
+  --bg: #0E0F11;
+  --fg: #F1F2F3;
+  --muted: rgba(255,255,255,0.55);
+  --rule: rgba(255,255,255,0.09);
+  --accent: #C8F542;
+  --card: #17191C;
 }
 * { box-sizing: border-box; }
 body {
@@ -52,32 +48,70 @@ a { color: var(--accent); }
 strong { font-weight: 700; }
 footer { margin-top: 4rem; padding-top: 1.5rem; border-top: 1px solid var(--rule); color: var(--muted); font-size: 0.85rem; }
 table { border-collapse: collapse; width: 100%; }
+.hero { padding: 4.5rem 0 3rem; text-align: center; }
+.hero img.mark { width: min(16rem, 62vw); height: auto; }
+.tagline { font-size: clamp(1.6rem, 6vw, 2.4rem); font-weight: 800; line-height: 1.25; margin: 1.75rem 0 0.75rem; letter-spacing: -0.01em; }
+.tagline em { color: var(--accent); font-style: normal; }
+.lede { color: var(--muted); max-width: 30rem; margin: 0 auto; }
+.badge { display: inline-block; margin-top: 1.75rem; padding: 0.3rem 0.8rem; border: 1px solid var(--accent); border-radius: 999px; color: var(--accent); font-size: 0.8rem; letter-spacing: 0.03em; }
+.cta { display: flex; gap: 0.75rem; justify-content: center; flex-wrap: wrap; margin-top: 1.5rem; }
+.cta a { display: inline-block; padding: 0.7rem 1.4rem; border-radius: 10px; text-decoration: none; font-weight: 700; font-size: 0.95rem; }
+.cta a.primary { background: var(--accent); color: #0E0F11; }
+.cta a.ghost { border: 1px solid var(--rule); color: var(--fg); }
+.grid { display: grid; gap: 1rem; grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr)); margin: 3rem 0; }
+.card { background: var(--card); border: 1px solid var(--rule); border-radius: 14px; padding: 1.25rem 1.35rem; }
+.card h3 { color: var(--fg); margin: 0 0 0.4rem; font-size: 1.02rem; }
+.card p { color: var(--muted); margin: 0; font-size: 0.94rem; line-height: 1.7; }
+.shots { display: flex; gap: 1rem; overflow-x: auto; padding: 0 0 1rem; margin: 0 0 3rem; scroll-snap-type: x mandatory; }
+.shots img { width: min(18rem, 72vw); height: auto; flex: 0 0 auto; border-radius: 14px; border: 1px solid var(--rule); scroll-snap-align: center; }
+.note { background: var(--card); border: 1px solid var(--rule); border-radius: 14px; padding: 1.25rem 1.35rem; color: var(--muted); font-size: 0.94rem; }
+.note strong { color: var(--fg); }
+footer a { color: var(--muted); text-decoration: none; margin-right: 1rem; }
+footer a:hover { color: var(--fg); text-decoration: underline; }
 </style>
 </head>
 <body>
   <div class="wrap">
-    <header>
-      <a class="brand" href="./">Rideon</a>
-      <nav>
-      <a href="./" aria-current="page">Rideon</a>
-      <a href="./privacy.html">개인정보처리방침</a>
-      <a href="./terms.html">이용약관</a>
-      <a href="./delete-account.html">계정 삭제</a>
-      </nav>
-    </header>
-    <main>
-<h1>Rideon</h1>
-<p>오토바이 라이더를 위한 기록·공유 앱입니다. 주행한 경로를 기록하고, 다녀온 장소를 남기고, 함께 달릴 사람을 찾습니다.</p>
-<h2>문서</h2>
-<ul>
-<li><a href="./privacy.html">개인정보처리방침</a></li>
-<li><a href="./terms.html">이용약관</a></li>
-<li><a href="./delete-account.html">계정 삭제</a></li>
-</ul>
-<p>이 페이지의 문안은 앱 안에서 보이는 전문과 <strong>같은 원본</strong>에서 생성됩니다.</p>
-    </main>
+    <div class="hero">
+      <img class="mark" src="./wordmark.png" alt="Rideon">
+      <p class="tagline">달린 길이 <em>그대로 남는다</em></p>
+      <p class="lede">오토바이 라이더를 위한 기록·공유 앱입니다. 주행 경로를 기록하고, 다녀온 장소를 남기고, 함께 달릴 사람을 찾습니다.</p>
+      <span class="badge">비공개 베타 테스트 중</span>
+      <div class="cta">
+        <a class="primary" href="mailto:ydh36743674@gmail.com?subject=Rideon%20%EB%B2%A0%ED%83%80%20%EC%B0%B8%EC%97%AC%20%EC%8B%A0%EC%B2%AD">베타 참여 문의</a>
+        <a class="ghost" href="./terms.html">이용약관</a>
+        <a class="ghost" href="./privacy.html">개인정보처리방침</a>
+      </div>
+    </div>
+
+    <div class="grid">
+      <div class="card"><h3>달린 길이 그대로 남는다</h3><p>화면을 꺼도, 신호가 끊겨도 기록은 계속됩니다. 끝나면 거리·시간·평균 속도와 지도가 정리돼 남습니다.</p></div>
+      <div class="card"><h3>다녀온 곳을 남긴다</h3><p>주행 중 눈에 띈 곳은 핀 하나로 찍어두고, 끝나고 사진과 별점을 붙여 올립니다.</p></div>
+      <div class="card"><h3>남의 코스를 따라간다</h3><p>마음에 든 코스는 담아뒀다가 그대로 탑니다. 출발점까지는 음성으로 안내합니다.</p></div>
+      <div class="card"><h3>같이 달릴 사람을 찾는다</h3><p>집결지와 경유지를 정해 방을 열고, 달리는 동안 서로 위치를 봅니다. (베타 참여자 우선 공개)</p></div>
+    </div>
+
+    <div class="shots">
+      <img src="./shots/1-feed.png" alt="피드 화면 — 팔로잉·최신·인기" loading="lazy" width="1080" height="1920">
+      <img src="./shots/2-route.png" alt="주행 기록과 경로 지도" loading="lazy" width="1080" height="1920">
+      <img src="./shots/3-nav.png" alt="코스 길안내" loading="lazy" width="1080" height="1920">
+      <img src="./shots/5-pins.png" alt="주행 중 남긴 장소 핀" loading="lazy" width="1080" height="1920">
+      <img src="./shots/6-place.png" alt="장소 상세와 리뷰" loading="lazy" width="1080" height="1920">
+    </div>
+
+    <div class="note">
+      <p style="margin-top:0"><strong>지금은 비공개 테스트 기간입니다.</strong> 초대받은 분들이 Android(Play 비공개 테스트)와 iOS(TestFlight)에서 먼저 써보고 있습니다. 참여를 원하시면 위 버튼으로 연락 주세요.</p>
+      <p style="margin-bottom:0">계정을 지우고 싶으시면 앱의 설정에서 바로 할 수 있고, 앱 밖에서 요청하는 방법은 <a href="./delete-account.html">계정 삭제 안내</a>에 있습니다.</p>
+    </div>
+
     <footer>
-      Rideon — 라이딩을 기록하고 나누는 앱
+      <p>
+        <a href="./terms.html">이용약관</a>
+        <a href="./privacy.html">개인정보처리방침</a>
+        <a href="./delete-account.html">계정 삭제</a>
+        <a href="mailto:ydh36743674@gmail.com">문의</a>
+      </p>
+      <p>© 2026 Rideon</p>
     </footer>
   </div>
 </body>
