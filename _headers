@@ -1,0 +1,8 @@
+# 애플은 apple-app-site-association 을 application/json 으로 요구한다.
+# 확장자가 없어 정적 호스팅은 기본으로 octet-stream 을 준다 — GitHub Pages 는
+# 이 헤더를 바꿀 수 없어서 Cloudflare Pages 로 옮겼다 (2026-09-17).
+/.well-known/apple-app-site-association
+  Content-Type: application/json
+
+/.well-known/assetlinks.json
+  Content-Type: application/json
