@@ -1,0 +1,12 @@
+[
+  {
+    "relation": ["delegate_permission/common.handle_all_urls"],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "com.bikesocial.rideon",
+      "sha256_cert_fingerprints": [
+        "9B:57:41:CC:D3:7F:07:A0:97:53:18:6D:FA:95:EC:84:CD:43:76:DE:2B:16:0D:49:A6:12:C6:92:FB:4E:DD:C6"
+      ]
+    }
+  }
+]
