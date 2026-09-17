@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Rideon에서 열어보세요</title>
+<meta name="robots" content="noindex">
+<link rel="icon" href="/icon.png">
+<style>
+:root {
+  color-scheme: dark;
+  --bg: #0E0F11;
+  --fg: #F1F2F3;
+  --muted: rgba(255,255,255,0.55);
+  --rule: rgba(255,255,255,0.09);
+  --accent: #C8F542;
+  --card: #17191C;
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--fg);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans KR", Roboto, sans-serif;
+  line-height: 1.75;
+  -webkit-text-size-adjust: 100%;
+}
+.wrap { max-width: 46rem; margin: 0 auto; padding: 1.5rem 1.25rem 4rem; }
+
+/* 머리글·푸터는 홈과 문서가 **같은 것**을 쓴다 — 약관만 다른 사이트처럼 보이던
+   것을 고쳤다 (2026-09-17 지시: "홈탭이랑 아예 분위기가 다르고 이어지지 않네") */
+header { display: flex; align-items: center; justify-content: space-between; gap: 1rem;
+  flex-wrap: wrap; padding: 0.5rem 0 1rem; margin-bottom: 2rem; border-bottom: 1px solid var(--rule); }
+header .brand img { height: 1.6rem; width: auto; display: block; }
+header.bare { justify-content: flex-end; border-bottom: 0; margin-bottom: 0; }
+nav { display: flex; gap: 1.1rem; flex-wrap: wrap; font-size: 0.88rem; }
+nav a { color: var(--muted); text-decoration: none; }
+nav a:hover { color: var(--fg); }
+nav a[aria-current="page"] { color: var(--accent); }
+h1 { font-size: 1.6rem; line-height: 1.35; margin: 0 0 0.5rem; letter-spacing: -0.01em; }
+h2 { font-size: 1.12rem; margin: 2.5rem 0 0.75rem; padding-left: 0.7rem; border-left: 3px solid var(--accent); }
+h3 { font-size: 1rem; margin: 1.75rem 0 0.5rem; color: var(--accent); }
+p, li { font-size: 0.97rem; color: rgba(255,255,255,0.78); }
+ul { padding-left: 1.25rem; }
+li { margin: 0.35rem 0; }
+hr { border: 0; border-top: 1px solid var(--rule); margin: 2rem 0; }
+code { background: var(--card); padding: 0.1em 0.35em; border-radius: 4px; font-size: 0.9em; }
+a { color: var(--accent); }
+strong { color: var(--fg); font-weight: 700; }
+main { background: var(--card); border: 1px solid var(--rule); border-radius: 16px; padding: 1.75rem 1.5rem; }
+main > h1:first-child { margin-bottom: 1.25rem; }
+footer { margin-top: 3rem; padding-top: 1.5rem; border-top: 1px solid var(--rule); color: var(--muted); font-size: 0.85rem; }
+footer a { color: var(--muted); text-decoration: none; margin-right: 1rem; }
+footer a:hover { color: var(--fg); text-decoration: underline; }
+table { border-collapse: collapse; width: 100%; font-size: 0.93rem; }
+th, td { border: 1px solid var(--rule); padding: 0.5rem 0.65rem; text-align: left; }
+th { background: rgba(255,255,255,0.04); color: var(--fg); }
+@media (max-width: 30rem) {
+  main { padding: 1.25rem 1.1rem; border-radius: 14px; }
+  header { padding-bottom: 0.85rem; }
+}
+</style>
+</head>
+<body>
+  <div class="wrap">
+    <main style="text-align:center;padding:48px 0">
+      <h1 style="border:0">Rideon 앱에서 열어보세요</h1>
+      <p>이 링크는 앱에서 열립니다. 앱이 깔려 있으면 링크를 다시 눌러 주세요.</p>
+      <p style="margin-top:28px">
+        <a class="store play" href="https://play.google.com/apps/testing/com.bikesocial.rideon"><svg class="mk" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+<path fill="#00A0FF" d="M3.6 1.8c-.3.3-.5.8-.5 1.4v17.6c0 .6.2 1.1.5 1.4l.1.1 9.8-9.9v-.2L3.7 1.7l-.1.1z"/>
+<path fill="#FFCE00" d="M17.1 15.4l-3.3-3.3v-.2l3.3-3.3.1.1 3.9 2.2c1.1.6 1.1 1.7 0 2.3l-3.9 2.2h-.1z"/>
+<path fill="#FF3A44" d="M17.2 15.3L13.8 12 3.6 22.2c.4.4 1 .4 1.7.1l11.9-7z"/>
+<path fill="#00C853" d="M17.2 8.7L5.3 1.8c-.7-.4-1.3-.4-1.7.1L13.8 12l3.4-3.3z"/>
+</svg><span><small>Android · 2단계</small>Play에서 받기</span></a>
+        <a class="store apple" href="https://testflight.apple.com/join/yKWnuynJ"><svg class="mk" viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="currentColor">
+<path d="M16.4 1.4c0 1.1-.4 2.2-1.2 3-.8 1-2.2 1.7-3.4 1.6-.1-1.1.4-2.3 1.1-3 .8-.9 2.2-1.5 3.5-1.6zM20.6 17c-.6 1.4-.9 2-1.7 3.2-1.1 1.7-2.6 3.9-4.5 3.9-1.7 0-2.1-1.1-4.4-1.1-2.3 0-2.7 1.1-4.4 1.1-1.9 0-3.3-1.9-4.4-3.6C-1.1 16.2-1.5 10.2 1.2 7.1 2.3 5.8 4 5 5.5 5c1.6 0 2.6 1.1 4.4 1.1 1.7 0 2.8-1.1 4.6-1.1 1.4 0 2.9.8 3.9 2.1-3.4 1.9-2.9 6.8.2 7.9z"/>
+</svg><span><small>iOS</small>TestFlight</span></a>
+      </p>
+      <p style="margin-top:28px"><a href="/">Rideon 소개 보기</a></p>
+    </main>
+  </div>
+</body>
+</html>
