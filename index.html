@@ -71,9 +71,16 @@ th { background: rgba(255,255,255,0.04); color: var(--fg); }
 .lede { color: var(--muted); max-width: 30rem; margin: 0 auto; }
 .badge { display: inline-block; margin-top: 1.75rem; padding: 0.3rem 0.8rem; border: 1px solid var(--accent); border-radius: 999px; color: var(--accent); font-size: 0.8rem; letter-spacing: 0.03em; }
 .cta { display: flex; gap: 0.75rem; justify-content: center; flex-wrap: wrap; margin-top: 1.5rem; }
-.cta a { display: inline-block; padding: 0.7rem 1.4rem; border-radius: 10px; text-decoration: none; font-weight: 700; font-size: 0.95rem; }
-.cta a.primary { background: var(--accent); color: #0E0F11; }
-.cta a.ghost { border: 1px solid var(--rule); color: var(--fg); }
+/* 스토어 버튼은 각 브랜드 관례를 따른다 — Play 는 흰 바탕, Apple 은 검은 바탕 */
+.cta a.store { display: inline-flex; align-items: center; gap: 0.6rem; padding: 0.6rem 1.15rem;
+  border-radius: 10px; text-decoration: none; font-weight: 700; font-size: 0.98rem; line-height: 1.15; }
+.cta a.store span { display: flex; flex-direction: column; text-align: left; }
+.cta a.store small { font-weight: 500; font-size: 0.68rem; opacity: 0.62; letter-spacing: 0.04em; }
+.cta a.store .mk { width: 1.45rem; height: 1.45rem; flex: 0 0 auto; }
+.cta a.play { background: #ffffff; color: #101214; }
+.cta a.apple { background: #000000; color: #ffffff; border: 1px solid rgba(255,255,255,0.22); }
+.steps { color: var(--muted); font-size: 0.86rem; margin: 1.1rem auto 0; max-width: 27rem; line-height: 1.75; }
+.steps strong { color: var(--fg); }
 .grid { display: grid; gap: 1rem; grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr)); margin: 3rem 0; }
 .card { background: var(--card); border: 1px solid var(--rule); border-radius: 14px; padding: 1.25rem 1.35rem; }
 .card h3 { color: var(--fg); margin: 0 0 0.4rem; font-size: 1.02rem; }
@@ -101,9 +108,22 @@ th { background: rgba(255,255,255,0.04); color: var(--fg); }
       <p class="lede">오토바이 라이더를 위한 기록·공유 앱입니다. 주행 경로를 기록하고, 다녀온 장소를 남기고, 함께 달릴 사람을 찾습니다.</p>
       <span class="badge">비공개 베타 테스트 중</span>
       <div class="cta">
-        <a class="primary" href="https://play.google.com/apps/testing/com.bikesocial.rideon">Android 테스트 참여</a>
-        <a class="ghost" href="https://testflight.apple.com/join/yKWnuynJ">iOS TestFlight</a>
+        <a class="store play" href="https://play.google.com/apps/testing/com.bikesocial.rideon"><svg class="mk" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+<path fill="#00A0FF" d="M3.6 1.8c-.3.3-.5.8-.5 1.4v17.6c0 .6.2 1.1.5 1.4l.1.1 9.8-9.9v-.2L3.7 1.7l-.1.1z"/>
+<path fill="#FFCE00" d="M17.1 15.4l-3.3-3.3v-.2l3.3-3.3.1.1 3.9 2.2c1.1.6 1.1 1.7 0 2.3l-3.9 2.2h-.1z"/>
+<path fill="#FF3A44" d="M17.2 15.3L13.8 12 3.6 22.2c.4.4 1 .4 1.7.1l11.9-7z"/>
+<path fill="#00C853" d="M17.2 8.7L5.3 1.8c-.7-.4-1.3-.4-1.7.1L13.8 12l3.4-3.3z"/>
+</svg><span><small>Android · 2단계</small>Play에서 받기</span></a>
+        <a class="store apple" href="https://testflight.apple.com/join/yKWnuynJ"><svg class="mk" viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="currentColor">
+<path d="M16.4 1.4c0 1.1-.4 2.2-1.2 3-.8 1-2.2 1.7-3.4 1.6-.1-1.1.4-2.3 1.1-3 .8-.9 2.2-1.5 3.5-1.6zM20.6 17c-.6 1.4-.9 2-1.7 3.2-1.1 1.7-2.6 3.9-4.5 3.9-1.7 0-2.1-1.1-4.4-1.1-2.3 0-2.7 1.1-4.4 1.1-1.9 0-3.3-1.9-4.4-3.6C-1.1 16.2-1.5 10.2 1.2 7.1 2.3 5.8 4 5 5.5 5c1.6 0 2.6 1.1 4.4 1.1 1.7 0 2.8-1.1 4.6-1.1 1.4 0 2.9.8 3.9 2.1-3.4 1.9-2.9 6.8.2 7.9z"/>
+</svg><span><small>iOS</small>TestFlight로 받기</span></a>
       </div>
+      <p class="steps">
+        <strong>Android는 순서가 있습니다.</strong>
+        ① 테스터 그룹에 가입 (<a href="mailto:ydh36743674@gmail.com?subject=Rideon%20%ED%85%8C%EC%8A%A4%ED%84%B0%20%EA%B7%B8%EB%A3%B9%20%EC%B4%88%EB%8C%80">초대 요청</a>)
+        → ② 위 [Play에서 받기]
+        <br>가입한 구글 계정과 <strong>폰의 Play 스토어 계정이 같아야</strong> 앱이 보입니다.
+      </p>
     </div>
 
     <div class="grid">
@@ -122,7 +142,7 @@ th { background: rgba(255,255,255,0.04); color: var(--fg); }
     </div>
 
     <div class="note">
-      <p style="margin-top:0"><strong>지금은 비공개 테스트 기간입니다.</strong> Android는 <strong>테스터 그룹에 등록된 구글 계정</strong>으로 위 [Android 테스트 참여]를 눌러야 스토어에 앱이 보입니다 — 폰의 Play 스토어에 로그인된 계정과 같아야 합니다. iOS는 TestFlight 링크로 바로 설치됩니다.</p>
+      <p style="margin-top:0"><strong>지금은 비공개 테스트 기간입니다.</strong> Android는 테스터 그룹에 가입한 계정만 스토어에서 앱을 볼 수 있고, iOS는 TestFlight로 바로 설치됩니다. 앱이 안 보이면 대개 <strong>폰의 Play 계정이 그룹에 넣은 계정과 다른</strong> 경우입니다.</p>
       <p style="margin-bottom:0">계정을 지우고 싶으시면 앱의 설정에서 바로 할 수 있고, 앱 밖에서 요청하는 방법은 <a href="./delete-account.html">계정 삭제 안내</a>에 있습니다.</p>
     </div>
 
