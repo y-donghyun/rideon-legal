@@ -1,0 +1,19 @@
+{
+  "applinks": {
+    "details": [
+      {
+        "appIDs": ["XYA9C6X8MN.com.bikesocial.rideon"],
+        "components": [
+          { "/": "/p/*", "comment": "게시물" },
+          { "/": "/c/*", "comment": "코스(루트)" },
+          { "/": "/u/*", "comment": "프로필" },
+          { "/": "/r/*", "comment": "모집 방" },
+          { "/": "/auth/*", "comment": "비밀번호 재설정·인증" }
+        ]
+      }
+    ]
+  },
+  "webcredentials": {
+    "apps": ["XYA9C6X8MN.com.bikesocial.rideon"]
+  }
+}
