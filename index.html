@@ -155,10 +155,12 @@ body { line-height: 1.7; }
 .flow { display: grid; gap: 1rem; grid-template-columns: repeat(6, 1fr); margin-top: 2.25rem; }
 @media (max-width: 60rem) { .flow { grid-template-columns: repeat(3, 1fr); } }
 @media (max-width: 30rem) { .flow { grid-template-columns: repeat(2, 1fr); } }
-.flow-step { background: var(--card); border: 1px solid var(--rule); border-radius: 14px; padding: 0.8rem 0.8rem 1rem; }
+.flow-step { background: var(--card); border: 1px solid var(--rule); border-radius: 14px; padding: 0.8rem 0.8rem 1rem; display: flex; flex-direction: column; }
+.flow-step .phone-shot { margin-top: auto; }
+.flow-step .phone-shot img { aspect-ratio: 540 / 1100; object-fit: cover; object-position: top; }
 .flow-step .k { font-family: var(--mono); font-size: 0.64rem; letter-spacing: 0.14em; color: var(--accent); }
 .flow-step b { display: block; color: var(--fg); font-size: 0.98rem; margin: 0.25rem 0 0.3rem; }
-.flow-step span { font-size: 0.8rem; color: var(--muted); line-height: 1.5; display: block; margin-bottom: 0.7rem; }
+.flow-step span:not(.k) { font-size: 0.8rem; color: var(--muted); line-height: 1.5; display: block; margin-bottom: 0.7rem; min-height: 4.5em; }
 .flow-step .phone-shot img { border-radius: 12px; }
 
 .flow-head { margin-top: 2.5rem; }
@@ -372,7 +374,7 @@ body { line-height: 1.7; }
         <div class="flow-step"><span class="k">MEET</span><b>방 만들기</b><span>제목·집결지·코스·정원을 정하고 코드로 불러요.</span><div class="phone-shot"><img src="./shots/room.webp" alt="방 만들기" loading="lazy" width="540" height="1244"></div></div>
         <div class="flow-step"><span class="k">GATHER</span><b>모이기</b><span>누가 도착했는지 지도에 보여요.</span><div class="phone-shot"><img src="./shots/room_map.webp" alt="모이기" loading="lazy" width="540" height="1244"></div></div>
         <div class="flow-step"><span class="k">GO</span><b>출발</b><span>호스트가 누르면 5·4·3·2·1, 모두의 기록이 같이 켜져요.</span><div class="phone-shot"><img src="./shots/go.webp" alt="출발" loading="lazy" width="540" height="1244"></div></div>
-        <div class="flow-step"><span class="k">RIDE</span><b>같이 달리기</b><span>안내선을 따라, 서로 위치를 보면서. 신호는 이모지로.</span><div class="phone-shot"><img src="./shots/group_panel.webp" alt="같이 달리기" loading="lazy" width="540" height="1244"></div></div>
+        <div class="flow-step"><span class="k">RIDE</span><b>같이 달리기</b><span>안내선을 따라, 서로 위치를 보면서. 신호는 이모지로.</span><div class="phone-shot"><img src="./shots/group_ride.webp" alt="같이 달리기" loading="lazy" width="540" height="1244"></div></div>
         <div class="flow-step"><span class="k">FINISH</span><b>도착</b><span>호스트가 끝내면 모두의 기록이 같이 저장돼요.</span><div class="phone-shot"><img src="./shots/group_finish.webp" alt="도착" loading="lazy" width="540" height="1244"></div></div>
         <div class="flow-step"><span class="k">KEEP</span><b>남기기</b><span>경험치가 쌓이고, 코스는 담아 두고, 카드로 나눠요.</span><div class="phone-shot"><img src="./shots/xp.webp" alt="남기기" loading="lazy" width="540" height="1244"></div></div>
       </div>
