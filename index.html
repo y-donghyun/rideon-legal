@@ -161,6 +161,11 @@ body { line-height: 1.7; }
 .flow-step span { font-size: 0.8rem; color: var(--muted); line-height: 1.5; display: block; margin-bottom: 0.7rem; }
 .flow-step .phone-shot img { border-radius: 12px; }
 
+.flow-head { margin-top: 2.5rem; }
+.flow-head h3 { color: var(--fg); font-size: 1.2rem; margin: 0 0 0.2rem; }
+.flow-head p { margin: 0; font-size: 0.9rem; color: var(--muted); }
+.flow-head + .flow { margin-top: 1rem; }
+
 /* 예약 · 모집 */
 .two { display: grid; gap: 2.5rem; grid-template-columns: 1fr 1fr; align-items: center; margin-top: 2.25rem; }
 .two .shots2 { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
@@ -249,8 +254,8 @@ body { line-height: 1.7; }
       <a class="brand" href="./"><img src="./wordmark.png" alt="Rideon"></a>
       <nav class="topnav" aria-label="페이지 안내">
         <a href="#features">특징</a>
-        <a href="#flow">한 판</a>
-        <a href="#moto">오토바이를 위해</a>
+        <a href="#flow">라이딩</a>
+        <a href="#moto">바이크 전용</a>
         <a href="#crew">크루</a>
         <a href="#faq">FAQ</a>
       </nav>
@@ -263,7 +268,7 @@ body { line-height: 1.7; }
       <div>
         <p class="eyebrow">오토바이 그룹 라이딩 · 기록 · 공유 · 소셜 네트워크</p>
         <h1>같이 달리고,<br><em>같이 남긴다</em></h1>
-        <p class="lede">호스트가 방을 열면 집결지도 코스도 모두의 지도에. 달리는 동안 서로 어디쯤인지 보이고, 이모지 한 번으로 신호를 보낸다. 끝나면 기록이 남는다 — 오토바이 라이더를 위한 앱.</p>
+        <p class="lede">방을 열면 집결지와 코스가 모두의 지도에 뜨고, 달리는 동안엔 서로 어디쯤인지 보여요. 이모지 하나면 신호가 가고, 달린 길은 기록으로 남아요. 라이더를 위한 앱이에요.</p>
         <ul class="facts">
           <li><b>무료</b> · 비공개 베타</li>
           <li>iPhone · Android</li>
@@ -280,7 +285,7 @@ body { line-height: 1.7; }
 <path d="M16.4 1.4c0 1.1-.4 2.2-1.2 3-.8 1-2.2 1.7-3.4 1.6-.1-1.1.4-2.3 1.1-3 .8-.9 2.2-1.5 3.5-1.6zM20.6 17c-.6 1.4-.9 2-1.7 3.2-1.1 1.7-2.6 3.9-4.5 3.9-1.7 0-2.1-1.1-4.4-1.1-2.3 0-2.7 1.1-4.4 1.1-1.9 0-3.3-1.9-4.4-3.6C-1.1 16.2-1.5 10.2 1.2 7.1 2.3 5.8 4 5 5.5 5c1.6 0 2.6 1.1 4.4 1.1 1.7 0 2.8-1.1 4.6-1.1 1.4 0 2.9.8 3.9 2.1-3.4 1.9-2.9 6.8.2 7.9z"/>
 </svg><span><small>iOS</small>TestFlight로 받기</span></a>
         </div>
-        <p class="steps"><strong>Android는 순서가 있습니다.</strong> ① <a href="https://groups.google.com/g/test-rideon">테스터 그룹 가입</a>(누구나 가능) → ② [Play에서 받기]. 그룹에 넣은 구글 계정과 폰의 Play 계정이 같아야 앱이 보입니다.</p>
+        <p class="steps"><strong>Android는 순서가 있어요.</strong> ① <a href="https://groups.google.com/g/test-rideon">테스터 그룹 가입</a>(누구나 가능) → ② [Play에서 받기]. 그룹에 가입한 구글 계정과 폰의 Play 계정이 같아야 앱이 보여요.</p>
       </div>
       <div class="hero-shots">
         <div class="phone-shot"><img src="./shots/hero_feed.webp" alt="홈 피드 — 라이더들의 경로와 사진" loading="lazy" width="540" height="1244"></div>
@@ -292,12 +297,12 @@ body { line-height: 1.7; }
   <section class="band alt" id="features">
     <div class="inner">
       <p class="eyebrow">WHY RIDEON</p>
-      <h2>여럿이 달리면, <em>혼자일 땐 없던 일</em>이 생긴다</h2>
+      <h2>여럿이 달리면, <em>꼭 이런 일이 생기죠</em></h2>
       <div class="problems">
-        <div class="problem"><span class="qn">01 / SEPARATED</span><h3>신호 하나에 흩어진다</h3><p>같이 출발했는데 교차로 하나 지나면 뒤가 안 보인다. 앞은 어디서 기다려야 할지 모르고, 뒤는 어디로 갔는지 모른다.</p></div>
-        <div class="problem"><span class="qn">02 / NO ROUTE</span><h3>길은 앞사람만 안다</h3><p>단톡방에 캡처 한 장 던지고 끝. 각자 내비를 다시 찍다 보면 다른 길로 새고, 자동차 내비는 이륜차가 못 가는 길로 보낸다.</p></div>
-        <div class="problem"><span class="qn">03 / NO SIGNAL</span><h3>달리면서 말을 못 한다</h3><p>주유하고 싶은데, 잠깐 쉬고 싶은데, 뒤에 문제가 생겼는데 — 손을 뗄 수 없으니 그냥 따라간다.</p></div>
-        <div class="problem"><span class="qn">04 / SCATTERED</span><h3>기록이 세 군데로 흩어진다</h3><p>거리는 앱에, 사진은 갤러리에, 이야기는 단톡방에. 좋았던 코스를 다음에 또 가려면 어디로 갔는지 기억이 안 난다.</p></div>
+        <div class="problem"><span class="qn">01 / SEPARATED</span><h3>신호 한 번에 일행을 놓친다</h3><p>같이 출발했는데 교차로 하나 지나면 뒤가 안 보여요. 앞에선 어디서 기다려야 할지, 뒤에선 어디로 가야 할지 몰라요.</p></div>
+        <div class="problem"><span class="qn">02 / NO ROUTE</span><h3>길은 앞사람만 안다</h3><p>단톡방에 캡처 한 장 올리고 끝. 각자 내비를 찍다 보면 길이 갈리고, 자동차 내비는 바이크가 못 가는 길로 안내해요.</p></div>
+        <div class="problem"><span class="qn">03 / NO SIGNAL</span><h3>달리면서는 말을 못 한다</h3><p>기름 넣고 싶을 때, 좀 쉬고 싶을 때, 뒤에서 문제가 생겼을 때 — 핸들에서 손을 뗄 수 없으니 그냥 따라가게 돼요.</p></div>
+        <div class="problem"><span class="qn">04 / SCATTERED</span><h3>기록이 여기저기 흩어진다</h3><p>거리는 앱에, 사진은 갤러리에, 얘기는 단톡방에. 좋았던 코스를 다시 가려 해도 어디로 갔었는지 기억이 안 나요.</p></div>
       </div>
     </div>
   </section>
@@ -305,46 +310,42 @@ body { line-height: 1.7; }
   <section class="band" id="together">
     <div class="inner">
       <p class="eyebrow">WHAT IT DOES</p>
-      <h2>모두가 <em>같은 라이딩</em>을 달린다</h2>
-      <p class="lede">보는 것, 가는 곳, 하고 싶은 말. 한 방 안에서 다 이어진다.</p>
+      <h2>방 하나로, <em>모두가 같은 길을</em></h2>
+      <p class="lede">지도도, 길도, 하고 싶은 말도 방 하나로 이어져요.</p>
       <div class="core">
         <div class="core-row">
           <div class="core-text">
             <span class="core-no">01 / RIDE TOGETHER</span>
-            <h3>같은 지도 위에서, 같이 달린다</h3>
-            <p>방을 열면 집결지와 코스가 모두의 지도에 뜬다. 달리는 동안 서로가 어디쯤인지 보이고, 뒤처진 사람은 알아서 표시된다. 리더가 정한 코스가 안내선으로 켜져서 각자 내비를 찍을 일이 없다.</p>
-            <ul class="points"><li>실시간 위치 · 뒤처짐 표시</li><li>리더 코스 → 모두의 안내선</li><li>집결지 · 출발 카운트다운</li><li>호스트 종료 · SOS</li></ul>
-            
+            <h3>같은 지도를 보며, 같이 달려요</h3>
+            <p>방을 열면 집결지와 코스가 모두의 지도에 떠요. 달리는 동안 서로 어디쯤인지 보이고, 뒤처진 사람도 바로 보여요. 호스트가 정한 코스가 안내선으로 깔리니 각자 내비를 찍을 필요가 없어요.</p>
+            <ul class="points"><li>실시간 위치</li><li>뒤처진 사람 표시</li><li>호스트 코스를 모두에게</li><li>출발 카운트다운 · SOS</li></ul>
           </div>
-          <div class="phone-shot"><img src="./shots/group_ride.webp" alt="그룹 라이딩 중 — 앞에 안내선, 뒤에 동료 마커" loading="lazy" width="540" height="1244"></div>
+          <div class="phone-shot"><img src="./shots/group_ride.webp" alt="그룹 라이딩 중 — 앞에 안내선, 뒤에 일행 마커" loading="lazy" width="540" height="1244"></div>
         </div>
         <div class="core-row">
           <div class="core-text">
             <span class="core-no">02 / ONE TAP</span>
-            <h3>이모지 한 번이면 뜻이 전해진다</h3>
-            <p>주행 중에는 글자를 못 친다. 그래서 주행 중 대화는 이모지만 — ⛽ 주유, ☕ 커피, 🐢 천천히, ⚠️ 주의. 한 번 누르면 방 전체에 뜨고, 받는 쪽은 지도 위에 살짝 떠 있다 사라진다. 세우고 나면 글자로도 얘기할 수 있다.</p>
-            <ul class="points"><li>주행 중은 이모지 12종</li><li>지도 위 토스트로 수신</li><li>인터콤이 없어도 된다</li><li>정차 후엔 짧은 글</li></ul>
-            
+            <h3>이모지 하나로 통해요</h3>
+            <p>달리면서 글자를 칠 순 없죠. 그래서 주행 중엔 이모지로만 말해요 — ⛽ 주유, ☕ 커피, 🐢 천천히, ⚠️ 조심. 누르면 방 전체에 뜨고, 받는 쪽 지도 위에 잠깐 떴다 사라져요. 멈춘 뒤엔 글로도 얘기할 수 있어요.</p>
+            <ul class="points"><li>주행 중 이모지 12종</li><li>지도 위에 바로 표시</li><li>인터콤 없어도 OK</li><li>멈추면 채팅</li></ul>
           </div>
           <div class="phone-shot"><img src="./shots/group_chat.webp" alt="주행 중 방 안 대화 — 이모지 키보드" loading="lazy" width="540" height="1244"></div>
         </div>
         <div class="core-row">
           <div class="core-text">
             <span class="core-no">03 / RECORD</span>
-            <h3>화면을 꺼도 끝까지 남는다</h3>
-            <p>주머니에 넣고 달려도 거리·시간·속도·고도가 쌓인다. 터널이나 산길에서 신호가 끊겨도 폰에 먼저 적어 두고 나중에 올린다. 끝나면 지도 그림과 경험치가 붙고, 그 코스는 다음에 그대로 다시 탈 수 있다.</p>
-            <ul class="points"><li>백그라운드 기록</li><li>오프라인 우선 저장</li><li>코스 담기 · 따라가기</li><li>달린 만큼 레벨</li></ul>
-            
+            <h3>화면을 꺼도 끝까지 기록돼요</h3>
+            <p>폰을 주머니에 넣고 달려도 거리·시간·속도·고도가 쌓여요. 터널이나 산길에서 신호가 끊겨도 폰에 먼저 저장했다가 나중에 올려요. 다 달리면 지도와 경험치가 붙고, 그 코스는 언제든 다시 탈 수 있어요.</p>
+            <ul class="points"><li>백그라운드 기록</li><li>신호 없어도 저장</li><li>코스 담기 · 따라가기</li><li>달린 만큼 레벨업</li></ul>
           </div>
           <div class="phone-shot"><img src="./shots/feed2.webp" alt="피드 — 경로 카드와 사진 글" loading="lazy" width="540" height="1244"></div>
         </div>
         <div class="core-row">
           <div class="core-text">
             <span class="core-no">04 / LEAVE A MARK</span>
-            <h3>들른 곳은 핀 하나로 남긴다</h3>
-            <p>달리다 좋은 곳이 보이면 버튼 한 번. 끝나고 사진과 별점을 붙여 올리면 다른 라이더의 다음 코스가 된다. 라이더가 남긴 평만 모이는 장소 목록 — 주차 되는지, 헬멧 둘 데 있는지.</p>
-            <ul class="points"><li>주행 중 원터치 핀</li><li>라이더의 장소 평</li><li>피드 · 공유 카드</li><li>맛집 · 카페 · 휴게소</li></ul>
-            
+            <h3>좋았던 곳은 핀 하나로</h3>
+            <p>달리다 괜찮은 곳이 보이면 버튼 한 번이면 돼요. 나중에 사진과 별점을 붙여 올리면 다른 라이더의 다음 코스가 돼요. 주차는 되는지, 헬멧 둘 데는 있는지 — 라이더가 남긴 평만 모여요.</p>
+            <ul class="points"><li>주행 중 원터치 핀</li><li>라이더들의 장소 평</li><li>피드 · 공유 카드</li><li>맛집 · 카페 · 휴게소</li></ul>
           </div>
           <div class="phone-shot"><img src="./shots/explore.webp" alt="탐색 — 라이더들의 포스트" loading="lazy" width="540" height="1244"></div>
         </div>
@@ -354,16 +355,26 @@ body { line-height: 1.7; }
 
   <section class="band alt" id="flow">
     <div class="inner">
-      <p class="eyebrow">ONE RIDE, START TO FINISH</p>
-      <h2>방을 여는 순간부터 <em>기록이 남을 때까지</em></h2>
-      <p class="lede">아래는 실제 화면입니다 — 호스트 한 명과 세 명이 북악에서 정릉까지 달린 한 판.</p>
+      <p class="eyebrow">RIDING</p>
+      <h2>혼자 달려도, <em>같이 달려도</em></h2>
+      <p class="lede">RIDE 탭에서 [솔로]와 [그룹] 중에 고르면 돼요. 아래는 모두 실제 화면이에요.</p>
+      <div class="flow-head"><h3>솔로 라이딩</h3><p>혼자 타는 날. 버튼 하나 누르면 나머지는 알아서 기록돼요.</p></div>
       <div class="flow">
-        <div class="flow-step"><span class="k">MEET</span><b>방을 연다</b><span>제목 · 집결지 · 코스 · 정원. 코드 하나로 부른다.</span><div class="phone-shot"><img src="./shots/room.webp" alt="방을 연다" loading="lazy" width="540" height="1244"></div></div>
-        <div class="flow-step"><span class="k">GATHER</span><b>모인다</b><span>누가 도착했는지 지도에 보인다. 준비되면 준비 완료.</span><div class="phone-shot"><img src="./shots/room_map.webp" alt="모인다" loading="lazy" width="540" height="1244"></div></div>
-        <div class="flow-step"><span class="k">GO</span><b>출발</b><span>호스트가 누르면 5·4·3·2·1. 모두의 기록이 같이 켜진다.</span><div class="phone-shot"><img src="./shots/go.webp" alt="출발" loading="lazy" width="540" height="1244"></div></div>
-        <div class="flow-step"><span class="k">RIDE</span><b>같이 달린다</b><span>안내선을 따라, 서로 위치를 보며. 이모지로 신호.</span><div class="phone-shot"><img src="./shots/group_panel.webp" alt="같이 달린다" loading="lazy" width="540" height="1244"></div></div>
-        <div class="flow-step"><span class="k">FINISH</span><b>끝</b><span>호스트가 끝내면 전원의 기록이 같이 닫힌다.</span><div class="phone-shot"><img src="./shots/group_finish.webp" alt="끝" loading="lazy" width="540" height="1244"></div></div>
-        <div class="flow-step"><span class="k">KEEP</span><b>남는다</b><span>경험치가 붙고, 코스는 담아 두고, 카드로 나눈다.</span><div class="phone-shot"><img src="./shots/xp.webp" alt="남는다" loading="lazy" width="540" height="1244"></div></div>
+        <div class="flow-step"><span class="k">READY</span><b>코스 고르기</b><span>담아 둔 코스를 고르면 안내선이 깔려요.</span><div class="phone-shot"><img src="./shots/course.webp" alt="코스 고르기" loading="lazy" width="540" height="1244"></div></div>
+        <div class="flow-step"><span class="k">START</span><b>RIDE ON</b><span>버튼 한 번이면 기록이 시작돼요.</span><div class="phone-shot"><img src="./shots/dash.webp" alt="RIDE ON" loading="lazy" width="540" height="1244"></div></div>
+        <div class="flow-step"><span class="k">RIDE</span><b>달리기</b><span>계기판에 속도·거리·시간. 3D로 진행 방향이 위로.</span><div class="phone-shot"><img src="./shots/3d.webp" alt="달리기" loading="lazy" width="540" height="1244"></div></div>
+        <div class="flow-step"><span class="k">MARK</span><b>핀 찍기</b><span>좋은 곳이 보이면 버튼 한 번.</span><div class="phone-shot"><img src="./shots/pin.webp" alt="핀 찍기" loading="lazy" width="540" height="1244"></div></div>
+        <div class="flow-step"><span class="k">FINISH</span><b>저장</b><span>지도 그림과 수치, 라이딩 타입까지.</span><div class="phone-shot"><img src="./shots/finish.webp" alt="저장" loading="lazy" width="540" height="1244"></div></div>
+        <div class="flow-step"><span class="k">SHARE</span><b>나누기</b><span>사진을 붙여 올리거나 카드로 공유해요.</span><div class="phone-shot"><img src="./shots/card.webp" alt="나누기" loading="lazy" width="540" height="1244"></div></div>
+      </div>
+      <div class="flow-head"><h3>그룹 라이딩</h3><p>여럿이 타는 날. 호스트 1명과 라이더 3명이 북악에서 정릉까지 달린 화면이에요.</p></div>
+      <div class="flow">
+        <div class="flow-step"><span class="k">MEET</span><b>방 만들기</b><span>제목·집결지·코스·정원을 정하고 코드로 불러요.</span><div class="phone-shot"><img src="./shots/room.webp" alt="방 만들기" loading="lazy" width="540" height="1244"></div></div>
+        <div class="flow-step"><span class="k">GATHER</span><b>모이기</b><span>누가 도착했는지 지도에 보여요.</span><div class="phone-shot"><img src="./shots/room_map.webp" alt="모이기" loading="lazy" width="540" height="1244"></div></div>
+        <div class="flow-step"><span class="k">GO</span><b>출발</b><span>호스트가 누르면 5·4·3·2·1, 모두의 기록이 같이 켜져요.</span><div class="phone-shot"><img src="./shots/go.webp" alt="출발" loading="lazy" width="540" height="1244"></div></div>
+        <div class="flow-step"><span class="k">RIDE</span><b>같이 달리기</b><span>안내선을 따라, 서로 위치를 보면서. 신호는 이모지로.</span><div class="phone-shot"><img src="./shots/group_panel.webp" alt="같이 달리기" loading="lazy" width="540" height="1244"></div></div>
+        <div class="flow-step"><span class="k">FINISH</span><b>도착</b><span>호스트가 끝내면 모두의 기록이 같이 저장돼요.</span><div class="phone-shot"><img src="./shots/group_finish.webp" alt="도착" loading="lazy" width="540" height="1244"></div></div>
+        <div class="flow-step"><span class="k">KEEP</span><b>남기기</b><span>경험치가 쌓이고, 코스는 담아 두고, 카드로 나눠요.</span><div class="phone-shot"><img src="./shots/xp.webp" alt="남기기" loading="lazy" width="540" height="1244"></div></div>
       </div>
     </div>
   </section>
@@ -371,17 +382,17 @@ body { line-height: 1.7; }
   <section class="band">
     <div class="inner">
       <p class="eyebrow">PLAN AHEAD · FIND A RIDE</p>
-      <h2>미리 잡아 두고, <em>같이 갈 사람을 찾는다</em></h2>
+      <h2>미리 잡아 두고, <em>같이 탈 사람도 찾고</em></h2>
       <div class="two">
         <div>
           <h3 style="color:var(--fg);margin:0 0 .4rem;font-size:1.2rem">예약 라이딩</h3>
-          <p>일요일 아침 남산, 다음 주 토요일 팔당. 출발 시각을 정해 두면 참여한 사람의 홈에 <b>예정된 라이딩</b> 카드로 뜨고, 시간이 가까워지면 알림이 간다. 출발 전엔 준비 완료를 눌러 누가 왔는지 확인한다.</p>
+          <p>일요일 아침 남산, 다음 주 토요일 팔당. 출발 시간을 정해 두면 참여한 사람들 홈에 <b>예정된 라이딩</b>으로 뜨고, 시간이 다가오면 알림이 가요. 출발 전엔 준비 완료로 누가 왔는지 확인할 수 있어요.</p>
           <h3 style="color:var(--fg);margin:1.4rem 0 .4rem;font-size:1.2rem">모집</h3>
-          <p>탐색 탭 [모집]에 지금 모이는 방과 예정된 방이 거리순으로 보인다. 초보 환영, 야간 출사, 맛집 투어 — 방 이름과 태그로 성격을 밝히고, 승인제로 열면 호스트가 받아 준다.</p>
+          <p>탐색 탭 [모집]에서 지금 모이는 방과 예정된 방을 가까운 순으로 볼 수 있어요. 초보 환영, 야간 출사, 맛집 투어 — 방 이름과 태그로 분위기를 알리고, 승인제로 열면 호스트가 직접 받아요.</p>
           <ul>
-            <li>지금 · 예정 필터, 내 위치 기준 거리</li>
-            <li>공개 · 초대 전용 · 승인제</li>
-            <li>초대 코드 · 링크로 앱 밖에서도 부른다</li>
+            <li>지금 · 예정으로 나눠 보기, 내 위치에서 거리</li>
+            <li>전체 공개 · 초대 전용 · 승인제</li>
+            <li>초대 코드와 링크로 앱 밖에서도 초대</li>
           </ul>
         </div>
         <div class="shots2">
@@ -395,21 +406,21 @@ body { line-height: 1.7; }
   <section class="band alt" id="moto">
     <div class="inner">
       <p class="eyebrow">BUILT FOR MOTORCYCLES</p>
-      <h2>자동차 내비로는 <em>부족한 데까지</em></h2>
-      <p class="lede">라이더가 실제로 쓰는 것부터 만들었다.</p>
+      <h2>자동차 내비가 <em>못 챙기는 것까지</em></h2>
+      <p class="lede">라이더에게 실제로 필요한 것부터 만들었어요.</p>
       <div class="moto-feature">
-        <div class="moto-card"><div><h3>필요한 것만 지도 위에</h3><p>주유소 · 카페 · 정비소 · 전망대를 골라서 켠다. 달리는 중엔 꼭 필요한 것만 보여야 한다.</p></div><div class="phone-shot"><img src="./shots/layers.webp" alt="지도 레이어 선택" loading="lazy" width="540" height="1244"></div></div>
-        <div class="moto-card"><div><h3>코스 한 줄, 그리고 방향</h3><p>담아 둔 코스가 지도에 안내선으로 깔린다. 주행 중엔 3D로 진행 방향이 위를 향하고, 회전은 음성으로 알려 준다.</p></div><div class="phone-shot"><img src="./shots/3d.webp" alt="3D 시점 주행 화면" loading="lazy" width="540" height="1244"></div></div>
+        <div class="moto-card"><div><h3>필요한 것만 지도에</h3><p>주유소·카페·정비소·전망대 중 필요한 것만 켜요. 달릴 땐 꼭 필요한 것만 보여야 하니까요.</p></div><div class="phone-shot"><img src="./shots/layers.webp" alt="지도 레이어 선택" loading="lazy" width="540" height="1244"></div></div>
+        <div class="moto-card"><div><h3>코스와 방향을 한눈에</h3><p>담아 둔 코스가 안내선으로 깔리고, 달릴 땐 3D로 진행 방향이 위를 향해요. 회전은 음성으로 알려 줘요.</p></div><div class="phone-shot"><img src="./shots/3d.webp" alt="3D 시점 주행 화면" loading="lazy" width="540" height="1244"></div></div>
       </div>
       <div class="moto-grid">
-        <div class="moto-item"><b>자동차전용도로를 피하는 길안내</b><span>이륜차가 못 들어가는 길을 피하도록 경로를 잡는다</span></div>
-        <div class="moto-item"><b>주유소 · 카페 · 정비소 레이어</b><span>달리면서 필요한 것만 골라 지도에 켠다</span></div>
-        <div class="moto-item"><b>음성 길안내</b><span>연결한 헤드셋으로 회전 안내가 나온다</span></div>
-        <div class="moto-item"><b>3D 시점 · 방향 화살표</b><span>주행 중엔 진행 방향이 위로. 두 손가락으로 각도 조절</span></div>
-        <div class="moto-item"><b>코스 담기 · 따라가기</b><span>남의 좋은 코스를 담아 두고 그대로 탄다</span></div>
-        <div class="moto-item"><b>차고</b><span>내 바이크를 등록하고 기록을 바이크별로</span></div>
-        <div class="moto-item"><b>공유 카드</b><span>기록을 인스타 스토리용 카드로</span></div>
-        <div class="moto-item"><b>집 근처 가리기</b><span>남에게 보이는 기록은 출발·도착 지점을 가린다</span></div>
+        <div class="moto-item"><b>자동차 전용도로를 피하는 길안내</b><span>바이크가 못 들어가는 길은 알아서 피해요</span></div>
+        <div class="moto-item"><b>주유소 · 카페 · 정비소 레이어</b><span>필요한 것만 골라 지도에 켜요</span></div>
+        <div class="moto-item"><b>음성 길안내</b><span>연결한 헤드셋으로 회전 안내가 나와요</span></div>
+        <div class="moto-item"><b>3D 시점 · 진행 방향</b><span>달리는 방향이 항상 위로. 각도는 두 손가락으로</span></div>
+        <div class="moto-item"><b>코스 담기 · 따라가기</b><span>다른 사람의 좋은 코스를 담아 두고 그대로 달려요</span></div>
+        <div class="moto-item"><b>차고</b><span>내 바이크를 등록하고 바이크별로 기록을 봐요</span></div>
+        <div class="moto-item"><b>공유 카드</b><span>기록을 인스타 스토리용 카드로 만들어요</span></div>
+        <div class="moto-item"><b>집 근처 가리기</b><span>남에게 보이는 기록은 출발·도착 지점을 가려요</span></div>
       </div>
     </div>
   </section>
@@ -417,20 +428,20 @@ body { line-height: 1.7; }
   <section class="band" id="crew">
     <div class="inner">
       <p class="eyebrow">COMING NEXT · 크루</p>
-      <h2>같이 탄 사람이 <em>계속 남는다</em></h2>
+      <h2>한 번 같이 탄 사람들과, <em>계속 같이</em></h2>
       <div class="crew">
         <div>
-          <p>그룹 라이딩은 한 번의 주행이고, 크루는 소속이다. 매번 새로 모으지 않아도 되는 사람들과 대화 · 일정 · 공지를 한 곳에서. 크루 홈 위쪽엔 지금 상태가, 아래엔 대화가 흐른다.</p>
+          <p>그룹 라이딩이 한 번의 주행이라면, 크루는 늘 같이 타는 사람들이에요. 매번 새로 모을 필요 없이 대화·일정·공지를 한곳에서. 크루 홈 위쪽엔 지금 상황이, 아래엔 대화가 흘러요.</p>
           <ul>
-            <li><b>크루 라이딩</b> — 방을 열 때 크루를 고르면 크루 전용 방. 출발 시각을 「지금」으로 두면 번개, 정해 두면 예약</li>
-            <li><b>크루 라이브</b> — 멤버는 방에 안 들어가도 주행 중인 팀을 지도로 지켜보고 👏 한 번 보낸다</li>
-            <li><b>크루 레벨</b> — 크루 라이딩으로 달린 거리가 쌓여 레벨이 오르고 정원이 는다. 이번 달 지역 랭킹</li>
-            <li><b>세 곳까지</b> — 크루 여러 곳에 동시에, 디스코드처럼 전환</li>
+            <li><b>크루 라이딩</b> — 방을 만들 때 크루를 고르면 크루 전용 방이 돼요. 출발을 「지금」으로 하면 번개, 시간을 정하면 예약</li>
+            <li><b>크루 라이브</b> — 방에 안 들어가도 달리는 팀을 지도로 보고 👏 응원을 보낼 수 있어요</li>
+            <li><b>크루 레벨</b> — 크루 라이딩으로 달린 거리가 쌓이면 레벨이 오르고 정원이 늘어나요. 이번 달 지역 랭킹도 있어요</li>
+            <li><b>세 곳까지</b> — 여러 크루에 들어가서 디스코드처럼 바꿔 가며 써요</li>
           </ul>
           <div class="lv">
             <span>Lv 1 · 정원 <b>10</b></span><span>Lv 5 · 정원 <b>18</b></span><span>Lv 10 · 정원 <b>28</b></span>
           </div>
-          <p class="fine">화면은 설계안입니다 — 다음 업데이트에서 나옵니다.</p>
+          <p class="fine">화면은 설계안이에요 — 다음 업데이트에서 만나요.</p>
         </div>
         <div class="crew-mock" aria-label="크루 홈 화면 예시">
           <div class="cm-top">
@@ -459,54 +470,53 @@ body { line-height: 1.7; }
   <section class="band alt" id="start">
     <div class="inner">
       <p class="eyebrow">GET STARTED</p>
-      <h2>준비는 <em>3단계</em></h2>
+      <h2>시작은 <em>3단계</em></h2>
       <div class="three">
-        <div class="tile"><span class="k">STEP 1</span><h3>테스터로 들어오기</h3><p>Android는 <a href="https://groups.google.com/g/test-rideon">테스터 그룹</a>에 가입(누구나 가능), iOS는 TestFlight를 설치합니다.</p></div>
-        <div class="tile"><span class="k">STEP 2</span><h3>앱 받기</h3><p>Android는 <a href="https://play.google.com/apps/testing/com.bikesocial.rideon">Play에서</a>, iOS는 <a href="https://testflight.apple.com/join/yKWnuynJ">TestFlight 링크</a>로 설치합니다.</p></div>
-        <div class="tile"><span class="k">STEP 3</span><h3>방을 열거나, 들어가거나</h3><p>RIDE 탭 [그룹]에서 방을 열고 코드를 나눠 주세요. 혼자면 RIDE ON — 첫 기록이 시작됩니다.</p></div>
+        <div class="tile"><span class="k">STEP 1</span><h3>테스터로 참여하기</h3><p>Android는 <a href="https://groups.google.com/g/test-rideon">테스터 그룹</a>에 가입(누구나 가능)하고, iOS는 TestFlight를 설치해요.</p></div>
+        <div class="tile"><span class="k">STEP 2</span><h3>앱 받기</h3><p>Android는 <a href="https://play.google.com/apps/testing/com.bikesocial.rideon">Play에서</a>, iOS는 <a href="https://testflight.apple.com/join/yKWnuynJ">TestFlight 링크</a>로 설치해요.</p></div>
+        <div class="tile"><span class="k">STEP 3</span><h3>달리기</h3><p>RIDE 탭에서 혼자라면 RIDE ON, 같이라면 [그룹]에서 방을 열고 코드를 나눠 주세요.</p></div>
       </div>
     </div>
   </section>
 
-
-  <section class="band alt">
+  <section class="band">
     <div class="inner">
       <p class="eyebrow">PRIVACY &amp; SAFETY</p>
-      <h2>위치를 다루는 앱이라, <em>더 조심한다</em></h2>
+      <h2>위치를 다루니까, <em>더 조심스럽게</em></h2>
       <div class="three">
-        <div class="tile"><h3>실시간 위치는 방 안에서만</h3><p>같은 방에서 달리는 사람에게만, 달리는 동안만 보입니다. 방이 끝나면 위치 공유도 끝납니다.</p></div>
-        <div class="tile"><h3>집 근처는 가린다</h3><p>남에게 보이는 기록은 출발·도착 지점을 가릴 수 있습니다. 라이딩은 대개 집에서 시작하니까요.</p></div>
-        <div class="tile"><h3>언제든 지울 수 있다</h3><p>설정에서 바로 계정을 지울 수 있습니다. <a href="./privacy.html">개인정보처리방침</a>에 무엇을 얼마나 보관하는지 적어 두었습니다.</p></div>
+        <div class="tile"><h3>실시간 위치는 방 안에서만</h3><p>같은 방에서 같이 달리는 사람에게만, 달리는 동안만 보여요. 방이 끝나면 위치 공유도 끝나요.</p></div>
+        <div class="tile"><h3>집 근처는 가려요</h3><p>남에게 보이는 기록은 출발·도착 지점을 가릴 수 있어요. 라이딩은 보통 집에서 시작하니까요.</p></div>
+        <div class="tile"><h3>언제든 지울 수 있어요</h3><p>설정에서 바로 계정을 지울 수 있어요. 무엇을 얼마나 보관하는지는 <a href="./privacy.html">개인정보처리방침</a>에 적어 뒀어요.</p></div>
       </div>
-      <p class="fine">주행 중에는 조작하지 마세요. 목적지 검색 · 채팅은 안전한 곳에 세운 뒤에 — 앱도 출발할 때 한 번 더 묻습니다.</p>
+      <p class="fine">주행 중엔 조작하지 마세요. 검색이나 채팅은 안전한 곳에 멈춘 뒤에 해 주세요 — 앱도 출발할 때 한 번 더 알려 드려요.</p>
     </div>
   </section>
 
-  <section class="band" id="faq">
+  <section class="band alt" id="faq">
     <div class="inner">
       <p class="eyebrow">FAQ</p>
       <h2>자주 묻는 질문</h2>
       <div class="faq">
-        <details><summary>무료인가요?</summary><p>지금은 비공개 베타라 <b>모든 기능이 무료</b>입니다. 정식 출시 뒤에도 기록·그룹 라이딩 같은 기본 기능은 무료로 둡니다.</p></details>
-        <details><summary>아이폰과 안드로이드가 같이 되나요?</summary><p>됩니다. 같은 방에서 섞여서 달릴 수 있습니다.</p></details>
-        <details><summary>인터콤이 없어도 되나요?</summary><p>됩니다. 주행 중엔 이모지 한 번으로 신호를 주고받고, 위치는 지도에서 봅니다. 음성 대화가 필요하면 세나·카도 같은 인터콤을 같이 쓰세요 — 음성 길안내는 연결된 헤드셋으로 나옵니다.</p></details>
-        <details><summary>방에는 몇 명까지 들어오나요?</summary><p>지금은 방마다 호스트가 정원을 정합니다. 정원 없이도 열 수 있습니다.</p></details>
-        <details><summary>중간에 합류할 수 있나요?</summary><p>됩니다. 초대 코드나 링크로 달리는 중에도 들어올 수 있고, 승인제 방이면 호스트가 받아 줍니다.</p></details>
-        <details><summary>해외에서도 쓸 수 있나요?</summary><p>기록과 지도는 됩니다. <b>길안내는 지금 한국 안에서만</b> 동작합니다.</p></details>
-        <details><summary>기록이 중간에 끊기면요?</summary><p>기록은 폰에 먼저 남기고 나중에 올립니다. 터널이나 산길에서 신호가 끊겨도 주행은 이어서 쌓입니다.</p></details>
-        <details><summary>배터리를 많이 쓰나요?</summary><p>화면을 꺼도 GPS가 계속 돌기 때문에 일반 앱보다 씁니다. 장거리는 충전하면서 달리는 것을 권합니다.</p></details>
-        <details><summary>내 위치는 누가 보나요?</summary><p>실시간 위치는 <b>같은 방에서 같이 달리는 사람</b>에게만, 달리는 동안만 보입니다. 저장된 기록은 공개 범위를 직접 고릅니다.</p></details>
-        <details><summary>크루는 언제 나오나요?</summary><p>다음 업데이트에서 나옵니다. 지금 베타에서 그룹 라이딩을 다듬고, 그 위에 크루를 얹습니다.</p></details>
-        <details><summary>계정을 지우고 싶어요.</summary><p>앱의 설정에서 바로 지울 수 있습니다. 앱 밖에서 요청하는 방법은 <a href="./delete-account.html">계정 삭제 안내</a>에 있습니다.</p></details>
+        <details><summary>무료인가요?</summary><p>지금은 비공개 베타라 <b>모든 기능이 무료</b>예요. 정식 출시 뒤에도 기록·그룹 라이딩 같은 기본 기능은 무료로 둘 거예요.</p></details>
+        <details><summary>아이폰과 안드로이드가 같이 되나요?</summary><p>돼요. 한 방에 섞여서 같이 달릴 수 있어요.</p></details>
+        <details><summary>인터콤이 없어도 되나요?</summary><p>돼요. 주행 중엔 이모지로 신호를 주고받고, 위치는 지도로 봐요. 음성 대화가 필요하면 세나·카도 같은 인터콤을 같이 쓰세요 — 음성 길안내도 연결된 헤드셋으로 나와요.</p></details>
+        <details><summary>방에는 몇 명까지 들어오나요?</summary><p>호스트가 방마다 정원을 정해요. 정원 없이 열 수도 있어요.</p></details>
+        <details><summary>중간에 합류할 수 있나요?</summary><p>돼요. 초대 코드나 링크로 달리는 중에도 들어올 수 있고, 승인제 방이면 호스트가 받아 줘요.</p></details>
+        <details><summary>해외에서도 쓸 수 있나요?</summary><p>기록과 지도는 돼요. <b>길안내는 지금은 국내에서만</b> 돼요.</p></details>
+        <details><summary>기록이 중간에 끊기면요?</summary><p>기록은 폰에 먼저 저장했다가 나중에 올려요. 터널이나 산길에서 신호가 끊겨도 주행은 그대로 이어서 쌓여요.</p></details>
+        <details><summary>배터리를 많이 쓰나요?</summary><p>화면을 꺼도 GPS가 계속 돌아서 일반 앱보다는 더 써요. 장거리라면 충전하면서 달리는 걸 추천해요.</p></details>
+        <details><summary>내 위치는 누가 보나요?</summary><p>실시간 위치는 <b>같은 방에서 같이 달리는 사람</b>에게만, 달리는 동안만 보여요. 저장된 기록은 공개 범위를 직접 고를 수 있어요.</p></details>
+        <details><summary>크루는 언제 나오나요?</summary><p>다음 업데이트에서 나와요. 지금 베타에서 그룹 라이딩을 다듬고, 그 위에 크루를 올려요.</p></details>
+        <details><summary>계정을 지우고 싶어요.</summary><p>앱 설정에서 바로 지울 수 있어요. 앱 밖에서 요청하는 방법은 <a href="./delete-account.html">계정 삭제 안내</a>에 있어요.</p></details>
       </div>
     </div>
   </section>
 
-  <section class="band alt final">
+  <section class="band final">
     <div class="inner">
       <p class="eyebrow">READY FOR THE NEXT RIDE</p>
-      <h2>다음 라이딩은, <em>아무도 안 놓친다</em></h2>
-      <p class="lede" style="margin: 0 auto;">무료 · 비공개 베타. 지금 테스터로 함께해 주세요.</p>
+      <h2>다음 투어링부터는,<br><em>아무도 뒤처지지 않는다</em></h2>
+      <p class="lede" style="margin: 0 auto;">가입은 1분, 인원 제한 없이. 지금은 무료 베타예요 — 같이 타는 사람들과 시작해 보세요.</p>
       <div class="cta">
           <a class="store play" href="https://play.google.com/apps/testing/com.bikesocial.rideon"><svg class="mk" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
 <path fill="#00A0FF" d="M3.6 1.8c-.3.3-.5.8-.5 1.4v17.6c0 .6.2 1.1.5 1.4l.1.1 9.8-9.9v-.2L3.7 1.7l-.1.1z"/>
@@ -518,7 +528,7 @@ body { line-height: 1.7; }
 <path d="M16.4 1.4c0 1.1-.4 2.2-1.2 3-.8 1-2.2 1.7-3.4 1.6-.1-1.1.4-2.3 1.1-3 .8-.9 2.2-1.5 3.5-1.6zM20.6 17c-.6 1.4-.9 2-1.7 3.2-1.1 1.7-2.6 3.9-4.5 3.9-1.7 0-2.1-1.1-4.4-1.1-2.3 0-2.7 1.1-4.4 1.1-1.9 0-3.3-1.9-4.4-3.6C-1.1 16.2-1.5 10.2 1.2 7.1 2.3 5.8 4 5 5.5 5c1.6 0 2.6 1.1 4.4 1.1 1.7 0 2.8-1.1 4.6-1.1 1.4 0 2.9.8 3.9 2.1-3.4 1.9-2.9 6.8.2 7.9z"/>
 </svg><span><small>iOS</small>TestFlight로 받기</span></a>
         </div>
-      <p class="steps">비공개 테스트 중이라 화면은 계속 바뀝니다 — 위 사진은 2026년 9월 빌드입니다.</p>
+      <p class="steps">비공개 테스트 중이라 화면은 계속 바뀌어요.</p>
     </div>
   </section>
 
@@ -529,7 +539,7 @@ body { line-height: 1.7; }
           <img src="./wordmark.png" alt="Rideon">
           <p>라이딩을 기록하고 나누는 앱</p>
         </div>
-        <div><b>앱</b><a href="./#features">특징</a><a href="./#flow">한 판</a><a href="./#moto">오토바이를 위해</a><a href="./#crew">크루</a><a href="./#faq">자주 묻는 질문</a></div>
+        <div><b>앱</b><a href="./#features">특징</a><a href="./#flow">라이딩</a><a href="./#moto">바이크 전용</a><a href="./#crew">크루</a><a href="./#faq">자주 묻는 질문</a></div>
         <div><b>지원</b><a href="./#start">시작하기</a><a href="mailto:ydh36743674@gmail.com">문의</a></div>
         <div><b>약관</b><a href="./terms.html">이용약관</a><a href="./privacy.html">개인정보처리방침</a><a href="./delete-account.html">계정 삭제</a></div>
       </div>
