@@ -12,7 +12,12 @@
 <meta property="og:image" content="https://rideon-app.com/icon.png">
 <meta property="og:url" content="https://rideon-app.com/">
 <style>
+@font-face { font-family: "Pretendard"; font-weight: 400; font-style: normal; font-display: swap; src: url("./fonts/Pretendard-400.woff2") format("woff2"); }
+@font-face { font-family: "Pretendard"; font-weight: 700; font-style: normal; font-display: swap; src: url("./fonts/Pretendard-700.woff2") format("woff2"); }
+@font-face { font-family: "JetBrains Mono"; font-weight: 100 800; font-style: normal; font-display: swap; src: url("./fonts/JetBrainsMono.woff2") format("woff2-variations"); }
 :root {
+  --sans: "Pretendard", -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans KR", Roboto, sans-serif;
+  --mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
   color-scheme: dark;
   --bg: #0E0F11;
   --fg: #F1F2F3;
@@ -26,7 +31,7 @@ body {
   margin: 0;
   background: var(--bg);
   color: var(--fg);
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans KR", Roboto, sans-serif;
+  font-family: var(--sans);
   line-height: 1.75;
   -webkit-text-size-adjust: 100%;
   word-break: keep-all;
@@ -78,7 +83,7 @@ body { line-height: 1.7; }
 .inner { max-width: 68rem; margin: 0 auto; padding-left: 1.25rem; padding-right: 1.25rem; }
 .band { padding-block: 5rem; }
 .band.alt { background: #121417; }
-.eyebrow { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 0.72rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--accent); margin: 0 0 0.8rem; }
+.eyebrow { font-family: var(--mono); font-size: 0.72rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--accent); margin: 0 0 0.8rem; }
 .band h2 { font-size: clamp(1.5rem, 4vw, 2.1rem); line-height: 1.3; margin: 0 0 0.8rem; padding: 0; border: 0; letter-spacing: -0.01em; text-wrap: balance; }
 .band h2 em { color: var(--accent); font-style: normal; }
 .lede { color: var(--muted); max-width: 40rem; margin: 0; font-size: 1.02rem; }
@@ -101,11 +106,10 @@ body { line-height: 1.7; }
 .hero h1 em { color: var(--accent); font-style: normal; }
 .facts { display: flex; flex-wrap: wrap; gap: 0.5rem; margin: 1.5rem 0 0; padding: 0; list-style: none; }
 .facts li { font-size: 0.8rem; border: 1px solid var(--rule); border-radius: 99px; padding: 0.25rem 0.75rem; color: var(--muted); margin: 0; }
-.facts li b { color: var(--accent); font-weight: 600; }
+.facts li b { color: var(--accent); font-weight: 700; }
 .hero .cta { justify-content: flex-start; margin-top: 1.75rem; }
 .hero .steps { margin: 0.9rem 0 0; text-align: left; max-width: none; }
-.hero-shots { position: relative; display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; align-items: end; }
-.hero-shots .phone-shot:first-child { transform: translateY(2rem); }
+.hero-shots { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; align-items: start; }
 @media (max-width: 52rem) { .hero .inner { grid-template-columns: 1fr; } .hero-shots { max-width: 26rem; margin: 0 auto; } }
 
 .cta { display: flex; gap: 0.75rem; flex-wrap: wrap; }
@@ -125,7 +129,7 @@ body { line-height: 1.7; }
 /* 문제 */
 .problems { display: grid; gap: 1rem; grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr)); margin-top: 2.25rem; }
 .problem { background: var(--card); border: 1px solid var(--rule); border-radius: 14px; padding: 1.3rem 1.3rem 1.4rem; }
-.problem .qn { font-family: ui-monospace, Menlo, monospace; font-size: 0.7rem; color: var(--accent); letter-spacing: 0.12em; }
+.problem .qn { font-family: var(--mono); font-size: 0.7rem; color: var(--accent); letter-spacing: 0.12em; }
 .problem h3 { color: var(--fg); margin: 0.35rem 0 0.4rem; font-size: 1.05rem; }
 .problem p { margin: 0; font-size: 0.9rem; line-height: 1.65; }
 
@@ -134,7 +138,7 @@ body { line-height: 1.7; }
 .core-row { display: grid; gap: 3rem; grid-template-columns: 1fr 17rem; align-items: center; }
 .core-row:nth-child(even) { grid-template-columns: 17rem 1fr; }
 .core-row:nth-child(even) .core-text { order: 2; }
-.core-no { font-family: ui-monospace, Menlo, monospace; font-size: 0.74rem; letter-spacing: 0.16em; color: var(--accent); }
+.core-no { font-family: var(--mono); font-size: 0.74rem; letter-spacing: 0.16em; color: var(--accent); }
 .core-text h3 { color: var(--fg); font-size: clamp(1.3rem, 3.2vw, 1.7rem); margin: 0.4rem 0 0.7rem; line-height: 1.3; }
 .core-text p { margin: 0 0 1rem; max-width: 34rem; }
 .points { display: flex; flex-wrap: wrap; gap: 0.45rem; list-style: none; padding: 0; margin: 0; }
@@ -151,7 +155,7 @@ body { line-height: 1.7; }
 @media (max-width: 60rem) { .flow { grid-template-columns: repeat(3, 1fr); } }
 @media (max-width: 30rem) { .flow { grid-template-columns: repeat(2, 1fr); } }
 .flow-step { background: var(--card); border: 1px solid var(--rule); border-radius: 14px; padding: 0.8rem 0.8rem 1rem; }
-.flow-step .k { font-family: ui-monospace, Menlo, monospace; font-size: 0.64rem; letter-spacing: 0.14em; color: var(--accent); }
+.flow-step .k { font-family: var(--mono); font-size: 0.64rem; letter-spacing: 0.14em; color: var(--accent); }
 .flow-step b { display: block; color: var(--fg); font-size: 0.98rem; margin: 0.25rem 0 0.3rem; }
 .flow-step span { font-size: 0.8rem; color: var(--muted); line-height: 1.5; display: block; margin-bottom: 0.7rem; }
 .flow-step .phone-shot img { border-radius: 12px; }
@@ -179,18 +183,18 @@ body { line-height: 1.7; }
 .crew li { margin: 0.4rem 0; }
 .crew .lv { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 1.2rem; }
 .crew .lv span { font-size: 0.8rem; border: 1px solid var(--rule); border-radius: 8px; padding: 0.3rem 0.6rem; color: var(--muted); }
-.crew .lv span b { color: var(--accent); font-weight: 600; }
+.crew .lv span b { color: var(--accent); font-weight: 700; }
 @media (max-width: 52rem) { .crew { grid-template-columns: 1fr; } }
 .crew-mock { max-width: 22rem; margin: 0 auto; background: #0E0F11; border: 1px solid var(--rule); border-radius: 22px; padding: 0.9rem; font-size: 0.8rem; color: var(--fg); box-shadow: 0 30px 60px rgba(0,0,0,0.45); }
 .cm-top { display: grid; grid-template-columns: auto 1fr auto; gap: 0.6rem; align-items: center; padding: 0.3rem 0.2rem 0.8rem; }
-.cm-emblem { width: 2.6rem; height: 2.6rem; border-radius: 12px; background: var(--accent); color: #0E0F11; font-weight: 800; display: grid; place-items: center; font-size: 0.85rem; }
+.cm-emblem { width: 2.6rem; height: 2.6rem; border-radius: 12px; background: var(--accent); color: #0E0F11; font-weight: 700; display: grid; place-items: center; font-size: 0.85rem; }
 .cm-head b { display: block; font-size: 0.95rem; }
 .cm-head span { color: var(--muted); font-size: 0.72rem; }
 .cm-rank { text-align: right; }
 .cm-rank small { display: block; color: var(--muted); font-size: 0.62rem; }
 .cm-rank b { display: block; font-size: 1.05rem; line-height: 1.1; }
 .cm-rank b i { font-style: normal; font-size: 0.65rem; color: var(--muted); margin-left: 1px; }
-.cm-rank span { color: var(--accent); font-size: 0.7rem; font-weight: 600; }
+.cm-rank span { color: var(--accent); font-size: 0.7rem; font-weight: 700; }
 .cm-strip { border: 1px solid var(--rule); border-radius: 12px; overflow: hidden; }
 .cm-row { display: grid; grid-template-columns: 2.2rem 1fr auto; gap: 0.5rem; padding: 0.5rem 0.7rem; border-top: 1px solid var(--rule); align-items: center; font-size: 0.76rem; }
 .cm-row:first-child { border-top: 0; }
@@ -199,7 +203,7 @@ body { line-height: 1.7; }
 .cm-row .cm-r { color: var(--accent); font-size: 0.7rem; white-space: nowrap; }
 .cm-feed { padding: 0.9rem 0.2rem 0.4rem; display: grid; gap: 0.55rem; }
 .cm-msg { background: var(--card); border-radius: 12px; padding: 0.5rem 0.7rem; max-width: 88%; justify-self: start; font-size: 0.78rem; line-height: 1.45; }
-.cm-msg .who { display: block; color: var(--muted); font-size: 0.66rem; margin-bottom: 0.1rem; font-family: ui-monospace, Menlo, monospace; }
+.cm-msg .who { display: block; color: var(--muted); font-size: 0.66rem; margin-bottom: 0.1rem; font-family: var(--mono); }
 .cm-msg.me { background: var(--accent); color: #0E0F11; justify-self: end; }
 .cm-sys { font-size: 0.72rem; color: rgba(255,255,255,0.8); border: 1px solid var(--rule); border-radius: 10px; padding: 0.4rem 0.6rem; }
 .cm-sys.dim { border: 0; padding: 0 0.2rem; color: var(--muted); font-size: 0.68rem; }
@@ -209,19 +213,19 @@ body { line-height: 1.7; }
 /* 시작 · 요금 · 개인정보 */
 .three { display: grid; gap: 1rem; grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr)); margin-top: 2.25rem; }
 .tile { background: var(--card); border: 1px solid var(--rule); border-radius: 14px; padding: 1.3rem; }
-.tile .k { font-family: ui-monospace, Menlo, monospace; font-size: 0.7rem; letter-spacing: 0.14em; color: var(--accent); }
+.tile .k { font-family: var(--mono); font-size: 0.7rem; letter-spacing: 0.14em; color: var(--accent); }
 .tile h3 { color: var(--fg); margin: 0.35rem 0 0.4rem; font-size: 1.05rem; }
 .tile p { margin: 0; font-size: 0.9rem; line-height: 1.6; }
 .tile ul { margin: 0.6rem 0 0; padding-left: 1.1rem; font-size: 0.88rem; }
 .tile li { margin: 0.25rem 0; }
 .tile.now { border-color: rgba(200,245,66,0.45); background: rgba(200,245,66,0.08); }
-.tile .price { font-size: 1.5rem; font-weight: 800; color: var(--fg); margin: 0.2rem 0 0.1rem; }
+.tile .price { font-size: 1.5rem; font-weight: 700; color: var(--fg); margin: 0.2rem 0 0.1rem; }
 .fine { margin: 1rem 0 0; font-size: 0.8rem; color: var(--muted); }
 
 /* FAQ */
 .faq { margin-top: 2rem; display: grid; gap: 0.6rem; }
 .faq details { background: var(--card); border: 1px solid var(--rule); border-radius: 12px; padding: 0.95rem 1.1rem; }
-.faq summary { cursor: pointer; font-weight: 600; color: var(--fg); list-style: none; }
+.faq summary { cursor: pointer; font-weight: 700; color: var(--fg); list-style: none; }
 .faq summary::-webkit-details-marker { display: none; }
 .faq summary::after { content: "＋"; float: right; color: var(--accent); }
 .faq details[open] summary::after { content: "－"; }
@@ -257,7 +261,7 @@ body { line-height: 1.7; }
   <section class="hero">
     <div class="inner">
       <div>
-        <p class="eyebrow">오토바이 그룹 라이딩 · 기록 · 공유</p>
+        <p class="eyebrow">오토바이 그룹 라이딩 · 기록 · 공유 · 소셜 네트워크</p>
         <h1>같이 달리고,<br><em>같이 남긴다</em></h1>
         <p class="lede">호스트가 방을 열면 집결지도 코스도 모두의 지도에. 달리는 동안 서로 어디쯤인지 보이고, 이모지 한 번으로 신호를 보낸다. 끝나면 기록이 남는다 — 오토바이 라이더를 위한 앱.</p>
         <ul class="facts">
@@ -279,8 +283,8 @@ body { line-height: 1.7; }
         <p class="steps"><strong>Android는 순서가 있습니다.</strong> ① <a href="https://groups.google.com/g/test-rideon">테스터 그룹 가입</a>(누구나 가능) → ② [Play에서 받기]. 그룹에 넣은 구글 계정과 폰의 Play 계정이 같아야 앱이 보입니다.</p>
       </div>
       <div class="hero-shots">
-        <div class="phone-shot"><img src="./shots/room_map.webp" alt="집결지에 모인 라이더들" loading="lazy" width="540" height="1244"></div>
-        <div class="phone-shot"><img src="./shots/group_ride2.webp" alt="그룹 라이딩 중인 화면" loading="lazy" width="540" height="1244"></div>
+        <div class="phone-shot"><img src="./shots/group_ride.webp" alt="그룹 라이딩 중 — 안내선과 동료 마커" loading="lazy" width="540" height="1244"></div>
+        <div class="phone-shot"><img src="./shots/home.webp" alt="홈 피드" loading="lazy" width="540" height="1244"></div>
       </div>
     </div>
   </section>
