@@ -3,12 +3,12 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Rideon — 라이딩을 기록하고 나누는 앱</title>
-<meta name="description" content="오토바이 라이더를 위한 기록·공유 앱. 주행을 기록하고, 같이 달리고, 다녀온 곳을 남깁니다.">
+<title>Rideon — 같이 달리고, 남기는 라이더 앱</title>
+<meta name="description" content="오토바이 라이더를 위한 그룹 라이딩·기록·공유 앱. 같은 지도 위에서 같이 달리고, 이모지 한 번으로 신호를 주고받고, 달린 길을 남깁니다.">
 <link rel="icon" href="./icon.png">
 <meta property="og:type" content="website">
-<meta property="og:title" content="Rideon — 달린 길이 그대로 남는다">
-<meta property="og:description" content="기록 · 함께 달리기 · 장소 · 코스. 오토바이 라이더를 위한 앱.">
+<meta property="og:title" content="Rideon — 같이 달리고, 남긴다">
+<meta property="og:description" content="오토바이 라이더를 위한 그룹 라이딩·기록·공유 앱">
 <meta property="og:image" content="https://rideon-app.com/icon.png">
 <meta property="og:url" content="https://rideon-app.com/">
 <style>
@@ -77,7 +77,7 @@ th { background: rgba(255,255,255,0.04); color: var(--fg); }
 body { line-height: 1.7; }
 .inner { max-width: 68rem; margin: 0 auto; padding-left: 1.25rem; padding-right: 1.25rem; }
 .band { padding-block: 5rem; }
-.band.alt { background: #121417; border-top: 1px solid var(--rule); border-bottom: 1px solid var(--rule); }
+.band.alt { background: #121417; }
 .eyebrow { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 0.72rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--accent); margin: 0 0 0.8rem; }
 .band h2 { font-size: clamp(1.5rem, 4vw, 2.1rem); line-height: 1.3; margin: 0 0 0.8rem; padding: 0; border: 0; letter-spacing: -0.01em; text-wrap: balance; }
 .band h2 em { color: var(--accent); font-style: normal; }
@@ -95,17 +95,18 @@ body { line-height: 1.7; }
 @media (max-width: 44rem) { .topnav { display: none; } }
 
 /* 히어로 */
-.hero { padding-block: 4rem 4.5rem; }
-.hero .inner { display: grid; gap: 3rem; grid-template-columns: 1.15fr 0.85fr; align-items: center; }
-.hero h1 { font-size: clamp(2.3rem, 7vw, 3.8rem); line-height: 1.12; margin: 0 0 1.1rem; letter-spacing: -0.03em; }
+.hero { padding-block: 4rem 4.5rem; overflow: hidden; }
+.hero .inner { display: grid; gap: 3rem; grid-template-columns: 1.1fr 0.9fr; align-items: center; }
+.hero h1 { font-size: clamp(2.2rem, 6.5vw, 3.6rem); line-height: 1.12; margin: 0 0 1.1rem; letter-spacing: -0.03em; }
 .hero h1 em { color: var(--accent); font-style: normal; }
-.hero .mark { height: 2.2rem; margin-bottom: 1.6rem; display: block; }
 .facts { display: flex; flex-wrap: wrap; gap: 0.5rem; margin: 1.5rem 0 0; padding: 0; list-style: none; }
 .facts li { font-size: 0.8rem; border: 1px solid var(--rule); border-radius: 99px; padding: 0.25rem 0.75rem; color: var(--muted); margin: 0; }
 .facts li b { color: var(--accent); font-weight: 600; }
 .hero .cta { justify-content: flex-start; margin-top: 1.75rem; }
 .hero .steps { margin: 0.9rem 0 0; text-align: left; max-width: none; }
-@media (max-width: 52rem) { .hero .inner { grid-template-columns: 1fr; } .hero .phone-shot { max-width: 17rem; margin: 0 auto; } }
+.hero-shots { position: relative; display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; align-items: end; }
+.hero-shots .phone-shot:first-child { transform: translateY(2rem); }
+@media (max-width: 52rem) { .hero .inner { grid-template-columns: 1fr; } .hero-shots { max-width: 26rem; margin: 0 auto; } }
 
 .cta { display: flex; gap: 0.75rem; flex-wrap: wrap; }
 .cta a.store { display: inline-flex; align-items: center; gap: 0.6rem; padding: 0.6rem 1.15rem; border-radius: 10px; text-decoration: none; font-weight: 700; font-size: 0.98rem; line-height: 1.15; }
@@ -117,7 +118,9 @@ body { line-height: 1.7; }
 .steps { color: var(--muted); font-size: 0.84rem; line-height: 1.7; }
 .steps strong { color: var(--fg); }
 
-.phone-shot img { width: 100%; height: auto; display: block; border-radius: 18px; border: 1px solid var(--rule); }
+.phone-shot img { width: 100%; height: auto; display: block; border-radius: 18px; border: 1px solid var(--rule); background: #1a1c20; }
+.shot-fig { margin: 0; }
+.shot-fig figcaption { font-size: 0.78rem; color: var(--muted); margin-top: 0.5rem; text-align: center; }
 
 /* 문제 */
 .problems { display: grid; gap: 1rem; grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr)); margin-top: 2.25rem; }
@@ -126,7 +129,7 @@ body { line-height: 1.7; }
 .problem h3 { color: var(--fg); margin: 0.35rem 0 0.4rem; font-size: 1.05rem; }
 .problem p { margin: 0; font-size: 0.9rem; line-height: 1.65; }
 
-/* 핵심 셋 */
+/* 핵심 */
 .core { display: grid; gap: 4.5rem; margin-top: 3rem; }
 .core-row { display: grid; gap: 3rem; grid-template-columns: 1fr 17rem; align-items: center; }
 .core-row:nth-child(even) { grid-template-columns: 17rem 1fr; }
@@ -143,6 +146,23 @@ body { line-height: 1.7; }
   .core-row .phone-shot { max-width: 16rem; margin: 0 auto; }
 }
 
+/* 한 판 흐름 */
+.flow { display: grid; gap: 1rem; grid-template-columns: repeat(6, 1fr); margin-top: 2.25rem; }
+@media (max-width: 60rem) { .flow { grid-template-columns: repeat(3, 1fr); } }
+@media (max-width: 30rem) { .flow { grid-template-columns: repeat(2, 1fr); } }
+.flow-step { background: var(--card); border: 1px solid var(--rule); border-radius: 14px; padding: 0.8rem 0.8rem 1rem; }
+.flow-step .k { font-family: ui-monospace, Menlo, monospace; font-size: 0.64rem; letter-spacing: 0.14em; color: var(--accent); }
+.flow-step b { display: block; color: var(--fg); font-size: 0.98rem; margin: 0.25rem 0 0.3rem; }
+.flow-step span { font-size: 0.8rem; color: var(--muted); line-height: 1.5; display: block; margin-bottom: 0.7rem; }
+.flow-step .phone-shot img { border-radius: 12px; }
+
+/* 예약 · 모집 */
+.two { display: grid; gap: 2.5rem; grid-template-columns: 1fr 1fr; align-items: center; margin-top: 2.25rem; }
+.two .shots2 { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+.two ul { padding-left: 1.1rem; margin: 0.8rem 0 0; }
+.two li { margin: 0.35rem 0; }
+@media (max-width: 48rem) { .two { grid-template-columns: 1fr; } .two .shots2 { max-width: 26rem; margin: 0 auto; } }
+
 /* 오토바이 전용 */
 .moto-feature { display: grid; gap: 1.5rem; grid-template-columns: repeat(auto-fit, minmax(19rem, 1fr)); margin-top: 2.5rem; }
 .moto-card { background: var(--card); border: 1px solid var(--rule); border-radius: 16px; padding: 1.4rem; display: grid; grid-template-columns: 1fr 8.5rem; gap: 1.1rem; align-items: center; }
@@ -153,24 +173,38 @@ body { line-height: 1.7; }
 .moto-item b { display: block; color: var(--fg); font-size: 0.92rem; margin-bottom: 0.2rem; }
 .moto-item span { font-size: 0.84rem; color: var(--muted); }
 
-/* 하루 */
-.day { display: grid; gap: 0.75rem; grid-template-columns: repeat(auto-fit, minmax(10rem, 1fr)); margin-top: 2.25rem; counter-reset: d; }
-.day-step { position: relative; background: var(--card); border: 1px solid var(--rule); border-radius: 12px; padding: 1rem 1rem 1.1rem; }
-.day-step .k { font-family: ui-monospace, Menlo, monospace; font-size: 0.64rem; letter-spacing: 0.14em; color: var(--accent); }
-.day-step b { display: block; color: var(--fg); font-size: 0.98rem; margin: 0.3rem 0 0.25rem; }
-.day-step span { font-size: 0.82rem; color: var(--muted); line-height: 1.55; display: block; }
-
-/* 곧 */
-.soon { display: grid; gap: 2rem; grid-template-columns: 1fr 1fr; align-items: center; background: linear-gradient(135deg, rgba(200,245,66,0.10), rgba(200,245,66,0.02)); border: 1px solid rgba(200,245,66,0.3); border-radius: 18px; padding: 2rem; }
-.soon h2 { margin-bottom: 0.6rem; }
-.soon ul { margin: 0; padding-left: 1.1rem; }
-.soon li { margin: 0.35rem 0; }
-.rail { display: flex; gap: 0.7rem; justify-content: center; }
-.rail span { width: 3.6rem; height: 3.6rem; border-radius: 14px; display: grid; place-items: center; font-weight: 700; font-size: 0.9rem; }
-.rail .a { background: var(--accent); color: #0E0F11; }
-.rail .b { background: #1C1F23; color: var(--accent); border: 1px solid var(--rule); }
-.rail .c { border: 1px dashed rgba(255,255,255,0.25); color: var(--muted); }
-@media (max-width: 44rem) { .soon { grid-template-columns: 1fr; padding: 1.5rem; } }
+/* 크루 */
+.crew { display: grid; gap: 2.5rem; grid-template-columns: 1.1fr 0.9fr; align-items: center; margin-top: 2.25rem; }
+.crew ul { padding-left: 1.1rem; margin: 0.8rem 0 0; }
+.crew li { margin: 0.4rem 0; }
+.crew .lv { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 1.2rem; }
+.crew .lv span { font-size: 0.8rem; border: 1px solid var(--rule); border-radius: 8px; padding: 0.3rem 0.6rem; color: var(--muted); }
+.crew .lv span b { color: var(--accent); font-weight: 600; }
+@media (max-width: 52rem) { .crew { grid-template-columns: 1fr; } }
+.crew-mock { max-width: 22rem; margin: 0 auto; background: #0E0F11; border: 1px solid var(--rule); border-radius: 22px; padding: 0.9rem; font-size: 0.8rem; color: var(--fg); box-shadow: 0 30px 60px rgba(0,0,0,0.45); }
+.cm-top { display: grid; grid-template-columns: auto 1fr auto; gap: 0.6rem; align-items: center; padding: 0.3rem 0.2rem 0.8rem; }
+.cm-emblem { width: 2.6rem; height: 2.6rem; border-radius: 12px; background: var(--accent); color: #0E0F11; font-weight: 800; display: grid; place-items: center; font-size: 0.85rem; }
+.cm-head b { display: block; font-size: 0.95rem; }
+.cm-head span { color: var(--muted); font-size: 0.72rem; }
+.cm-rank { text-align: right; }
+.cm-rank small { display: block; color: var(--muted); font-size: 0.62rem; }
+.cm-rank b { display: block; font-size: 1.05rem; line-height: 1.1; }
+.cm-rank b i { font-style: normal; font-size: 0.65rem; color: var(--muted); margin-left: 1px; }
+.cm-rank span { color: var(--accent); font-size: 0.7rem; font-weight: 600; }
+.cm-strip { border: 1px solid var(--rule); border-radius: 12px; overflow: hidden; }
+.cm-row { display: grid; grid-template-columns: 2.2rem 1fr auto; gap: 0.5rem; padding: 0.5rem 0.7rem; border-top: 1px solid var(--rule); align-items: center; font-size: 0.76rem; }
+.cm-row:first-child { border-top: 0; }
+.cm-row .cm-k { color: var(--muted); font-size: 0.68rem; }
+.cm-row.live .cm-k { color: #6BE675; }
+.cm-row .cm-r { color: var(--accent); font-size: 0.7rem; white-space: nowrap; }
+.cm-feed { padding: 0.9rem 0.2rem 0.4rem; display: grid; gap: 0.55rem; }
+.cm-msg { background: var(--card); border-radius: 12px; padding: 0.5rem 0.7rem; max-width: 88%; justify-self: start; font-size: 0.78rem; line-height: 1.45; }
+.cm-msg .who { display: block; color: var(--muted); font-size: 0.66rem; margin-bottom: 0.1rem; font-family: ui-monospace, Menlo, monospace; }
+.cm-msg.me { background: var(--accent); color: #0E0F11; justify-self: end; }
+.cm-sys { font-size: 0.72rem; color: rgba(255,255,255,0.8); border: 1px solid var(--rule); border-radius: 10px; padding: 0.4rem 0.6rem; }
+.cm-sys.dim { border: 0; padding: 0 0.2rem; color: var(--muted); font-size: 0.68rem; }
+.cm-input { display: flex; justify-content: space-between; align-items: center; background: var(--card); border-radius: 99px; padding: 0.45rem 0.9rem; color: var(--muted); font-size: 0.76rem; margin-top: 0.2rem; }
+.cm-input b { color: var(--accent); font-size: 1rem; }
 
 /* 시작 · 요금 · 개인정보 */
 .three { display: grid; gap: 1rem; grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr)); margin-top: 2.25rem; }
@@ -180,9 +214,8 @@ body { line-height: 1.7; }
 .tile p { margin: 0; font-size: 0.9rem; line-height: 1.6; }
 .tile ul { margin: 0.6rem 0 0; padding-left: 1.1rem; font-size: 0.88rem; }
 .tile li { margin: 0.25rem 0; }
-.tile.now { border-color: rgba(200,245,66,0.45); background: var(--accent-dim, rgba(200,245,66,0.1)); }
+.tile.now { border-color: rgba(200,245,66,0.45); background: rgba(200,245,66,0.08); }
 .tile .price { font-size: 1.5rem; font-weight: 800; color: var(--fg); margin: 0.2rem 0 0.1rem; }
-.tile .price small { font-size: 0.8rem; font-weight: 500; color: var(--muted); }
 .fine { margin: 1rem 0 0; font-size: 0.8rem; color: var(--muted); }
 
 /* FAQ */
@@ -211,10 +244,11 @@ body { line-height: 1.7; }
       <a class="brand" href="./"><img src="./wordmark.png" alt="Rideon"></a>
       <nav class="topnav" aria-label="페이지 안내">
         <a href="#features">특징</a>
-        <a href="#together">함께 달리기</a>
+        <a href="#flow">한 판</a>
         <a href="#moto">오토바이를 위해</a>
+        <a href="#crew">크루</a>
         <a href="#pricing">요금</a>
-        <a href="#faq">자주 묻는 질문</a>
+        <a href="#faq">FAQ</a>
       </nav>
       <a class="topcta" href="#start">무료로 시작</a>
     </div>
@@ -223,9 +257,9 @@ body { line-height: 1.7; }
   <section class="hero">
     <div class="inner">
       <div>
-        <p class="eyebrow">라이더를 위한 기록 · 함께 달리기 · 공유</p>
-        <h1>달린 길이<br><em>그대로 남는다</em></h1>
-        <p class="lede">기록하고, 같이 달리고, 다녀온 곳을 남긴다. 오토바이 라이더를 위한 앱.</p>
+        <p class="eyebrow">오토바이 그룹 라이딩 · 기록 · 공유</p>
+        <h1>같이 달리고,<br><em>같이 남긴다</em></h1>
+        <p class="lede">호스트가 방을 열면 집결지도 코스도 모두의 지도에. 달리는 동안 서로 어디쯤인지 보이고, 이모지 한 번으로 신호를 보낸다. 끝나면 기록이 남는다 — 오토바이 라이더를 위한 앱.</p>
         <ul class="facts">
           <li><b>무료</b> · 비공개 베타</li>
           <li>iPhone · Android</li>
@@ -244,19 +278,22 @@ body { line-height: 1.7; }
         </div>
         <p class="steps"><strong>Android는 순서가 있습니다.</strong> ① <a href="https://groups.google.com/g/test-rideon">테스터 그룹 가입</a>(누구나 가능) → ② [Play에서 받기]. 그룹에 넣은 구글 계정과 폰의 Play 계정이 같아야 앱이 보입니다.</p>
       </div>
-      <div class="phone-shot"><img src="./shots/1-feed.png" alt="피드 화면" loading="lazy" width="1080" height="1920"></div>
+      <div class="hero-shots">
+        <div class="phone-shot"><img src="./shots/room_map.webp" alt="집결지에 모인 라이더들" loading="lazy" width="540" height="1244"></div>
+        <div class="phone-shot"><img src="./shots/group_ride2.webp" alt="그룹 라이딩 중인 화면" loading="lazy" width="540" height="1244"></div>
+      </div>
     </div>
   </section>
 
   <section class="band alt" id="features">
     <div class="inner">
       <p class="eyebrow">WHY RIDEON</p>
-      <h2>라이딩, 이런 게 <em>불편하지 않았나요?</em></h2>
+      <h2>여럿이 달리면, <em>혼자일 땐 없던 일</em>이 생긴다</h2>
       <div class="problems">
-        <div class="problem"><span class="qn">01</span><h3>흩어진다</h3><p>기록은 앱에, 사진은 갤러리에, 이야기는 단톡방에. 한 번 달린 게 세 군데로 나뉜다.</p></div>
-        <div class="problem"><span class="qn">02</span><h3>신호 한 번에 놓친다</h3><p>같이 출발했는데 교차로 하나 지나면 누가 어디 있는지 모른다.</p></div>
-        <div class="problem"><span class="qn">03</span><h3>내비가 못 가는 길로 보낸다</h3><p>자동차 내비는 이륜차가 못 들어가는 자동차전용도로로 안내한다.</p></div>
-        <div class="problem"><span class="qn">04</span><h3>좋았던 코스를 다시 못 찾는다</h3><p>분명 좋았던 길인데, 다음에 가려니 어디로 갔는지 기억이 안 난다.</p></div>
+        <div class="problem"><span class="qn">01 / SEPARATED</span><h3>신호 하나에 흩어진다</h3><p>같이 출발했는데 교차로 하나 지나면 뒤가 안 보인다. 앞은 어디서 기다려야 할지 모르고, 뒤는 어디로 갔는지 모른다.</p></div>
+        <div class="problem"><span class="qn">02 / NO ROUTE</span><h3>길은 앞사람만 안다</h3><p>단톡방에 캡처 한 장 던지고 끝. 각자 내비를 다시 찍다 보면 다른 길로 새고, 자동차 내비는 이륜차가 못 가는 길로 보낸다.</p></div>
+        <div class="problem"><span class="qn">03 / NO SIGNAL</span><h3>달리면서 말을 못 한다</h3><p>주유하고 싶은데, 잠깐 쉬고 싶은데, 뒤에 문제가 생겼는데 — 손을 뗄 수 없으니 그냥 따라간다.</p></div>
+        <div class="problem"><span class="qn">04 / SCATTERED</span><h3>기록이 세 군데로 흩어진다</h3><p>거리는 앱에, 사진은 갤러리에, 이야기는 단톡방에. 좋았던 코스를 다음에 또 가려면 어디로 갔는지 기억이 안 난다.</p></div>
       </div>
     </div>
   </section>
@@ -264,37 +301,88 @@ body { line-height: 1.7; }
   <section class="band" id="together">
     <div class="inner">
       <p class="eyebrow">WHAT IT DOES</p>
-      <h2>한 앱에서 <em>기록하고, 같이 달리고, 남긴다</em></h2>
+      <h2>모두가 <em>같은 라이딩</em>을 달린다</h2>
+      <p class="lede">보는 것, 가는 곳, 하고 싶은 말. 한 방 안에서 다 이어진다.</p>
       <div class="core">
         <div class="core-row">
           <div class="core-text">
-            <span class="core-no">01 / RECORD</span>
-            <h3>화면을 꺼도, 끝까지 기록한다</h3>
-            <p>주머니에 넣고 달려도 거리·시간·속도·고도가 쌓인다. 신호가 끊겨도 폰에 먼저 남기고 나중에 올린다.</p>
-            <ul class="points"><li>백그라운드 기록</li><li>지도 그림이 자동으로</li><li>달린 만큼 레벨이 오른다</li></ul>
+            <span class="core-no">01 / RIDE TOGETHER</span>
+            <h3>같은 지도 위에서, 같이 달린다</h3>
+            <p>방을 열면 집결지와 코스가 모두의 지도에 뜬다. 달리는 동안 서로가 어디쯤인지 보이고, 뒤처진 사람은 알아서 표시된다. 리더가 정한 코스가 안내선으로 켜져서 각자 내비를 찍을 일이 없다.</p>
+            <ul class="points"><li>실시간 위치 · 뒤처짐 표시</li><li>리더 코스 → 모두의 안내선</li><li>집결지 · 출발 카운트다운</li><li>호스트 종료 · SOS</li></ul>
             
           </div>
-          <div class="phone-shot"><img src="./shots/2-route.png" alt="주행 기록 화면" loading="lazy" width="1080" height="1920"></div>
+          <div class="phone-shot"><img src="./shots/group_ride.webp" alt="그룹 라이딩 중 — 앞에 안내선, 뒤에 동료 마커" loading="lazy" width="540" height="1244"></div>
         </div>
         <div class="core-row">
           <div class="core-text">
-            <span class="core-no">02 / RIDE TOGETHER</span>
-            <h3>같은 길을, 같이 본다</h3>
-            <p>방을 열고 초대 코드로 모인다. 집결지와 경유지가 모두의 지도에 뜨고, 서로 어디쯤인지 보며 달린다.</p>
-            <ul class="points"><li>초대 코드 · 승인제</li><li>집결지 · 경유지 공유</li><li>실시간 위치 · 음성 길안내</li></ul>
-            <p class="core-note">그룹 라이딩은 테스터에게 차례로 열고 있다</p>
+            <span class="core-no">02 / ONE TAP</span>
+            <h3>이모지 한 번이면 뜻이 전해진다</h3>
+            <p>주행 중에는 글자를 못 친다. 그래서 주행 중 대화는 이모지만 — ⛽ 주유, ☕ 커피, 🐢 천천히, ⚠️ 주의. 한 번 누르면 방 전체에 뜨고, 받는 쪽은 지도 위에 살짝 떠 있다 사라진다. 세우고 나면 글자로도 얘기할 수 있다.</p>
+            <ul class="points"><li>주행 중은 이모지 12종</li><li>지도 위 토스트로 수신</li><li>인터콤이 없어도 된다</li><li>정차 후엔 짧은 글</li></ul>
+            
           </div>
-          <div class="phone-shot"><img src="./shots/3-nav.png" alt="그룹 길안내 화면" loading="lazy" width="1080" height="1920"></div>
+          <div class="phone-shot"><img src="./shots/group_chat.webp" alt="주행 중 방 안 대화 — 이모지 키보드" loading="lazy" width="540" height="1244"></div>
         </div>
         <div class="core-row">
           <div class="core-text">
-            <span class="core-no">03 / LEAVE A MARK</span>
-            <h3>들른 곳을, 핀 하나로 남긴다</h3>
-            <p>달리다 좋은 곳이 보이면 버튼 한 번. 끝나고 사진과 별점을 붙여 올리면 다른 라이더의 다음 코스가 된다.</p>
-            <ul class="points"><li>주행 중 원터치 핀</li><li>장소 리뷰 · 별점</li><li>피드 · 공유 카드</li></ul>
+            <span class="core-no">03 / RECORD</span>
+            <h3>화면을 꺼도 끝까지 남는다</h3>
+            <p>주머니에 넣고 달려도 거리·시간·속도·고도가 쌓인다. 터널이나 산길에서 신호가 끊겨도 폰에 먼저 적어 두고 나중에 올린다. 끝나면 지도 그림과 경험치가 붙고, 그 코스는 다음에 그대로 다시 탈 수 있다.</p>
+            <ul class="points"><li>백그라운드 기록</li><li>오프라인 우선 저장</li><li>코스 담기 · 따라가기</li><li>달린 만큼 레벨</li></ul>
             
           </div>
-          <div class="phone-shot"><img src="./shots/5-pins.png" alt="주행 중 남긴 장소 핀" loading="lazy" width="1080" height="1920"></div>
+          <div class="phone-shot"><img src="./shots/ride_detail2.webp" alt="라이딩 상세 — 지도와 수치, +71 XP" loading="lazy" width="540" height="1244"></div>
+        </div>
+        <div class="core-row">
+          <div class="core-text">
+            <span class="core-no">04 / LEAVE A MARK</span>
+            <h3>들른 곳은 핀 하나로 남긴다</h3>
+            <p>달리다 좋은 곳이 보이면 버튼 한 번. 끝나고 사진과 별점을 붙여 올리면 다른 라이더의 다음 코스가 된다. 라이더가 남긴 평만 모이는 장소 목록 — 주차 되는지, 헬멧 둘 데 있는지.</p>
+            <ul class="points"><li>주행 중 원터치 핀</li><li>라이더의 장소 평</li><li>피드 · 공유 카드</li><li>맛집 · 카페 · 휴게소</li></ul>
+            
+          </div>
+          <div class="phone-shot"><img src="./shots/place.webp" alt="장소 상세 — 라이더가 남긴 평" loading="lazy" width="540" height="1244"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="band alt" id="flow">
+    <div class="inner">
+      <p class="eyebrow">ONE RIDE, START TO FINISH</p>
+      <h2>방을 여는 순간부터 <em>기록이 남을 때까지</em></h2>
+      <p class="lede">아래는 실제 화면입니다 — 호스트 한 명과 세 명이 북악에서 정릉까지 달린 한 판.</p>
+      <div class="flow">
+        <div class="flow-step"><span class="k">MEET</span><b>방을 연다</b><span>제목 · 집결지 · 코스 · 정원. 코드 하나로 부른다.</span><div class="phone-shot"><img src="./shots/room.webp" alt="방을 연다" loading="lazy" width="540" height="1244"></div></div>
+        <div class="flow-step"><span class="k">GATHER</span><b>모인다</b><span>누가 도착했는지 지도에 보인다. 준비되면 준비 완료.</span><div class="phone-shot"><img src="./shots/room_map.webp" alt="모인다" loading="lazy" width="540" height="1244"></div></div>
+        <div class="flow-step"><span class="k">GO</span><b>출발</b><span>호스트가 누르면 5·4·3·2·1. 모두의 기록이 같이 켜진다.</span><div class="phone-shot"><img src="./shots/go.webp" alt="출발" loading="lazy" width="540" height="1244"></div></div>
+        <div class="flow-step"><span class="k">RIDE</span><b>같이 달린다</b><span>안내선을 따라, 서로 위치를 보며. 이모지로 신호.</span><div class="phone-shot"><img src="./shots/group_panel.webp" alt="같이 달린다" loading="lazy" width="540" height="1244"></div></div>
+        <div class="flow-step"><span class="k">FINISH</span><b>끝</b><span>호스트가 끝내면 전원의 기록이 같이 닫힌다.</span><div class="phone-shot"><img src="./shots/group_finish.webp" alt="끝" loading="lazy" width="540" height="1244"></div></div>
+        <div class="flow-step"><span class="k">KEEP</span><b>남는다</b><span>경험치가 붙고, 코스는 담아 두고, 카드로 나눈다.</span><div class="phone-shot"><img src="./shots/xp.webp" alt="남는다" loading="lazy" width="540" height="1244"></div></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="band">
+    <div class="inner">
+      <p class="eyebrow">PLAN AHEAD · FIND A RIDE</p>
+      <h2>미리 잡아 두고, <em>같이 갈 사람을 찾는다</em></h2>
+      <div class="two">
+        <div>
+          <h3 style="color:var(--fg);margin:0 0 .4rem;font-size:1.2rem">예약 라이딩</h3>
+          <p>일요일 아침 남산, 다음 주 토요일 팔당. 출발 시각을 정해 두면 참여한 사람의 홈에 <b>예정된 라이딩</b> 카드로 뜨고, 시간이 가까워지면 알림이 간다. 출발 전엔 준비 완료를 눌러 누가 왔는지 확인한다.</p>
+          <h3 style="color:var(--fg);margin:1.4rem 0 .4rem;font-size:1.2rem">모집</h3>
+          <p>탐색 탭 [모집]에 지금 모이는 방과 예정된 방이 거리순으로 보인다. 초보 환영, 야간 출사, 맛집 투어 — 방 이름과 태그로 성격을 밝히고, 승인제로 열면 호스트가 받아 준다.</p>
+          <ul>
+            <li>지금 · 예정 필터, 내 위치 기준 거리</li>
+            <li>공개 · 초대 전용 · 승인제</li>
+            <li>초대 코드 · 링크로 앱 밖에서도 부른다</li>
+          </ul>
+        </div>
+        <div class="shots2">
+          <div class="phone-shot"><img src="./shots/sched_home.webp" alt="홈의 예정된 라이딩 카드" loading="lazy" width="540" height="1244"></div>
+          <div class="phone-shot"><img src="./shots/recruit.webp" alt="탐색 모집 탭" loading="lazy" width="540" height="1244"></div>
         </div>
       </div>
     </div>
@@ -306,115 +394,127 @@ body { line-height: 1.7; }
       <h2>자동차 내비로는 <em>부족한 데까지</em></h2>
       <p class="lede">라이더가 실제로 쓰는 것부터 만들었다.</p>
       <div class="moto-feature">
-        <div class="moto-card"><div><h3>필요한 것만 지도 위에</h3><p>주유소 · 카페 · 정비소를 골라서 켠다. 달리는 중에는 꼭 필요한 것만 보여야 한다.</p></div><div class="phone-shot"><img src="./shots/4-layers.png" alt="지도 레이어" loading="lazy" width="1080" height="1920"></div></div>
-        <div class="moto-card"><div><h3>달린 만큼 오른다</h3><p>1km마다 경험치가 쌓이고 레벨이 오른다. 동에서 다이아까지 — 그 위에도 자리가 있다.</p></div><div class="phone-shot"><img src="./shots/7-level.png" alt="레벨 화면" loading="lazy" width="1080" height="1920"></div></div>
+        <div class="moto-card"><div><h3>필요한 것만 지도 위에</h3><p>주유소 · 카페 · 정비소 · 전망대를 골라서 켠다. 달리는 중엔 꼭 필요한 것만 보여야 한다.</p></div><div class="phone-shot"><img src="./shots/layers.webp" alt="지도 레이어 선택" loading="lazy" width="540" height="1244"></div></div>
+        <div class="moto-card"><div><h3>코스 한 줄, 그리고 방향</h3><p>담아 둔 코스가 지도에 안내선으로 깔린다. 주행 중엔 3D로 진행 방향이 위를 향하고, 회전은 음성으로 알려 준다.</p></div><div class="phone-shot"><img src="./shots/3d.webp" alt="3D 시점 주행 화면" loading="lazy" width="540" height="1244"></div></div>
       </div>
       <div class="moto-grid">
-        <div class="moto-item"><b>자동차전용도로를 피하는 길안내</b><span>이륜차가 못 들어가는 도로를 피하도록 경로를 잡는다</span></div>
-        <div class="moto-item"><b>주유소 · 카페 · 정비소</b><span>달리면서 필요한 것만 골라 지도에 켠다</span></div>
+        <div class="moto-item"><b>자동차전용도로를 피하는 길안내</b><span>이륜차가 못 들어가는 길을 피하도록 경로를 잡는다</span></div>
+        <div class="moto-item"><b>주유소 · 카페 · 정비소 레이어</b><span>달리면서 필요한 것만 골라 지도에 켠다</span></div>
+        <div class="moto-item"><b>음성 길안내</b><span>연결한 헤드셋으로 회전 안내가 나온다</span></div>
+        <div class="moto-item"><b>3D 시점 · 방향 화살표</b><span>주행 중엔 진행 방향이 위로. 두 손가락으로 각도 조절</span></div>
         <div class="moto-item"><b>코스 담기 · 따라가기</b><span>남의 좋은 코스를 담아 두고 그대로 탄다</span></div>
         <div class="moto-item"><b>차고</b><span>내 바이크를 등록하고 기록을 바이크별로</span></div>
-        <div class="moto-item"><b>레벨 · 메달</b><span>달린 만큼 오른다. 동 → 은 → 금 → 백금 → 다이아</span></div>
         <div class="moto-item"><b>공유 카드</b><span>기록을 인스타 스토리용 카드로</span></div>
-        <div class="moto-item"><b>DM · 그룹 대화</b><span>같이 탄 사람과 이어서 이야기한다</span></div>
-        <div class="moto-item"><b>집 근처 가리기</b><span>출발·도착 지점을 가려 집 위치가 드러나지 않게</span></div>
+        <div class="moto-item"><b>집 근처 가리기</b><span>남에게 보이는 기록은 출발·도착 지점을 가린다</span></div>
       </div>
     </div>
   </section>
 
-  <section class="band">
+  <section class="band" id="crew">
     <div class="inner">
-      <p class="eyebrow">ONE DAY WITH RIDEON</p>
-      <h2>출발 전부터 집에 올 때까지, <em>한 흐름으로</em></h2>
-      <div class="day">
-        <div class="day-step"><span class="k">BEFORE</span><b>코스 고르기</b><span>담아 둔 코스나 남의 코스를 고른다</span></div>
-        <div class="day-step"><span class="k">MEET</span><b>모이기</b><span>방을 열고 초대 코드로 부른다</span></div>
-        <div class="day-step"><span class="k">RIDE</span><b>같이 달리기</b><span>서로 위치를 보며 음성 안내를 듣는다</span></div>
-        <div class="day-step"><span class="k">STOP</span><b>들른 곳 남기기</b><span>핀 하나 · 사진 한 장</span></div>
-        <div class="day-step"><span class="k">FINISH</span><b>기록 저장</b><span>거리·시간·지도, 그리고 레벨</span></div>
-        <div class="day-step"><span class="k">SHARE</span><b>나누기</b><span>피드에 올리고 카드로 자랑한다</span></div>
-      </div>
-    </div>
-  </section>
-
-  <section class="band alt">
-    <div class="inner">
-      <div class="soon">
+      <p class="eyebrow">COMING NEXT · 크루</p>
+      <h2>같이 탄 사람이 <em>계속 남는다</em></h2>
+      <div class="crew">
         <div>
-          <p class="eyebrow">COMING SOON</p>
-          <h2>같이 탄 사람이 <em>계속 남는다</em> — 크루</h2>
+          <p>그룹 라이딩은 한 번의 주행이고, 크루는 소속이다. 매번 새로 모으지 않아도 되는 사람들과 대화 · 일정 · 공지를 한 곳에서. 크루 홈 위쪽엔 지금 상태가, 아래엔 대화가 흐른다.</p>
           <ul>
-            <li>매번 새로 모으지 않아도 되는 사람들</li>
-            <li>크루 대화 · 일정 · 공지를 한 곳에서</li>
-            <li>함께 달린 거리만큼 크루 레벨이 오르고 정원이 늘어난다</li>
-            <li>크루 여러 곳에 동시에 — 디스코드처럼 전환</li>
+            <li><b>크루 라이딩</b> — 방을 열 때 크루를 고르면 크루 전용 방. 출발 시각을 「지금」으로 두면 번개, 정해 두면 예약</li>
+            <li><b>크루 라이브</b> — 멤버는 방에 안 들어가도 주행 중인 팀을 지도로 지켜보고 👏 한 번 보낸다</li>
+            <li><b>크루 레벨</b> — 크루 라이딩으로 달린 거리가 쌓여 레벨이 오르고 정원이 는다. 이번 달 지역 랭킹</li>
+            <li><b>세 곳까지</b> — 크루 여러 곳에 동시에, 디스코드처럼 전환</li>
           </ul>
-          <p class="fine">다음 업데이트에서 선보일 예정입니다.</p>
+          <div class="lv">
+            <span>Lv 1 · 정원 <b>10</b></span><span>Lv 5 · 정원 <b>18</b></span><span>Lv 10 · 정원 <b>28</b></span><span>플러스 크루 <b>＋20</b></span>
+          </div>
+          <p class="fine">화면은 설계안입니다 — 다음 업데이트에서 나옵니다.</p>
         </div>
-        <div class="rail" aria-hidden="true"><span class="a">북악</span><span class="b">양평</span><span class="c">＋</span></div>
+        <div class="crew-mock" aria-label="크루 홈 화면 예시">
+          <div class="cm-top">
+            <div class="cm-emblem">북악</div>
+            <div class="cm-head"><b>북악라이더스</b><span>멤버 17 · 크루 Lv 4 · 서울 성북</span></div>
+            <div class="cm-rank"><small>이번 달</small><b>2,340<i>km</i></b><span>지역 3위</span></div>
+          </div>
+          <div class="cm-strip">
+            <div class="cm-row"><span class="cm-k">공지</span><span>9월 정기 라이딩 안내 · 헬멧 필수</span><span class="cm-r">+1 ›</span></div>
+            <div class="cm-row live"><span class="cm-k">●</span><span>지금 2팀 주행 중</span><span class="cm-r">8명 · 보기</span></div>
+            <div class="cm-row"><span class="cm-k">다음</span><span>9/21 (일) 07:00 · 성북구청 앞</span><span class="cm-r">참석 12 ›</span></div>
+          </div>
+          <div class="cm-feed">
+            <div class="cm-msg"><span class="who">minsu_kr</span>일요일 팔당 가시는 분 ☕ 커피 제가 삽니다</div>
+            <div class="cm-sys">🏁 <b>서준</b>이 42.3km를 달렸어요 · 북악 → 정릉</div>
+            <div class="cm-msg me">저 갑니다 👍</div>
+            <div class="cm-sys dim">유나 님이 크루에 들어왔어요</div>
+            <div class="cm-msg"><span class="who">taeho_moto</span>정비 끝나서 이번 주부턴 나갈 수 있어요</div>
+          </div>
+          <div class="cm-input"><span>메시지</span><b>＋</b></div>
+        </div>
       </div>
     </div>
   </section>
 
-  <section class="band" id="start">
+  <section class="band alt" id="start">
     <div class="inner">
       <p class="eyebrow">GET STARTED</p>
       <h2>준비는 <em>3단계</em></h2>
       <div class="three">
         <div class="tile"><span class="k">STEP 1</span><h3>테스터로 들어오기</h3><p>Android는 <a href="https://groups.google.com/g/test-rideon">테스터 그룹</a>에 가입(누구나 가능), iOS는 TestFlight를 설치합니다.</p></div>
         <div class="tile"><span class="k">STEP 2</span><h3>앱 받기</h3><p>Android는 <a href="https://play.google.com/apps/testing/com.bikesocial.rideon">Play에서</a>, iOS는 <a href="https://testflight.apple.com/join/yKWnuynJ">TestFlight 링크</a>로 설치합니다.</p></div>
-        <div class="tile"><span class="k">STEP 3</span><h3>RIDE ON</h3><p>가입하고 RIDE 탭에서 한 번 누르면 첫 기록이 시작됩니다.</p></div>
+        <div class="tile"><span class="k">STEP 3</span><h3>방을 열거나, 들어가거나</h3><p>RIDE 탭 [그룹]에서 방을 열고 코드를 나눠 주세요. 혼자면 RIDE ON — 첫 기록이 시작됩니다.</p></div>
       </div>
     </div>
   </section>
 
-  <section class="band alt" id="pricing">
+  <section class="band" id="pricing">
     <div class="inner">
       <p class="eyebrow">PRICING</p>
       <h2>지금은 <em>전부 무료</em></h2>
       <p class="lede">비공개 베타 동안은 모든 기능을 무료로 씁니다. 정식 출시 뒤에도 기록 · 그룹 라이딩 같은 기본은 무료로 둡니다.</p>
       <div class="three">
-        <div class="tile now"><span class="k">FREE · 지금</span><div class="price">0원</div><ul><li>기록 · 레벨 · 차고</li><li>그룹 라이딩 · 길안내</li><li>피드 · 장소 리뷰 · DM</li></ul></div>
-        <div class="tile"><span class="k">PLUS · 예정</span><h3>플러스</h3><p>혼자 타는 사람을 위한 확장 — 더 많은 기록과 통계, 공유 카드 꾸미기.</p></div>
-        <div class="tile"><span class="k">PLUS CREW · 예정</span><h3>플러스 크루</h3><p>크루를 굴리는 사람을 위해 — 크루 정원과 라이딩 횟수를 넓힌다. <b>한 사람만 내면 크루 전체가 쓴다.</b></p></div>
+        <div class="tile now"><span class="k">FREE · 지금</span><div class="price">0원</div><ul><li>그룹 라이딩 · 실시간 위치 · 이모지 신호</li><li>기록 · 레벨 · 차고 · 길안내</li><li>피드 · 장소 평 · DM</li></ul></div>
+        <div class="tile"><span class="k">PLUS · 예정</span><h3>플러스</h3><p>혼자 타는 사람을 위한 확장 — 방 만들기 무제한, 담은 코스 제한 없음, 통계 상세, 공유 카드 꾸미기.</p></div>
+        <div class="tile"><span class="k">PLUS CREW · 예정</span><h3>플러스 크루</h3><p>크루를 굴리는 사람을 위해 — 내 크루 정원 ＋20, 크루 라이딩 무제한. <b>크루장 한 사람만 내면 멤버는 낼 필요가 없다.</b></p></div>
       </div>
       <p class="fine">가격과 내용은 출시 때 앱 안에서 안내합니다.</p>
     </div>
   </section>
 
-  <section class="band">
+  <section class="band alt">
     <div class="inner">
       <p class="eyebrow">PRIVACY &amp; SAFETY</p>
       <h2>위치를 다루는 앱이라, <em>더 조심한다</em></h2>
       <div class="three">
+        <div class="tile"><h3>실시간 위치는 방 안에서만</h3><p>같은 방에서 달리는 사람에게만, 달리는 동안만 보입니다. 방이 끝나면 위치 공유도 끝납니다.</p></div>
         <div class="tile"><h3>집 근처는 가린다</h3><p>남에게 보이는 기록은 출발·도착 지점을 가릴 수 있습니다. 라이딩은 대개 집에서 시작하니까요.</p></div>
-        <div class="tile"><h3>실시간 위치는 같이 달리는 동안만</h3><p>같은 방에서 달리는 사람에게만, 달리는 동안만 보입니다.</p></div>
         <div class="tile"><h3>언제든 지울 수 있다</h3><p>설정에서 바로 계정을 지울 수 있습니다. <a href="./privacy.html">개인정보처리방침</a>에 무엇을 얼마나 보관하는지 적어 두었습니다.</p></div>
       </div>
+      <p class="fine">주행 중에는 조작하지 마세요. 목적지 검색 · 채팅은 안전한 곳에 세운 뒤에 — 앱도 출발할 때 한 번 더 묻습니다.</p>
     </div>
   </section>
 
-  <section class="band alt" id="faq">
+  <section class="band" id="faq">
     <div class="inner">
       <p class="eyebrow">FAQ</p>
       <h2>자주 묻는 질문</h2>
       <div class="faq">
         <details><summary>무료인가요?</summary><p>지금은 비공개 베타라 <b>모든 기능이 무료</b>입니다. 정식 출시 뒤에도 기록·그룹 라이딩 같은 기본 기능은 무료로 둡니다.</p></details>
         <details><summary>아이폰과 안드로이드가 같이 되나요?</summary><p>됩니다. 같은 방에서 섞여서 달릴 수 있습니다.</p></details>
-        <details><summary>인터콤이 없어도 되나요?</summary><p>됩니다. 앱은 지도·위치·음성 길안내를 맡고, 대화는 세나·카도 같은 인터콤을 쓰는 것을 권합니다. 음성 안내는 연결된 헤드셋으로 나옵니다.</p></details>
+        <details><summary>인터콤이 없어도 되나요?</summary><p>됩니다. 주행 중엔 이모지 한 번으로 신호를 주고받고, 위치는 지도에서 봅니다. 음성 대화가 필요하면 세나·카도 같은 인터콤을 같이 쓰세요 — 음성 길안내는 연결된 헤드셋으로 나옵니다.</p></details>
+        <details><summary>방에는 몇 명까지 들어오나요?</summary><p>지금은 방마다 호스트가 정원을 정합니다. 정원 없이도 열 수 있습니다.</p></details>
+        <details><summary>중간에 합류할 수 있나요?</summary><p>됩니다. 초대 코드나 링크로 달리는 중에도 들어올 수 있고, 승인제 방이면 호스트가 받아 줍니다.</p></details>
         <details><summary>해외에서도 쓸 수 있나요?</summary><p>기록과 지도는 됩니다. <b>길안내는 지금 한국 안에서만</b> 동작합니다.</p></details>
         <details><summary>기록이 중간에 끊기면요?</summary><p>기록은 폰에 먼저 남기고 나중에 올립니다. 터널이나 산길에서 신호가 끊겨도 주행은 이어서 쌓입니다.</p></details>
         <details><summary>배터리를 많이 쓰나요?</summary><p>화면을 꺼도 GPS가 계속 돌기 때문에 일반 앱보다 씁니다. 장거리는 충전하면서 달리는 것을 권합니다.</p></details>
         <details><summary>내 위치는 누가 보나요?</summary><p>실시간 위치는 <b>같은 방에서 같이 달리는 사람</b>에게만, 달리는 동안만 보입니다. 저장된 기록은 공개 범위를 직접 고릅니다.</p></details>
+        <details><summary>크루는 언제 나오나요?</summary><p>다음 업데이트에서 나옵니다. 지금 베타에서 그룹 라이딩을 다듬고, 그 위에 크루를 얹습니다.</p></details>
         <details><summary>계정을 지우고 싶어요.</summary><p>앱의 설정에서 바로 지울 수 있습니다. 앱 밖에서 요청하는 방법은 <a href="./delete-account.html">계정 삭제 안내</a>에 있습니다.</p></details>
       </div>
     </div>
   </section>
 
-  <section class="band final">
+  <section class="band alt final">
     <div class="inner">
       <p class="eyebrow">READY FOR THE NEXT RIDE</p>
-      <h2>다음 라이딩부터, <em>남기자</em></h2>
+      <h2>다음 라이딩은, <em>아무도 안 놓친다</em></h2>
       <p class="lede" style="margin: 0 auto;">무료 · 비공개 베타. 지금 테스터로 함께해 주세요.</p>
       <div class="cta">
           <a class="store play" href="https://play.google.com/apps/testing/com.bikesocial.rideon"><svg class="mk" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
@@ -427,7 +527,7 @@ body { line-height: 1.7; }
 <path d="M16.4 1.4c0 1.1-.4 2.2-1.2 3-.8 1-2.2 1.7-3.4 1.6-.1-1.1.4-2.3 1.1-3 .8-.9 2.2-1.5 3.5-1.6zM20.6 17c-.6 1.4-.9 2-1.7 3.2-1.1 1.7-2.6 3.9-4.5 3.9-1.7 0-2.1-1.1-4.4-1.1-2.3 0-2.7 1.1-4.4 1.1-1.9 0-3.3-1.9-4.4-3.6C-1.1 16.2-1.5 10.2 1.2 7.1 2.3 5.8 4 5 5.5 5c1.6 0 2.6 1.1 4.4 1.1 1.7 0 2.8-1.1 4.6-1.1 1.4 0 2.9.8 3.9 2.1-3.4 1.9-2.9 6.8.2 7.9z"/>
 </svg><span><small>iOS</small>TestFlight로 받기</span></a>
         </div>
-      <p class="steps">화면은 비공개 테스트 중이라 계속 바뀝니다 — 위 사진은 이전 빌드의 모습입니다.</p>
+      <p class="steps">비공개 테스트 중이라 화면은 계속 바뀝니다 — 위 사진은 2026년 9월 빌드입니다.</p>
     </div>
   </section>
 
@@ -438,7 +538,7 @@ body { line-height: 1.7; }
           <img src="./wordmark.png" alt="Rideon">
           <p>라이딩을 기록하고 나누는 앱</p>
         </div>
-        <div><b>앱</b><a href="./#features">특징</a><a href="./#moto">오토바이를 위해</a><a href="./#pricing">요금</a><a href="./#faq">자주 묻는 질문</a></div>
+        <div><b>앱</b><a href="./#features">특징</a><a href="./#flow">한 판</a><a href="./#moto">오토바이를 위해</a><a href="./#crew">크루</a><a href="./#pricing">요금</a><a href="./#faq">자주 묻는 질문</a></div>
         <div><b>지원</b><a href="./#start">시작하기</a><a href="mailto:ydh36743674@gmail.com">문의</a></div>
         <div><b>약관</b><a href="./terms.html">이용약관</a><a href="./privacy.html">개인정보처리방침</a><a href="./delete-account.html">계정 삭제</a></div>
       </div>
