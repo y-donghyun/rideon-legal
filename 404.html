@@ -98,7 +98,7 @@ th { background: rgba(255,255,255,0.04); color: var(--fg); }
 <script>
 (function () {
   var path = location.pathname;
-  if (!/^[/](p|u|r)[/][^/]+[/]?$/.test(path)) return; // 진짜 404
+  if (!/^[/](p|c|u|r)[/][^/]+[/]?$/.test(path)) return; // 진짜 404
   var ua = navigator.userAgent || '';
   var android = /Android/i.test(ua);
   var ios = /iPhone|iPad|iPod/i.test(ua) ||
