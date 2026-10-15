@@ -6,3 +6,7 @@
 
 /.well-known/assetlinks.json
   Content-Type: application/json
+
+/ops/*
+  X-Robots-Tag: noindex, nofollow, noarchive
+  Cache-Control: no-store

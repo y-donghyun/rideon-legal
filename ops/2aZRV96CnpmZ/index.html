@@ -1,0 +1,131 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="robots" content="noindex,nofollow,noarchive">
+<title>Rideon 운영판</title>
+</head><body><style>
+:root{--bg:#f5f6f3;--fg:#15171a;--mut:#636a72;--card:#ffffff;--line:#e2e5e0;--acc:#5f8f00;--accbg:#eef7d9;--warn:#b45309;--warnbg:#fff4e5;--bar:#8fbf1f;--bar2:#cfd6c6}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0d0e10;--fg:#eef0f2;--mut:#9aa1a9;--card:#17191c;--line:#2a2d31;--acc:#c9f53d;--accbg:#22300a;--warn:#fbbf24;--warnbg:#2e2106;--bar:#c9f53d;--bar2:#3a3e43;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#0d0e10;--fg:#eef0f2;--mut:#9aa1a9;--card:#17191c;--line:#2a2d31;--acc:#c9f53d;--accbg:#22300a;--warn:#fbbf24;--warnbg:#2e2106;--bar:#c9f53d;--bar2:#3a3e43;color-scheme:dark}
+body{background:var(--bg);color:var(--fg);font-family:-apple-system,"Apple SD Gothic Neo","Noto Sans KR",sans-serif;margin:0;padding-block:24px;padding-inline:16px;font-size:14px;line-height:1.5}
+.wrap{max-width:1040px;margin:0 auto;display:grid;gap:16px}
+header h1{font-size:24px;margin:0 0 4px;letter-spacing:-.02em}
+header p{margin:0;color:var(--mut);font-size:13px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:16px}
+section{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:16px 18px}
+h2{font-size:15px;margin:0 0 12px;display:flex;gap:8px;align-items:baseline}
+h2 small{color:var(--mut);font-weight:400;font-size:12px}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(110px,1fr));gap:12px}
+.k b{display:block;font-size:24px;font-variant-numeric:tabular-nums;letter-spacing:-.02em}
+.k span{color:var(--mut);font-size:12px}
+table{width:100%;border-collapse:collapse;font-variant-numeric:tabular-nums}
+th,td{text-align:left;padding:6px 4px;border-bottom:1px solid var(--line);font-size:13px}
+th{color:var(--mut);font-weight:500;font-size:12px}
+td.n{text-align:right}
+.barrow{display:grid;grid-template-columns:96px 1fr 44px;gap:8px;align-items:center;margin:6px 0;font-size:13px}
+.track{height:10px;background:var(--bar2);border-radius:5px;overflow:hidden}
+.fill{height:100%;background:var(--bar);border-radius:5px}
+.note{background:var(--accbg);border-radius:10px;padding:10px 12px;font-size:13px}
+.warn{background:var(--warnbg);color:var(--fg);border-radius:10px;padding:10px 12px;font-size:13px}
+.hl{border:2px solid var(--acc)}
+.mut{color:var(--mut)}
+.tw{overflow-x:auto}
+</style>
+
+<div class="wrap">
+<header>
+  <h1>Rideon 운영판</h1>
+  <p>PROD 읽기 전용 조회 · 갱신 2026-10-15 08:57 (일본·한국 시간) · 서버 migration 0284 · 업데이트 권장/최소 빌드 32 / 32 · 실시간이 아니라 갱신한 때의 값이다</p>
+</header>
+
+<section class="hl">
+  <h2>💸 네이버 길찾기(Directions 5) 요금 <small>가장 돈이 되는 API · 단가 5원 · 월 무료 60,000건</small></h2>
+  <div class="kpis">
+    <div class="k"><b>122</b><span>최근 30일 과금 호출</span></div>
+    <div class="k"><b>0.2%</b><span>월 무료량 대비</span></div>
+    <div class="k"><b>0원</b><span>지금 예상 요금</span></div>
+    <div class="k"><b>33</b><span>최근 24시간 호출</span></div>
+    <div class="k"><b>약 6.2</b><span>라이딩 1건당 호출(7일)</span></div>
+  </div>
+  <h2 style="margin-top:16px">최근 7일 이유별 <small>99건 · 실패한 호출도 과금된다</small></h2>
+  <div class="barrow"><span>이탈 재탐색</span><div class="track"><div class="fill" style="width:100%"></div></div><span class="n">31</span></div>
+  <div class="barrow"><span>코스 걸기</span><div class="track"><div class="fill" style="width:77%"></div></div><span class="n">24</span></div>
+  <div class="barrow"><span>길안내 시작</span><div class="track"><div class="fill" style="width:52%"></div></div><span class="n">16</span></div>
+  <div class="barrow"><span>방 길안내</span><div class="track"><div class="fill" style="width:48%"></div></div><span class="n">15</span></div>
+  <div class="barrow"><span>집결지</span><div class="track"><div class="fill" style="width:23%"></div></div><span class="n">7</span></div>
+  <div class="barrow"><span>경로 고치기</span><div class="track"><div class="fill" style="width:19%"></div></div><span class="n">6</span></div>
+  <p class="warn" style="margin-top:12px">「코스 걸기」 24건 중 8건 실패(돈은 나감) — 10/14 JanG 「같은 곳이 이어진 코스」 건. 33 앱과 route-to-rally(10/14 PROD 배포)로 막혔다. 34 이후 0에 가까워야 정상.</p>
+  <h2 style="margin-top:16px">규모가 커지면 <small>지금 비율(라이딩 1건당 약 6.2회) 그대로 셈 · 어림값</small></h2>
+  <div class="tw"><table>
+    <tr><th>월 라이딩</th><th class="n">월 호출</th><th class="n">무료 초과</th><th class="n">예상 요금</th></tr>
+    <tr><td>1,000</td><td class="n">6,200</td><td class="n">0</td><td class="n">0원</td></tr>
+    <tr><td>10,000</td><td class="n">62,000</td><td class="n">2,000</td><td class="n">약 1만 원</td></tr>
+    <tr><td>50,000</td><td class="n">310,000</td><td class="n">250,000</td><td class="n">약 125만 원</td></tr>
+    <tr><td>100,000</td><td class="n">620,000</td><td class="n">560,000</td><td class="n">약 280만 원</td></tr>
+  </table></div>
+  <p class="note" style="margin-top:12px">돈을 좌우하는 것은 <b>이탈 재탐색</b>이다(7일 31%). 줄이는 손: 재탐색 판정 개선(running-cost.md §5) · 34 #24 응답 끊긴 호출 두 번 과금 막기. 무료 6만 건은 <b>대표 NCP 계정 하나</b>에만 준다.</p>
+  <p class="mut" style="margin:10px 0 0;font-size:12px">다른 네이버 API — 모바일 지도(SDK) 무료(월 1억), 주소 변환 0.5원(월 300만 무료)은 호출 기록 표가 없어 여기 숫자가 없다. 카카오 장소 검색은 일 1만 건 무료.</p>
+</section>
+
+<div class="grid">
+<section>
+  <h2>👤 사용자</h2>
+  <div class="kpis">
+    <div class="k"><b>38</b><span>가입 전체</span></div>
+    <div class="k"><b>4</b><span>최근 7일 가입</span></div>
+    <div class="k"><b>7</b><span>24시간 접속</span></div>
+    <div class="k"><b>17</b><span>7일 접속</span></div>
+  </div>
+  <h2 style="margin-top:14px">앱 빌드 분포 <small>최근 30일 푸시 토큰</small></h2>
+  <table>
+    <tr><th>빌드</th><th class="n">안드로이드</th><th class="n">iOS</th></tr>
+    <tr><td>33</td><td class="n">—</td><td class="n">1</td></tr>
+    <tr><td>32</td><td class="n">6</td><td class="n">2</td></tr>
+    <tr><td>31</td><td class="n">5</td><td class="n">4</td></tr>
+    <tr><td>기록 없음</td><td class="n">6</td><td class="n">4</td></tr>
+  </table>
+  <p class="mut" style="font-size:12px;margin:8px 0 0">31은 이미 접속이 막혔다(최소 32). 토큰만 남은 기기다.</p>
+</section>
+
+<section>
+  <h2>🏍 활동</h2>
+  <div class="kpis">
+    <div class="k"><b>107</b><span>라이딩 전체</span></div>
+    <div class="k"><b>2,132</b><span>누적 km</span></div>
+    <div class="k"><b>16</b><span>7일 라이딩</span></div>
+    <div class="k"><b>289</b><span>7일 km</span></div>
+    <div class="k"><b>115</b><span>글 전체</span></div>
+    <div class="k"><b>18</b><span>7일 글</span></div>
+    <div class="k"><b>3</b><span>크루 · 멤버 11</span></div>
+    <div class="k"><b>11</b><span>7일 그룹 방</span></div>
+  </div>
+</section>
+
+<section>
+  <h2>🗄 용량 <small>Supabase</small></h2>
+  <div class="kpis">
+    <div class="k"><b>44 MB</b><span>DB 전체</span></div>
+    <div class="k"><b>7.7 MB</b><span>기록 점 표 · 40,694점</span></div>
+  </div>
+  <table style="margin-top:12px">
+    <tr><th>저장소</th><th class="n">파일</th><th class="n">용량</th></tr>
+    <tr><td>maptiles (지도 타일)</td><td class="n">44</td><td class="n">864 MB</td></tr>
+    <tr><td>post-images</td><td class="n">88</td><td class="n">28 MB</td></tr>
+    <tr><td>route-thumbnails</td><td class="n">108</td><td class="n">22 MB</td></tr>
+    <tr><td>route-photos</td><td class="n">19</td><td class="n">6.1 MB</td></tr>
+    <tr><td>그 밖 여섯</td><td class="n">31</td><td class="n">약 7 MB</td></tr>
+  </table>
+  <p class="mut" style="font-size:12px;margin:8px 0 0">기록 점은 라이딩 1건에 약 380점. 출퇴근이 쌓이는 속도는 다음 갱신부터 비교한다.</p>
+</section>
+
+<section>
+  <h2>🚨 실패 · 상태</h2>
+  <table>
+    <tr><td>푸시·알림 조용한 실패(7일)</td><td class="n">0건</td></tr>
+    <tr><td>단속 카메라 동기화</td><td class="n">10/14 23:13 · 29,800곳 · v1</td></tr>
+    <tr><td>Edge 함수 4개 부팅</td><td class="n">정상(10/14 배포 직후)</td></tr>
+  </table>
+  <p class="mut" style="font-size:12px;margin:8px 0 0">Edge·DB 오류 로그와 Crashlytics 크래시는 권한이 없어 아직 못 넣었다.</p>
+</section>
+</div>
+</div>
+
+</html>
