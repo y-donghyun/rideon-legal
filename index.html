@@ -159,12 +159,32 @@ footer{border-top:1px solid var(--line);padding-block:36px 48px;color:var(--t3);
 footer .wrap{display:flex;gap:24px;flex-wrap:wrap;align-items:center}
 footer nav{display:flex;gap:20px;margin-left:auto;flex-wrap:wrap}
 footer a{text-decoration:none}footer a:hover{color:var(--text)}
+
+/* 34 갱신 — 아래가 잘린 캡처는 밑을 흐려 페이지에 가라앉힌다 */
+.phone.fade{border-bottom:0;border-radius:40px 40px 0 0;box-shadow:0 0 0 8px #050506;-webkit-mask-image:linear-gradient(#000 78%,transparent);mask-image:linear-gradient(#000 78%,transparent)}
+.step .shot.fade{-webkit-mask-image:linear-gradient(#000 80%,transparent);mask-image:linear-gradient(#000 80%,transparent);border-bottom:0}
+
+/* 길안내 — 폰 셋을 나란히 */
+.trio{margin-top:56px;display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
+.trio figure{margin:0;display:flex;flex-direction:column;gap:14px}
+.trio .shot{border-radius:28px;overflow:hidden;border:1px solid var(--line);background:var(--panel);aspect-ratio:540/1157}
+.trio .shot img{width:100%;height:100%;object-fit:cover;object-position:top}
+.trio figcaption b{display:block;font-size:19px;letter-spacing:-.02em}
+.trio figcaption span{display:block;margin-top:6px;color:var(--t2);font-size:15.5px}
+@media(max-width:900px){.trio{grid-template-columns:1fr 1fr}.trio figure:last-child{grid-column:span 2;max-width:calc(50% - 12px)}}
+@media(max-width:520px){.trio{grid-template-columns:1fr;gap:40px}.trio figure:last-child{grid-column:auto;max-width:none}.trio .shot{max-width:300px}}
+
+/* 차고 한 줄 */
+.garage{margin-top:40px;padding-top:28px;border-top:1px solid var(--line);display:grid;grid-template-columns:auto 1fr;gap:18px;align-items:start;max-width:34em}
+.garage .mono{font-size:13px;color:var(--lime);padding-top:3px}
+.garage p{color:var(--t2);font-size:16px}
+.garage b{color:var(--text)}
 </style>
 </head>
 <body>
 <header class="top"><div class="wrap">
 <a href="#"><img src="./wordmark.png" alt="Rideon"></a>
-<nav aria-label="페이지 안내"><a href="#ride">한 번의 라이딩</a><a href="#crew">크루</a><a href="#course">코스</a><a href="#faq">묻는 것</a><a href="#contact">문의하기</a></nav>
+<nav aria-label="페이지 안내"><a href="#ride">한 번의 라이딩</a><a href="#nav">길안내</a><a href="#crew">크루</a><a href="#course">코스</a><a href="#faq">묻는 것</a><a href="#contact">문의하기</a></nav>
 <a class="btn lime" href="#get">앱 받기</a>
 </div></header>
 
@@ -187,10 +207,10 @@ footer a{text-decoration:none}footer a:hover{color:var(--text)}
 <p class="note">무료 · 한국어 · 日本語 · English</p>
 </div>
 <div class="phones">
-<div class="phone p1"><img src="./shots/v2/group-ride.webp" width="540" height="1174" alt="그룹 라이딩 중 일행의 위치가 지도에 보이는 화면"></div>
-<div class="phone p2"><img src="./shots/v2/home-feed.webp" width="540" height="1174" alt="달린 길과 사진이 함께 올라온 홈 피드"></div>
-<div class="tag" style="left:8%;top:62%"><b>4.1 km</b> · 일행 7명이 지도에</div>
-<div class="tag" style="right:2%;bottom:6%">유명산 넘어가는 길 · <b>♥ 6</b></div>
+<div class="phone p1"><img src="./shots/v3/group-ride.webp" width="540" height="1173" alt="그룹 라이딩 중 일행의 얼굴이 지도 위에 따라오는 화면"></div>
+<div class="phone p2 fade"><img src="./shots/v3/home-feed.webp" width="540" height="1102" alt="방금 끝난 라이딩과 다른 라이더의 글이 올라온 홈"></div>
+<div class="tag" style="left:8%;top:62%"><b>2.3 km</b> · 일행이 지도 위에</div>
+<div class="tag" style="right:2%;bottom:6%">유명산 고개 넘어 한 바퀴 · <b>24.9 km</b></div>
 </div>
 </div>
 </section>
@@ -201,42 +221,58 @@ footer a{text-decoration:none}footer a:hover{color:var(--text)}
 <h2 class="sh">한 번의 라이딩이<br>남기는 것</h2>
 <p class="sub">단톡방에 「7시 옥천 출발」을 올리던 날을, 앱 하나로 그대로 옮겼어요.</p>
 <div class="day">
-<div class="step"><div class="dot">1</div><time>06:50</time><h3>모인다</h3><p>집결지에 누가 도착했는지, 준비됐는지 명단에서 바로 보여요.</p><div class="shot"><img src="./shots/v2/roster.webp" width="540" height="1174" alt="집결지에 모인 참여자 명단" loading="lazy"></div></div>
-<div class="step"><div class="dot">2</div><time>07:00</time><h3>같이 달린다</h3><p>뒤처진 사람이 지도에 보이고, 신호는 이모지 하나로 보내요.</p><div class="shot"><img src="./shots/v2/group-ride.webp" width="540" height="1174" alt="달리는 동안 일행이 지도에 보이는 화면" loading="lazy"></div></div>
-<div class="step"><div class="dot">3</div><time>09:40</time><h3>도착한다</h3><p>호스트가 끝내면 모두의 기록이 같이 저장되고, 달린 만큼 경험치가 쌓여요.</p><div class="shot"><img src="./shots/v2/result-xp.webp" width="540" height="1174" alt="라이딩 완료와 경험치 화면" loading="lazy"></div></div>
-<div class="step"><div class="dot">4</div><time>저녁</time><h3>남긴다</h3><p>달린 길에 사진을 붙여 올리면, 그 길이 누군가의 다음 코스가 돼요.</p><div class="shot"><img src="./shots/v2/home-feed.webp" width="540" height="1174" alt="사진과 경로가 함께 올라온 게시물" loading="lazy"></div></div>
+<div class="step"><div class="dot">1</div><time>06:50</time><h3>모인다</h3><p>방 판 하나에 몇 명이 모였고 몇 명이 준비됐는지 떠요. 호스트가 출발하면 같이 시작해요.</p><div class="shot"><img src="./shots/v3/group-room.webp" width="540" height="1173" alt="집결지에 모이는 중 10명, 준비 완료 8명이 보이는 방 화면" loading="lazy"></div></div>
+<div class="step"><div class="dot">2</div><time>07:00</time><h3>같이 달린다</h3><p>뒤처진 사람이 지도에 보이고, 신호는 이모지 하나로 보내요. 급할 땐 SOS.</p><div class="shot"><img src="./shots/v3/group-ride.webp" width="540" height="1173" alt="달리는 동안 일행이 지도에 보이는 화면" loading="lazy"></div></div>
+<div class="step"><div class="dot">3</div><time>09:40</time><h3>도착한다</h3><p>호스트가 끝내면 모두의 기록이 같이 저장돼요. 거리·속도·고도가 남고, 달린 만큼 경험치가 쌓여요.</p><div class="shot fade"><img src="./shots/v3/record.webp" width="540" height="1102" alt="24.9km 라이딩 기록과 고도 그래프" loading="lazy"></div></div>
+<div class="step"><div class="dot">4</div><time>저녁</time><h3>남긴다</h3><p>달린 선을 사진 위에 얹어 카드로 만들어요. 올린 길은 누군가의 다음 코스가 돼요.</p><div class="shot fade"><img src="./shots/v3/share-card.webp" width="540" height="1102" alt="사진 위에 달린 길을 얹은 공유 카드" loading="lazy"></div></div>
 </div>
 </div>
 </section>
 
-<section id="crew">
+<section id="nav">
+<div class="wrap">
+<p class="kick">길안내</p>
+<h2 class="sh">목적지만 고르면,<br>달리던 화면 그대로</h2>
+<p class="sub">길찾기 앱으로 넘어가지 않아요. 라이딩 화면 위에서 다음 회전을 알려 줘요.</p>
+<!-- 34 정식 때 되살릴 길안내 세 칸(단속 카메라 · 온 길 그대로 돌아가기 · 화면을 꺼도 다음 회전)은 rideon 저장소 docs/release/site-34/ 에 그대로 있다 (34 정식 체크리스트) -->
+<div class="safe">
+<div><h3>목적지 길안내</h3><p>장소를 검색해 고르면 다음 회전과 도착 시간이 계기판 위에 떠요. 경유지를 넣을 수 있고, 음성으로도 알려 줘요.</p></div>
+<div><h3>자동차전용도로는 피해서</h3><p>이륜차가 못 들어가는 고속도로·자동차전용도로를 빼고 길을 찾아요. 그래도 실제 도로 표지가 먼저예요.</p></div>
+<div><h3>벗어나면 지금 자리에서</h3><p>길을 놓쳐도 되돌아갈 필요 없어요. 지금 있는 곳에서 경로를 다시 찾아요.</p></div>
+</div>
+</div>
+</section>
+
+<section id="crew" class="band">
 <div class="wrap split">
 <div class="txt">
 <p class="kick">크루</p>
 <h2 class="sh">단톡방 말고,<br>크루에서</h2>
 <p class="sub">늘 같이 타는 사람들이 모이는 곳이에요. 대화하다 「토요일 7시 팔당」을 잡으면 일정이 되고, 몇 명 오는지 바로 보여요.</p>
 <div class="points">
-<div><span><b>일정과 참석</b> — 공지와 다음 라이딩이 대화 위에 늘 걸려 있어요</span></div>
+<div><span><b>채널과 공지</b> — 대화·공지·투어처럼 갈래를 나누고, 중요한 말은 대화 위에 걸어 둬요</span></div>
+<div><span><b>일정과 참석</b> — 다가오는 라이딩과 참석 인원이 크루 첫 화면에 있어요</span></div>
 <div><span><b>크루 라이브</b> — 방에 안 들어가도 달리는 팀을 지도로 보고 응원해요</span></div>
 <div><span><b>지역 순위</b> — 이번 주 크루가 달린 거리로 동네 순위가 매겨져요</span></div>
 </div>
 </div>
-<div class="stack">
-<div class="phone a"><img src="./shots/v2/crew-chat.webp" width="540" height="1174" alt="크루 대화방" loading="lazy"></div>
-<div class="phone b"><img src="./shots/v2/crew-event.webp" width="540" height="1174" alt="크루 라이딩 일정 상세" loading="lazy"></div>
-</div>
+<div class="stack" style="height:640px"><div class="phone a" style="left:60px"><img src="./shots/v3/crew-chat.webp" width="540" height="1173" alt="크루 대화 채널" loading="lazy"></div></div>
 </div>
 </section>
 
-<section id="course" class="band">
+<section id="course">
 <div class="wrap">
 <div class="split rev" style="align-items:end">
 <div class="txt">
-<p class="kick">코스</p>
+<p class="kick">코스와 장소</p>
 <h2 class="sh">이번 주말 달릴 길이<br>여기 있어요</h2>
-<p class="sub">라이더들이 실제로 달린 길만 모여요. 마음에 드는 길은 담아 두었다가, 그날 그대로 따라 달리면 돼요. 길안내는 이륜차가 못 가는 자동차전용도로를 피해요.</p>
+<p class="sub">라이더들이 실제로 달린 길만 모여요. 마음에 드는 길은 담아 두었다가 그날 그대로 따라 달리면 돼요.</p>
+<div class="points">
+<div><span><b>들른 곳</b> — 맛집·카페·주유소·전망대·쉼터, 라이더가 매긴 별점이 붙어요</span></div>
+<!-- 34 정식 때 되살릴 「기름값」 한 줄은 rideon 저장소 docs/release/site-34/ 에 있다 -->
 </div>
-<div class="stack" style="height:600px"><div class="phone a" style="left:60px"><img src="./shots/v2/course-list.webp" width="540" height="1174" alt="탐색 탭의 코스 목록" loading="lazy"></div></div>
+</div>
+<div class="stack"><div class="phone a"><img src="./shots/v3/explore-course.webp" width="540" height="1173" alt="탐색 탭의 코스 목록" loading="lazy"></div><div class="phone b"><img src="./shots/v3/explore-place.webp" width="540" height="1173" alt="탐색 탭의 장소 — 맛집 별점" loading="lazy"></div></div>
 </div>
 <div class="courses">
 <div class="course"><img src="./shots/v2/course-1.webp" width="360" height="360" alt="라이더가 달린 49.9km 코스" loading="lazy"><div><b>49.9 km</b><span>라이더가 달린 길</span></div></div>
@@ -247,12 +283,12 @@ footer a{text-decoration:none}footer a:hover{color:var(--text)}
 </div>
 </section>
 
-<section>
+<section class="band">
 <div class="wrap split">
 <div class="txt">
 <p class="kick">레벨</p>
 <h2 class="sh">달린 만큼,<br>메달이 바뀌어요</h2>
-<p class="sub">달린 거리만큼 레벨이 오르고, 메달마다 Lv.500을 넘기면 다음 메달로 올라가요. 프로필 사진 테두리가 동에서 다이아로 바뀌어요. 피드에서도, 같이 달리는 지도 위에서도 누구에게나 보여요.</p>
+<p class="sub">달린 거리만큼 레벨이 오르고, 메달마다 Lv.500을 넘기면 다음 메달로 올라가요. 프로필 사진 테두리가 동에서 다이아로 바뀌고, 피드에서도 같이 달리는 지도 위에서도 누구에게나 보여요.</p>
 <div class="medals">
 <div class="medal" style="--c:#C98B55"><i></i>동<span class="mono">레벨당 2 km</span></div>
 <div class="medal" style="--c:#A9B2BC"><i></i>은<span class="mono">4 km</span></div>
@@ -261,11 +297,12 @@ footer a{text-decoration:none}footer a:hover{color:var(--text)}
 <div class="medal" style="--c:#7CC8FF"><i></i>다이아<span class="mono">10 km</span></div>
 </div>
 </div>
-<div class="stack" style="height:600px"><div class="phone a" style="left:40px"><img src="./shots/v2/rank.webp" width="540" height="1174" alt="라이더 랭킹 화면" loading="lazy"></div><div class="phone b" style="left:230px;top:70px;width:250px"><img src="./shots/v2/level.webp" width="540" height="1174" alt="레벨과 메달 안내" loading="lazy"></div></div>
+<!-- 34 정식 때 되살릴 차고 정비 한 줄과 garage-care 캡처는 rideon 저장소 docs/release/site-34/ 에 있다 -->
+<div class="stack" style="height:600px"><div class="phone a" style="left:60px"><img src="./shots/v3/me.webp" width="540" height="1173" alt="프로필 — 레벨, 총 거리, 이번 주 순위" loading="lazy"></div></div>
 </div>
 </section>
 
-<section class="band">
+<section>
 <div class="wrap">
 <p class="kick">위치를 다루니까</p>
 <h2 class="sh">라이더의 집을 지켜요</h2>
@@ -274,11 +311,11 @@ footer a{text-decoration:none}footer a:hover{color:var(--text)}
 <div><h3>출발·도착 200m는 가려요</h3><p>라이딩은 보통 집에서 시작하니까요. 남에게 보이는 기록은 양 끝이 자동으로 가려져요.</p></div>
 <div><h3>언제든 지울 수 있어요</h3><p>앱 설정에서 바로 계정을 지워요. 무엇을 얼마나 보관하는지는 <a href="/privacy.html">개인정보처리방침</a>에 있어요.</p></div>
 </div>
-<p class="safe-note">주행 중에는 폰을 만지지 마세요. 검색과 대화는 안전한 곳에 멈춘 뒤에 해 주세요 — 앱도 출발할 때 한 번 더 알려 드려요.</p>
+<p class="safe-note">주행 중에는 폰을 만지지 마세요. 검색과 대화는 안전한 곳에 멈춘 뒤에 해 주세요. 앱도 출발할 때 한 번 더 알려 드려요.</p>
 </div>
 </section>
 
-<section id="faq">
+<section id="faq" class="band">
 <div class="wrap">
 <p class="kick">묻는 것</p>
 <h2 class="sh">자주 받는 질문</h2>
@@ -288,12 +325,12 @@ footer a{text-decoration:none}footer a:hover{color:var(--text)}
 <div><b>인터콤이 없어도 되나요?</b><p>돼요. 주행 중엔 이모지로 신호를 주고받고, 위치는 지도로 봐요. 길안내 음성은 연결된 헤드셋으로 나와요.</p></div>
 <div><b>한 방에 몇 명까지 들어오나요?</b><p>15명까지요. 크루 라이딩은 크루 정원만큼 함께해요.</p></div>
 <div><b>터널에서 신호가 끊기면요?</b><p>기록은 폰에 먼저 쌓였다가 연결이 돌아오면 올라가요.</p></div>
-<div><b>해외에서도 되나요?</b><p>기록은 돼요. 지도와 길안내는 지금은 한국 안에서만 보여요.</p></div>
+<div><b>해외에서도 되나요?</b><p>기록은 어디서든 돼요. 지도는 한국과 일본에서 보이고, 길안내는 지금은 한국 안에서만 돼요.</p></div>
 </div>
 </div>
 </section>
 
-<section id="contact" class="band">
+<section id="contact">
 <div class="wrap">
 <p class="kick">문의하기</p>
 <h2 class="sh">불편한 점, 바라는 점<br>무엇이든 보내 주세요</h2>
@@ -314,13 +351,13 @@ footer a{text-decoration:none}footer a:hover{color:var(--text)}
 <div class="inapp">
 <h3>앱 안에서 보내도 돼요</h3>
 <p>앱에서 보내면 쓰는 폰과 앱 버전이 자동으로 붙어서, 더 빨리 확인할 수 있어요.</p>
-<span class="path">ME → 설정 → 문의하기</span>
+<span class="path">나 → 설정 → 문의하기</span>
 </div>
 </div>
 </div>
 </section>
 
-<section class="end">
+<section class="end band">
 <svg class="route" viewBox="0 0 1440 520" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><path class="glow" d="M-20 420 C 200 380, 300 470, 480 400 S 760 200, 980 260 S 1260 420, 1460 300"/><path class="line" style="animation:none;stroke-dashoffset:0;opacity:.35" d="M-20 420 C 200 380, 300 470, 480 400 S 760 200, 980 260 S 1260 420, 1460 300"/></svg>
 <div class="wrap" style="position:relative;z-index:2">
 <h2>이번 주말 달린 길도<br><em>이야기가 될 거예요</em></h2>
