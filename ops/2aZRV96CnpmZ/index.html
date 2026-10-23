@@ -1,59 +1,73 @@
 <!doctype html>
 <html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="robots" content="noindex,nofollow,noarchive"><meta name="referrer" content="no-referrer">
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-fBZoL2avQm69zltkhkb+i/1Ab/sFQ1IfeXxvalkwpRw=' https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.117.3/dist/umd/supabase.min.js; style-src 'unsafe-inline'; connect-src https://oefeqwkvbnhlkwjpvpwv.supabase.co; img-src data:; base-uri 'none'; form-action 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-FvSVklVW1k3tib80istO4kG5sUq10gLEf/voPYd4YXY=' https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.117.3/dist/umd/supabase.min.js; style-src 'unsafe-inline'; connect-src https://oefeqwkvbnhlkwjpvpwv.supabase.co; img-src data:; base-uri 'none'; form-action 'none'">
 <title>Rideon 운영판</title>
 <style>
-:root{--bg:#f5f6f3;--fg:#15171a;--mut:#636a72;--card:#ffffff;--line:#e2e5e0;--acc:#5f8f00;--accbg:#eef7d9;--warn:#b45309;--warnbg:#fff4e5;--bar:#8fbf1f;--bar2:#cfd6c6}
-@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0d0e10;--fg:#eef0f2;--mut:#9aa1a9;--card:#17191c;--line:#2a2d31;--acc:#c9f53d;--accbg:#22300a;--warn:#fbbf24;--warnbg:#2e2106;--bar:#c9f53d;--bar2:#3a3e43;color-scheme:dark}}
-:root[data-theme="dark"]{--bg:#0d0e10;--fg:#eef0f2;--mut:#9aa1a9;--card:#17191c;--line:#2a2d31;--acc:#c9f53d;--accbg:#22300a;--warn:#fbbf24;--warnbg:#2e2106;--bar:#c9f53d;--bar2:#3a3e43;color-scheme:dark}
-body{background:var(--bg);color:var(--fg);font-family:-apple-system,"Apple SD Gothic Neo","Noto Sans KR",sans-serif;margin:0;padding-block:24px;padding-inline:16px;font-size:14px;line-height:1.5}
-.wrap{max-width:1040px;margin:0 auto;display:grid;gap:16px}
-header h1{font-size:24px;margin:0 0 4px;letter-spacing:-.02em;display:flex;gap:10px;align-items:center;flex-wrap:wrap}
-header p{margin:0;color:var(--mut);font-size:13px}
-header .bar{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-top:8px}
-code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:12px}
-.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:16px}
+:root{--bg:#f5f6f3;--fg:#15171a;--mut:#5d646c;--card:#ffffff;--line:#e2e5e0;--acc:#4f7a00;--accbg:#eef7d9;--warn:#a14a00;--warnbg:#fff1dc;--bad:#c42b2b;--badbg:#fde8e8;--bar:#8fbf1f;--bar2:#d9dfd2;--bar3:#c9d3bd}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0d0e10;--fg:#eef0f2;--mut:#a0a7af;--card:#17191c;--line:#2a2d31;--acc:#c9f53d;--accbg:#22300a;--warn:#fbbf24;--warnbg:#2e2106;--bad:#ff7070;--badbg:#3a1414;--bar:#c9f53d;--bar2:#33373c;--bar3:#4a4f55;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#0d0e10;--fg:#eef0f2;--mut:#a0a7af;--card:#17191c;--line:#2a2d31;--acc:#c9f53d;--accbg:#22300a;--warn:#fbbf24;--warnbg:#2e2106;--bad:#ff7070;--badbg:#3a1414;--bar:#c9f53d;--bar2:#33373c;--bar3:#4a4f55;color-scheme:dark}
+body{background:var(--bg);color:var(--fg);font-family:-apple-system,"Apple SD Gothic Neo","Noto Sans KR",sans-serif;margin:0;padding-block:20px;padding-inline:16px;font-size:14px;line-height:1.5}
+.wrap{max-width:1080px;margin:0 auto;display:grid;gap:16px}
+header h1{font-size:24px;margin:0;letter-spacing:-.02em;display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+header p{margin:4px 0 0;color:var(--mut);font-size:13px}
+header .bar{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-top:10px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:16px}
 section{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:16px 18px;min-width:0}
-h2{font-size:15px;margin:0 0 12px;display:flex;gap:8px;align-items:baseline;flex-wrap:wrap}
-h2 small{color:var(--mut);font-weight:400;font-size:12px}
-.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(110px,1fr));gap:12px}
-.k b{display:block;font-size:24px;font-variant-numeric:tabular-nums;letter-spacing:-.02em}
-.k span{color:var(--mut);font-size:12px}
+h2{font-size:16px;margin:0 0 4px;display:flex;gap:8px;align-items:baseline;flex-wrap:wrap}
+h2 small,h3 small{color:var(--mut);font-weight:400;font-size:12px}
+h3{font-size:14px;margin:16px 0 8px}
+.lead{color:var(--mut);font-size:13px;margin:0 0 12px}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(118px,1fr));gap:14px 12px}
+.k b{display:block;font-size:24px;font-variant-numeric:tabular-nums;letter-spacing:-.02em;line-height:1.25}
+.k b small{font-size:13px;font-weight:500;color:var(--mut);margin-left:2px}
+.k span.l{color:var(--mut);font-size:12px;display:block}
+.d{font-size:12px;font-weight:600;font-variant-numeric:tabular-nums;white-space:nowrap}
+.d.good{color:var(--acc)} .d.bad{color:var(--bad)} .d.eq{color:var(--mut);font-weight:400}
+.today{border:2px solid var(--acc)}
 table{width:100%;border-collapse:collapse;font-variant-numeric:tabular-nums}
-th,td{text-align:left;padding:6px 4px;border-bottom:1px solid var(--line);font-size:13px}
+th,td{text-align:left;padding:7px 4px;border-bottom:1px solid var(--line);font-size:13px;vertical-align:top}
 th{color:var(--mut);font-weight:500;font-size:12px}
-td.n,th.n{text-align:right}
-table.fresh td{vertical-align:top}
-.barrow{display:grid;grid-template-columns:96px 1fr 44px;gap:8px;align-items:center;margin:6px 0;font-size:13px}
+td.n,th.n{text-align:right;white-space:nowrap}
+.tw{overflow-x:auto}
+.barrow{display:grid;grid-template-columns:110px 1fr 52px;gap:8px;align-items:center;margin:6px 0;font-size:13px}
 .track{height:10px;background:var(--bar2);border-radius:5px;overflow:hidden}
 .fill{height:100%;background:var(--bar);border-radius:5px}
-.note{background:var(--accbg);border-radius:10px;padding:10px 12px;font-size:13px}
-.warn{background:var(--warnbg);color:var(--fg);border-radius:10px;padding:10px 12px;font-size:13px}
-.hl{border:2px solid var(--acc)}
 .mut{color:var(--mut)}
-.tw{overflow-x:auto}
-.st{display:inline-block;border-radius:999px;padding:1px 8px;font-size:12px;white-space:nowrap}
+.small{font-size:12px}
+.st{display:inline-block;border-radius:999px;padding:1px 9px;font-size:12px;font-weight:600;white-space:nowrap}
 .st.ok{background:var(--accbg);color:var(--fg)}
-.st.late{background:var(--warnbg);color:var(--warn);font-weight:600}
-.st.info{background:var(--bar2);color:var(--fg)}
-.tag{font-size:12px;font-weight:600;border-radius:999px;padding:2px 10px;background:var(--bar2);color:var(--fg);letter-spacing:0}
+.st.warn{background:var(--warnbg);color:var(--warn)}
+.st.bad{background:var(--badbg);color:var(--bad)}
+.st.info{background:var(--bar2);color:var(--fg);font-weight:500}
+.verdict{border-radius:16px;padding:14px 18px;border:2px solid var(--acc);background:var(--accbg)}
+.verdict.warn{border-color:var(--warn);background:var(--warnbg)}
+.verdict.bad{border-color:var(--bad);background:var(--badbg)}
+.verdict b{font-size:18px;display:block}
+.verdict ul{margin:6px 0 0;padding-left:0;list-style:none;display:grid;gap:4px}
+.charts{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px}
+.chart svg{width:100%;height:auto;display:block}
+.chart .t{display:flex;justify-content:space-between;gap:8px;font-size:13px;flex-wrap:wrap}
+.chart .t b{font-weight:600}
+.tag{font-size:12px;font-weight:600;border-radius:999px;padding:2px 10px;background:var(--bar2);color:var(--fg)}
 .tag.dev{background:var(--warnbg);color:var(--warn)}
 button{font:inherit;font-size:13px;border-radius:10px;border:1px solid var(--line);background:var(--card);color:var(--fg);padding:6px 12px;cursor:pointer;min-height:36px}
 button.primary{background:var(--acc);border-color:var(--acc);color:var(--bg);font-weight:600}
 button:disabled{opacity:.55;cursor:default}
-details summary{cursor:pointer;color:var(--mut);font-size:12px;margin-top:8px}
+details.dev summary{cursor:pointer;font-weight:600;font-size:15px}
+details.dev{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:14px 18px}
+code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:12px}
 .gate{max-width:360px;margin:12vh auto 0;display:grid;gap:14px}
 .gate h1{font-size:22px;margin:0;letter-spacing:-.02em}
 .gate label{display:grid;gap:4px;font-size:13px;color:var(--mut)}
 .gate input{font:inherit;font-size:15px;color:var(--fg);background:var(--bg);border:1px solid var(--line);border-radius:10px;padding:10px 12px;min-height:44px;box-sizing:border-box;width:100%}
 .gate input:focus{outline:2px solid var(--acc);outline-offset:1px}
-.err{color:var(--warn);font-size:13px;min-height:1.5em;margin:0}
+.err{color:var(--bad);font-size:13px;min-height:1.5em;margin:0}
 [hidden]{display:none!important}
 </style>
 </head><body>
 
 <section class="gate" id="login" hidden>
-  <h1>Rideon 운영판 <span class="tag" id="loginTag"></span></h1>
+  <h1>Rideon 운영판 <span class="tag dev" id="loginTag"></span></h1>
   <p class="mut" style="margin:0;font-size:13px">운영진 전용입니다.</p>
   <form id="loginForm" autocomplete="on" novalidate>
     <div style="display:grid;gap:12px">
@@ -77,7 +91,8 @@ details summary{cursor:pointer;color:var(--mut);font-size:12px;margin-top:8px}
 <script>
 'use strict'
 // 빌드가 채운다(tool/ops_web_build.mjs --target dev|prod). anon 키는 앱에도 박혀 있는 공개 키다.
-// 서비스 키·관리 토큰·비밀번호는 이 파일에 없다.
+// 서비스 키·관리 토큰·비밀번호는 이 파일에 없다. 운영진 대부분이 개발자가 아니다 — 화면엔 쉬운 말만,
+// 기술 상세는 맨 아래 「개발자용 자세히」 한 곳에.
 const CFG = {"target":"prod","url":"https://oefeqwkvbnhlkwjpvpwv.supabase.co","anon":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9lZmVxd2t2Ym5obGt3anB2cHd2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODc1NjQ5MDMsImV4cCI6MjEwMzE0MDkwM30.6FsToBVliUCz-bPfGdEpEKEk7MzoeM2nDbdHesd3KfQ"}
 const LOGIN_IDS = { admin: 'ops-admin@rideon-app.com' }
 const RELOAD_MS = 60000
@@ -88,128 +103,221 @@ const sb = window.supabase.createClient(CFG.url, CFG.anon, {
   auth: { storageKey: `rideon-ops-${CFG.target}`, persistSession: true, autoRefreshToken: true, detectSessionInUrl: false },
 })
 
-// ── 형식 (tool/ops_dashboard.mjs 와 같은 규칙) ──────────────
+// ── 형식 ───────────────────────────────────────────────────
 const esc = (s) => String(s ?? '').replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c])
-const num = (n) => (n == null || Number.isNaN(Number(n)) ? '—' : Math.round(Number(n)).toLocaleString('en-US'))
-const kstParts = (d) => Object.fromEntries(new Intl.DateTimeFormat('en-GB', {
+const isNum = (n) => n != null && n !== '' && !Number.isNaN(Number(n))
+const num = (n, digits = 0) => (!isNum(n) ? '—' : Number(n).toLocaleString('ko-KR', { maximumFractionDigits: digits, minimumFractionDigits: 0 }))
+const kst = (d) => Object.fromEntries(new Intl.DateTimeFormat('en-GB', {
   timeZone: 'Asia/Seoul', year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', hourCycle: 'h23',
 }).formatToParts(new Date(d)).map((p) => [p.type, p.value]))
-const kstShort = (d) => { if (!d) return '—'; const p = kstParts(d); return `${Number(p.month)}/${Number(p.day)} ${p.hour}:${p.minute}` }
-const kstTime = (d) => { if (!d) return '—'; const p = kstParts(d); return `${p.hour}:${p.minute}` }
-const ageDays = (d) => (d ? (Date.now() - new Date(d).getTime()) / 86400000 : null)
-const ago = (d) => {
-  const days = ageDays(d)
-  if (days == null) return ''
-  if (days < 1 / 24) { const m = Math.round(days * 1440); return m < 1 ? '방금' : `${m}분 전` }
-  if (days < 1) return `${Math.round(days * 24)}시간 전`
-  return `${Math.round(days)}일 전`
+const kstDate = (d) => { const p = kst(d); return `${p.year}-${p.month}-${p.day}` }
+function clock(d) {
+  const p = kst(d); const h = Number(p.hour)
+  return `${h < 12 ? '오전' : '오후'} ${h % 12 === 0 ? 12 : h % 12}:${p.minute}`
+}
+function when(d) {
+  if (!d) return '—'
+  const today = kstDate(new Date()), yest = kstDate(new Date(Date.now() - 86400000)), day = kstDate(d)
+  if (day === today) return `오늘 ${clock(d)}`
+  if (day === yest) return `어제 ${clock(d)}`
+  const p = kst(d)
+  return `${Number(p.month)}/${Number(p.day)} ${clock(d)}`
+}
+const mins = (d) => (d ? (Date.now() - new Date(d).getTime()) / 60000 : null)
+function ago(d) {
+  const m = mins(d)
+  if (m == null) return ''
+  if (m < 1) return '방금'
+  if (m < 60) return `${Math.round(m)}분 전`
+  if (m < 1440) return `${Math.round(m / 60)}시간 전`
+  return `${Math.round(m / 1440)}일 전`
 }
 function bytes(b) {
   const mb = Number(b) / 1048576
   if (!Number.isFinite(mb)) return '—'
-  if (mb >= 1024) return `${(mb / 1024).toFixed(1)} GB`
-  if (mb >= 10) return `${Math.round(mb)} MB`
-  if (mb >= 0.1) return `${mb.toFixed(1)} MB`
-  return `${Math.max(1, Math.round(Number(b) / 1024))} KB`
+  if (Math.abs(mb) >= 1024) return `${(mb / 1024).toFixed(1)} GB`
+  if (Math.abs(mb) >= 10) return `${Math.round(mb)} MB`
+  if (Math.abs(mb) >= 0.1) return `${mb.toFixed(1)} MB`
+  return `${Math.round(Number(b) / 1024)} KB`
 }
 function won(n) {
   if (n <= 0) return '0원'
   if (n < 10000) return `${num(n)}원`
   return `약 ${num(Math.round(n / 10000))}만 원`
 }
-const pct = (a, b) => (b ? `${((a / b) * 100).toFixed(1)}%` : '—')
+const pctOf = (a, b) => (b ? Math.round((a / b) * 100) : null)
+const unit = (v, u) => `${v}<small>${u}</small>`
 
-// ── 상수 (tool/ops_dashboard.mjs 와 같은 값) ────────────────
-const DIR_UNIT_WON = 5
-const DIR_FREE_MONTH = 60000
-const OPINET_DAILY_CAP = 300
-const STALE_RIDING_H = 6
-const REASONS = {
-  reroute: '이탈 재탐색', course_link: '코스 연결', start: '길안내 시작', room_nav: '방 길안내', rally: '집결지',
-  edit: '경로 고치기', course_voice: '코스 음성', course_line: '안내선 얹기', unknown: '이유 없음(옛 앱)',
+/** 어제 이맘때보다 — bad: 늘면 나쁜 값(빨강) */
+function dl(cur, prev, { bad = false, digits = 0 } = {}) {
+  if (!isNum(cur) || !isNum(prev)) return ''
+  const diff = Number(cur) - Number(prev)
+  const r = Math.round(diff * 10 ** digits) / 10 ** digits
+  if (r === 0) return '<span class="d eq" title="어제 이맘때와 같음">–</span>'
+  const up = r > 0
+  const cls = (up !== bad) ? 'good' : 'bad'
+  return `<span class="d ${cls}" title="어제 이맘때보다">${up ? '▲' : '▼'}${num(Math.abs(r), digits)}</span>`
 }
-const CODE = { '57014': '시간 초과', '42703': '없는 열', '23514': '제약 위반', '42501': '권한', P0001: '함수 거부', '40P01': '교착' }
+const kpi = (value, label, delta = '') => `<div class="k"><b>${value}</b><span class="l">${esc(label)} ${delta}</span></div>`
+const pill = (state, text) => `<span class="st ${state}">${esc(text)}</span>`
+const STATE_TEXT = { ok: '정상', warn: '주의', bad: '문제', info: '참고' }
 
-// ── 칸 ─────────────────────────────────────────────────────
-let S = {}
-const sec = (name) => {
-  const r = S[name]
+// ── 이름표 ─────────────────────────────────────────────────
+const REASONS = {
+  reroute: '길 벗어나 다시 찾기', course_link: '코스로 가는 길', start: '길안내 시작', room_nav: '그룹 방 길안내', rally: '집결지 가는 길',
+  edit: '경로 고치기', course_voice: '코스 음성 안내', course_line: '안내선 얹기', unknown: '옛 앱(이유 모름)',
+}
+const REPORT_TYPES = { user: '사용자', post: '글', comment: '댓글', direct_message: '1:1 메시지', group_message: '대화방 메시지', group_ride: '그룹 방', crew: '크루', crew_notice: '크루 공지' }
+const REPORT_REASONS = { spam: '스팸·광고', abuse: '욕설·괴롭힘', sexual: '음란', violence: '폭력', fake: '사칭·거짓', other: '기타' }
+const BUCKETS = { 'route-thumbnails': '지도 그림', maptiles: '지도 타일', 'post-images': '글 사진', avatars: '프로필 사진', 'dm-images': '메시지 사진', 'group-images': '대화방 사진', 'bike-photos': '바이크 사진', 'crew-emblems': '크루 엠블럼' }
+function notifKind(t) {
+  t = String(t ?? '')
+  if (t.startsWith('group_ride')) return '그룹 라이딩'
+  if (t.startsWith('crew')) return '크루'
+  if (t.includes('follow')) return '팔로우'
+  if (t.includes('comment')) return '댓글'
+  if (t.includes('like')) return '좋아요'
+  if (t.includes('mention')) return '멘션'
+  if (t.includes('group') || t.includes('chat')) return '대화방'
+  if (t.includes('official') || t.includes('notice')) return '공지'
+  return '그 밖'
+}
+
+// ── 상태 ───────────────────────────────────────────────────
+let S = {}, A = {}
+const sec = (name, src = S) => {
+  const r = src[name]
   if (!r) return { ok: false, at: null, error: '아직 집계 없음' }
   return { ok: r.ok, at: r.taken_at, data: r.payload, error: r.payload?.error ?? (r.ok ? null : '실패') }
 }
-const failBox = (s) => `<p class="warn">조회 실패 — ${esc(s.error)}</p>`
-const stamp = (s) => `<small>집계 ${kstTime(s.at)}</small>`
-const kpi = (v, label) => `<div class="k"><b>${v}</b><span>${esc(label)}</span></div>`
-
-function renderHeader(newest) {
-  const meta = sec('meta')
-  const m = meta.ok ? meta.data : {}
-  const late = newest && (Date.now() - new Date(newest).getTime()) / 60000 > STALE_SNAPSHOT_MIN
-  return `<header>
-  <h1>Rideon 운영판 <span class="tag ${isProd ? '' : 'dev'}">${isProd ? 'PROD' : 'DEV'}</span></h1>
-  <p>마지막 집계 <b id="agoText">${newest ? `${kstShort(newest)} · ${esc(ago(newest))}` : '—'}</b> (한국·일본 시간) · 서버가 5분마다 집계하고 이 화면은 1분마다 다시 읽는다 · 서버 migration ${esc(m.mig ?? '—')} · 업데이트 권장/최소 빌드 ${esc(m.rec ?? '—')} / ${esc(m.min ?? '—')}</p>
-  ${late ? `<p class="warn" style="margin-top:8px">집계가 ${num((Date.now() - new Date(newest).getTime()) / 60000)}분째 멈춰 있다 — 예약 작업 <code>rideon-ops-snapshot</code> 확인</p>` : ''}
-  <div class="bar"><button id="reloadBtn" type="button">다시 읽기</button><button id="logoutBtn" type="button">로그아웃</button><span class="mut" style="font-size:12px" id="readAt"></span></div>
-</header>`
+const failBox = (s) => `<p class="st warn" style="display:block;padding:8px 12px;border-radius:10px">이 칸의 숫자를 지금 못 읽었어요 — 개발자에게 알려 주세요.</p>`
+const T = () => sec('today').ok ? sec('today').data : null
+const tnow = (k) => T()?.now?.[k]
+const tprev = (k) => T()?.prev?.[k]
+const STALE_RIDING_H = 6
+const ridingNow = (u, ref = Date.now()) => (u?.riding ?? []).filter((r) => ref - new Date(r.since).getTime() <= STALE_RIDING_H * 3600000)
+/** 24시간 「눈에 띄는」 오류 = 앱 서버 기능 오류(5xx) + 보내지 못한 알림. 기록 저장소 로그 오류는 정상 동작의
+ *  권한 거절까지 섞여 수가 크게 흔들려(수만~수십만) 여기 더하지 않는다 — 서버 상태 칸에 참고로만 */
+function errors24(mg, pushFail) {
+  const ed = mg?.edgeErr && !mg.edgeErr.error ? Number(mg.edgeErr.e5) : null
+  if (ed == null && !isNum(pushFail)) return null
+  return (ed ?? 0) + (isNum(pushFail) ? Number(pushFail) : 0)
 }
 
-function renderDirections() {
-  const s = sec('directions')
-  const head = `<h2>💸 네이버 길찾기(Directions 5) 요금 <small>가장 돈이 되는 API · 단가 ${DIR_UNIT_WON}원 · 월 무료 ${num(DIR_FREE_MONTH)}건 · </small>${stamp(s)}</h2>`
-  if (!s.ok) return `<section class="hl">${head}${failBox(s)}</section>`
-  const { k, reasons } = s.data
-  const month = Number(k.billed_month), b7 = Number(k.billed7), rides7 = Number(k.rides7)
-  const ratio = rides7 > 0 ? Math.round((b7 / rides7) * 10) / 10 : null
-  const fee = Math.max(0, month - DIR_FREE_MONTH) * DIR_UNIT_WON
-  const kpis = [
-    kpi(num(k.billed30), '최근 30일 과금 호출'),
-    kpi(num(month), '이번 달 과금 호출(1일~)'),
-    kpi(pct(month, DIR_FREE_MONTH), '이번 달 무료량 대비'),
-    kpi(won(fee), '이번 달 예상 요금'),
-    kpi(num(k.billed24), '최근 24시간 호출'),
-    kpi(ratio == null ? '—' : `약 ${ratio}`, '라이딩 1건당 호출(7일)'),
-  ].join('')
-  const max = Math.max(1, ...reasons.map((r) => Number(r.billed)))
-  const bars = reasons.filter((r) => Number(r.billed) > 0).map((r) =>
-    `<div class="barrow"><span>${esc(REASONS[r.reason] ?? r.reason)}</span><div class="track"><div class="fill" style="width:${Math.round((Number(r.billed) / max) * 100)}%"></div></div><span class="n">${num(r.billed)}</span></div>`,
-  ).join('') || '<p class="mut">최근 7일 과금 호출 없음</p>'
-  const fails = reasons.filter((r) => Number(r.billed_fail) > 0)
-  const failNote = fails.length
-    ? `<p class="warn" style="margin-top:12px">실패했는데 과금된 호출(7일) — ${fails.map((r) => `「${esc(REASONS[r.reason] ?? r.reason)}」 ${num(r.billed)}건 중 ${num(r.billed_fail)}건`).join(' · ')}. 경로를 못 받아도 돈은 나간다.</p>`
-    : '<p class="note" style="margin-top:12px">최근 7일 실패했는데 과금된 호출 0건.</p>'
-  const scale = [1000, 10000, 50000, 100000].map((rides) => {
-    if (ratio == null) return `<tr><td>${num(rides)}</td><td class="n">—</td><td class="n">—</td><td class="n">—</td></tr>`
-    const calls = Math.round(rides * ratio)
-    const over = Math.max(0, calls - DIR_FREE_MONTH)
-    return `<tr><td>${num(rides)}</td><td class="n">${num(calls)}</td><td class="n">${num(over)}</td><td class="n">${won(over * DIR_UNIT_WON)}</td></tr>`
+// ── 확인할 것 ───────────────────────────────────────────────
+function issues(newest) {
+  const out = []
+  const add = (state, text) => out.push({ state, text })
+  const m = mins(newest)
+  if (m == null || m > STALE_SNAPSHOT_MIN) add('bad', `운영판 숫자가 ${m == null ? '아직' : `${Math.round(m)}분째`} 새로 안 들어와요 — 개발자에게 알려 주세요`)
+  const failed = Object.entries(S).filter(([, r]) => !r.ok).map(([k]) => k)
+  if (failed.length) add('warn', `일부 칸(${failed.length}개)의 숫자를 못 읽었어요`)
+  const open = tnow('reports_open')
+  if (Number(open) > 0) {
+    const old = sec('reports').ok ? sec('reports').data.oldest_open_at : null
+    const late = old && mins(old) > 1440
+    add(late ? 'bad' : 'warn', `처리 안 된 신고 ${num(open)}건${late ? ` — 가장 오래된 것이 ${ago(old)}` : ''}`)
+  }
+  if (Number(tnow('push_fail24')) > 0) add('warn', `최근 24시간 보내지 못한 알림 ${num(tnow('push_fail24'))}건`)
+  const mg = sec('mgmt').ok ? sec('mgmt').data : null
+  if (Number(mg?.edgeErr?.e5) > 0) add('warn', `앱 서버 기능 오류 ${num(mg.edgeErr.e5)}건(24시간)`)
+  const down = (mg?.fns ?? []).filter((f) => f.status !== 'ACTIVE')
+  if (down.length) add('bad', `멈춘 앱 서버 기능 ${down.length}개`)
+  const dir = sec('directions')
+  if (dir.ok) { const p = pctOf(Number(dir.data.k.billed_month), DIR_FREE_MONTH); if (p >= 80) add(p >= 100 ? 'bad' : 'warn', `네이버 길찾기 이번 달 무료량의 ${p}% 사용`) }
+  const st = sec('status')
+  if (st.ok && Number(st.data.thumb.pending) > 20) add('warn', `지도 그림 만들기 대기 ${num(st.data.thumb.pending)}건`)
+  for (const r of freshRows()) if (r.state === 'warn' || r.state === 'bad') add(r.state, `${r.name} — ${r.why || STATE_TEXT[r.state]}`)
+  return out
+}
+
+function renderHeader(newest) {
+  const list = issues(newest)
+  const worst = list.some((x) => x.state === 'bad') ? 'bad' : list.length ? 'warn' : 'ok'
+  const verdict = list.length
+    ? `<div class="verdict ${worst}" role="status"><b>확인할 것 ${list.length}개</b><ul>${list.map((x) => `<li>${pill(x.state, STATE_TEXT[x.state])} ${esc(x.text)}</li>`).join('')}</ul></div>`
+    : '<div class="verdict" role="status"><b>오늘은 문제 없어요</b><span class="small">신고·알림·서버·외부 자료 모두 정상이에요.</span></div>'
+  return `<header>
+  <h1>Rideon 운영판 <span class="tag ${isProd ? '' : 'dev'}">${isProd ? '실서비스' : '개발 서버'}</span></h1>
+  <p>숫자는 서버가 5분마다 새로 세고, 이 화면은 1분마다 다시 읽어요. 마지막으로 센 때: <b id="agoText">${newest ? `${when(newest)} · ${ago(newest)}` : '—'}</b></p>
+  <div class="bar"><button id="reloadBtn" type="button">지금 다시 읽기</button><button id="logoutBtn" type="button">로그아웃</button><span class="mut small" id="readAt"></span></div>
+</header>${verdict}`
+}
+
+function renderToday() {
+  const u = sec('users'), ua = sec('users', A), mg = sec('mgmt'), mga = sec('mgmt', A)
+  const rideNow = u.ok ? ridingNow(u.data).length : null
+  const ridePrev = ua.ok ? ridingNow(ua.data, new Date(ua.at).getTime()).length : null
+  const e24 = errors24(mg.ok ? mg.data : null, tnow('push_fail24'))
+  const e24p = mga.ok ? errors24(mga.data, tprev('push_fail24')) : null
+  const t = T()
+  return `<section class="today"><h2>오늘 한눈에 <small>▲▼ = 어제 이맘때보다</small></h2>
+  <p class="lead">오늘(한국 시간 0시부터) 지금까지의 숫자예요.</p>
+  <div class="kpis">
+    ${kpi(unit(num(tnow('users_today')), '명'), '오늘 가입', dl(tnow('users_today'), tprev('users_today')))}
+    ${kpi(unit(num(tnow('rides_today')), '건'), '오늘 주행', dl(tnow('rides_today'), tprev('rides_today')))}
+    ${kpi(unit(num(rideNow), '명'), '지금 주행 중', dl(rideNow, ridePrev))}
+    ${kpi(unit(num(t?.dau_today), '명'), '오늘 앱 연 사람', isNum(t?.dau_yesterday) && Number(t.dau_yesterday) > 0 ? `<span class="mut small">어제 하루 ${num(t.dau_yesterday)}명</span>` : '')}
+    ${kpi(unit(num(tnow('reports_open')), '건'), '처리 안 된 신고', dl(tnow('reports_open'), tprev('reports_open'), { bad: true }))}
+    ${kpi(unit(num(e24), '건'), '24시간 오류(서버 기능·알림)', dl(e24, e24p, { bad: true }))}
+  </div></section>`
+}
+
+// ── 추이 그래프(SVG · 외부 라이브러리 없음) ──────────────────
+function miniChart(days, key, label, u) {
+  const vals = days.map((d) => (d[key] == null ? null : Number(d[key])))
+  const known = vals.filter((v) => v != null)
+  const max = Math.max(1, ...known)
+  const W = 280, H = 96, top = 14, bottom = 16, gap = 3
+  const bw = (W - gap * (days.length - 1)) / days.length
+  const bars = vals.map((v, i) => {
+    const x = i * (bw + gap)
+    if (v == null) return `<rect x="${x.toFixed(1)}" y="${H - bottom - 2}" width="${bw.toFixed(1)}" height="2" fill="var(--bar2)"></rect>`
+    const h = Math.max(v > 0 ? 2 : 0, ((H - top - bottom) * v) / max)
+    const today = i === days.length - 1
+    return `<rect x="${x.toFixed(1)}" y="${(H - bottom - h).toFixed(1)}" width="${bw.toFixed(1)}" height="${h.toFixed(1)}" rx="2" fill="${today ? 'var(--bar3)' : 'var(--bar)'}"><title>${esc(days[i].d.slice(5).replace('-', '/'))} ${num(v)}${u}${today ? ' (오늘 진행 중)' : ''}</title></rect>`
   }).join('')
-  const top = reasons[0]
-  const topNote = top && b7 > 0 ? `돈을 좌우하는 것은 <b>${esc(REASONS[top.reason] ?? top.reason)}</b>이다(7일 ${pct(Number(top.billed), b7).replace('.0%', '%')}). ` : ''
-  return `<section class="hl">${head}
-  <div class="kpis">${kpis}</div>
-  <h2 style="margin-top:16px">최근 7일 이유별 <small>${num(b7)}건 · 실패한 호출도 과금된다 · 마지막 호출 ${kstShort(k.last_call)}</small></h2>
-  ${bars}${failNote}
-  <h2 style="margin-top:16px">규모가 커지면 <small>지금 비율(라이딩 1건당 ${ratio == null ? '—' : `약 ${ratio}`}회) 그대로 셈 · 어림값</small></h2>
-  <div class="tw"><table><tr><th>월 라이딩</th><th class="n">월 호출</th><th class="n">무료 초과</th><th class="n">예상 요금</th></tr>${scale}</table></div>
-  <p class="note" style="margin-top:12px">${topNote}줄이는 손: 재탐색 판정 개선(running-cost.md §5) · 응답 끊긴 호출 두 번 과금 막기. 무료 6만 건은 <b>대표 NCP 계정 하나</b>에만 준다.</p>
-  <p class="mut" style="margin:10px 0 0;font-size:12px">다른 네이버 API — 모바일 지도(SDK) 무료(월 1억), 주소 변환 0.5원(월 300만 무료)은 호출 기록 표가 없어 여기 숫자가 없다. 카카오 장소 검색은 일 1만 건 무료.</p>
-</section>`
+  const md = (s) => `${Number(s.slice(5, 7))}/${Number(s.slice(8, 10))}`
+  const sum = known.reduce((a, b) => a + b, 0)
+  const todayV = vals[vals.length - 1]
+  const missing = vals.some((v) => v == null)
+  return `<div class="chart" role="img" aria-label="${esc(label)} 최근 14일">
+    <div class="t"><b>${esc(label)}</b><span class="mut">14일 ${num(sum, key === 'km' ? 1 : 0)}${u} · 오늘 ${num(todayV, key === 'km' ? 1 : 0)}${u}</span></div>
+    <svg viewBox="0 0 ${W} ${H}" preserveAspectRatio="none">
+      <line x1="0" y1="${H - bottom}" x2="${W}" y2="${H - bottom}" stroke="var(--line)"></line>
+      <text x="0" y="10" font-size="10" fill="var(--mut)">최고 ${num(max)}${u}</text>
+      ${bars}
+      <text x="0" y="${H - 3}" font-size="10" fill="var(--mut)">${md(days[0].d)}</text>
+      <text x="${W / 2}" y="${H - 3}" font-size="10" fill="var(--mut)" text-anchor="middle">${md(days[Math.floor(days.length / 2)].d)}</text>
+      <text x="${W}" y="${H - 3}" font-size="10" fill="var(--mut)" text-anchor="end">오늘</text>
+    </svg>
+    ${missing ? '<div class="mut small">회색 줄 = 그날은 아직 세지 않았어요(운영판을 연 날부터 셉니다)</div>' : ''}
+  </div>`
+}
+function renderTrend() {
+  const s = sec('trend')
+  const head = '<h2>최근 14일 흐름 <small>하루 단위 · 한국 시간 · 오늘 막대(옅은 색)는 진행 중</small></h2>'
+  if (!s.ok) return `<section>${head}${failBox(s)}</section>`
+  const days = s.data.days
+  return `<section>${head}<p class="lead">늘고 있는지 줄고 있는지만 보면 돼요. 막대에 손가락이나 마우스를 대면 그날 숫자가 나와요.</p>
+  <div class="charts">
+    ${miniChart(days, 'signups', '가입', '명')}
+    ${miniChart(days, 'rides', '주행 기록', '건')}
+    ${miniChart(days, 'riders', '달린 사람', '명')}
+    ${miniChart(days, 'km', '달린 거리', 'km')}
+    ${miniChart(days, 'posts', '새 글', '건')}
+    ${miniChart(days, 'dau', '앱 연 사람', '명')}
+  </div></section>`
 }
 
 function renderUsers() {
-  const s = sec('users')
-  const head = `<h2>👤 사용자 ${stamp(s)}</h2>`
+  const s = sec('users'), a = sec('users', A)
+  const head = '<h2>사용자</h2>'
   if (!s.ok) return `<section>${head}${failBox(s)}</section>`
   const { k, builds, recent } = s.data
-  // 6시간 넘은 표시는 앱이 꺼지며 못 지운 흔적으로 본다(10/22 · tool 과 같은 규칙)
-  const isStale = (r) => Date.now() - new Date(r.since).getTime() > STALE_RIDING_H * 3600000
-  const staleRiding = s.data.riding.filter(isStale)
-  const riding = s.data.riding.filter((r) => !isStale(r))
-  const ridingList = (riding.length
-    ? riding.map((r) => `${esc(r.nickname)} <small>${kstTime(r.since)}부터 · ${esc(ago(r.since))}</small>`).join(' · ')
-    : '없음') + (staleRiding.length
-    ? ` <span class="mut">(${STALE_RIDING_H}시간 넘은 표시 ${staleRiding.length}건은 뺐다 — 앱이 꺼지며 못 지운 흔적: ${staleRiding.map((r) => `${esc(r.nickname)} ${kstShort(r.since)}`).join(', ')})</span>`
-    : '')
+  const pk = a.ok ? a.data.k : {}
+  const riding = ridingNow(s.data)
+  const ridingList = riding.length ? riding.map((r) => `${esc(r.nickname)} <span class="mut">${clock(r.since)}부터</span>`).join(' · ') : '없음'
   const byBuild = new Map()
   for (const b of builds) {
     const key = b.build || ''
@@ -217,186 +325,326 @@ function renderUsers() {
     row[b.platform] = (row[b.platform] ?? 0) + Number(b.n)
     byBuild.set(key, row)
   }
-  const keys = [...byBuild.keys()].sort((a, b) => (a === '' ? 1 : b === '' ? -1 : Number(b) - Number(a)))
-  const cell = (n) => (n ? num(n) : '—')
-  const rows = keys.map((key) => {
-    const r = byBuild.get(key)
-    return `<tr><td>${key ? esc(key) : '기록 없음'}</td><td class="n">${cell(r.android)}</td><td class="n">${cell(r.ios)}</td></tr>`
-  }).join('')
+  const keys = [...byBuild.keys()].sort((x, y) => (x === '' ? 1 : y === '' ? -1 : Number(y) - Number(x)))
   const meta = sec('meta')
   const min = Number(meta.ok ? meta.data.min : NaN)
-  const blocked = keys.filter((key) => key && Number(key) < min)
-  const foot = blocked.length
-    ? `${blocked.join('·')}은 이미 접속이 막혔다(최소 ${min}). 토큰만 남은 기기다. 「기록 없음」은 빌드 번호를 적기 전(29 이전) 토큰.`
-    : '「기록 없음」은 빌드 번호를 적기 전(29 이전) 토큰.'
+  const cell = (n) => (n ? `${num(n)}대` : '—')
+  const rows = keys.map((key) => {
+    const r = byBuild.get(key)
+    const old = key && Number(key) < min
+    return `<tr><td>${key ? `버전 ${esc(key)}` : '알 수 없음(옛 앱)'}${old ? ' <span class="st info">업데이트 필요</span>' : ''}</td><td class="n">${cell(r.android)}</td><td class="n">${cell(r.ios)}</td></tr>`
+  }).join('')
   return `<section>${head}
-  <div class="kpis">${kpi(num(riding.length), '지금 주행 중')}${kpi(num(k.rooms_riding), '지금 달리는 그룹 방')}${kpi(num(k.active30m), '30분 안 접속')}</div>
-  <p class="mut" style="font-size:12px;margin:6px 0 12px">주행 중: ${ridingList} — 활동 상태를 끈 사람은 안 잡혀 실제보다 적을 수 있다. 솔로 기록은 끝나야 올라온다.</p>
-  <div class="kpis">${kpi(num(k.total), '가입 전체')}${kpi(num(k.new7), '최근 7일 가입')}${kpi(num(k.active24), '24시간 접속')}${kpi(num(k.active7), '7일 접속')}</div>
-  <h2 style="margin-top:14px">앱 빌드 분포 <small>최근 30일 푸시 토큰</small></h2>
-  <table><tr><th>빌드</th><th class="n">안드로이드</th><th class="n">iOS</th></tr>${rows}</table>
-  <p class="mut" style="font-size:12px;margin:8px 0 0">${esc(foot)} 접속 = 활동 상태 시각 또는 푸시 토큰 사용 시각.</p>
-  <h2 style="margin-top:14px">최근 가입 <small>15명 · 첫 주행 ${recent.filter((r) => Number(r.rides) > 0).length}명</small></h2>
-  <table><tr><th>닉네임</th><th>가입</th><th>앱(빌드)</th><th class="n">주행</th></tr>
-  ${recent.map((r) => `<tr><td>${r.nickname ? esc(r.nickname) : '<span class="mut">온보딩 전</span>'}</td><td>${kstShort(r.at)}</td><td>${r.device ? esc(String(r.device).replace('android', '안드').replace('ios', 'iOS')) : '—'}</td><td class="n">${Number(r.rides) ? num(r.rides) : '—'}</td></tr>`).join('')}
-  </table>
+  <p class="lead">가입한 사람과 앱을 연 사람 수예요. 「앱 연 사람」은 앱을 열었거나 알림을 받은 기기 기준이에요.</p>
+  <div class="kpis">
+    ${kpi(unit(num(tnow('users_total') ?? k.total), '명'), '가입 전체', dl(tnow('users_total'), tprev('users_total')))}
+    ${kpi(unit(num(tnow('users_new7') ?? k.new7), '명'), '최근 7일 가입', dl(tnow('users_new7'), tprev('users_new7')))}
+    ${kpi(unit(num(k.active24), '명'), '하루 안에 앱 연 사람', dl(k.active24, pk.active24))}
+    ${kpi(unit(num(k.active7), '명'), '7일 안에 앱 연 사람', dl(k.active7, pk.active7))}
+    ${kpi(unit(num(k.active30m), '명'), '30분 안에 앱 연 사람', dl(k.active30m, pk.active30m))}
+  </div>
+  <p class="small" style="margin:10px 0 0"><b>지금 주행 중:</b> ${ridingList} <span class="mut">— 「활동 상태」를 끈 사람은 안 보여요.</span></p>
+  <h3>최근 가입한 15명 <small>첫 주행까지 간 사람 ${recent.filter((r) => Number(r.rides) > 0).length}명</small></h3>
+  <div class="tw"><table><tr><th>닉네임</th><th>가입</th><th>폰 · 앱 버전</th><th class="n">주행</th></tr>
+  ${recent.map((r) => {
+    const dev = r.device ? String(r.device).split(' ') : null
+    return `<tr><td>${r.nickname ? esc(r.nickname) : '<span class="mut">가입 마무리 전</span>'}</td><td>${when(r.at)}</td><td>${dev ? `${dev[1] === 'ios' ? '아이폰' : '안드로이드'} · 버전 ${esc(dev[0])}` : '—'}</td><td class="n">${Number(r.rides) ? `${num(r.rides)}건` : '—'}</td></tr>`
+  }).join('')}</table></div>
+  <h3>쓰고 있는 앱 버전 <small>최근 30일 알림 받은 기기</small></h3>
+  <div class="tw"><table><tr><th>앱 버전</th><th class="n">안드로이드</th><th class="n">아이폰</th></tr>${rows}</table></div>
+  ${isNum(min) ? `<p class="mut small" style="margin:6px 0 0">「업데이트 필요」 = 버전 ${min}보다 낮아 이제 앱이 업데이트하라고 막는 기기예요.</p>` : ''}
+</section>`
+}
+
+function renderFunnel() {
+  const s = sec('funnel')
+  const head = '<h2>새로 온 사람은 무엇을 했나</h2>'
+  if (!s.ok) return `<section>${head}${failBox(s)}</section>`
+  const { c7, c30 } = s.data
+  const cell = (n, base) => {
+    const p = pctOf(Number(n), Number(base))
+    return p == null ? '<span class="mut">—</span>' : `<b>${p}%</b> <span class="mut">${num(n)}명</span><div class="track" style="margin-top:3px"><div class="fill" style="width:${p}%"></div></div>`
+  }
+  const row = (label, key) => `<tr><td>${label}</td><td>${cell(c7[key], c7.n)}</td><td>${cell(c30[key], c30.n)}</td></tr>`
+  return `<section>${head}
+  <p class="lead">최근 가입한 사람 중 실제로 앱을 써 본 비율이에요. 「첫 주행」이 낮으면 가입 뒤 안내를 손볼 때예요.</p>
+  <div class="tw"><table><tr><th></th><th>최근 7일 가입 <span class="mut">${num(c7.n)}명</span></th><th>최근 30일 가입 <span class="mut">${num(c30.n)}명</span></th></tr>
+  ${row('첫 주행 기록', 'ride')}${row('글 쓰기', 'post')}${row('누군가 팔로우', 'follow')}${row('크루 가입', 'crew')}${row('그룹 라이딩 참여', 'group')}
+  ${row('다음 날 이후 다시 옴', 'back1')}
+  <tr><td>7일 뒤에도 다시 옴 <span class="mut small">(가입한 지 7일 넘은 ${num(c30.d7n)}명 중)</span></td><td class="mut">—</td><td>${cell(c30.back7, c30.d7n)}</td></tr>
+  </table></div>
+  <p class="mut small" style="margin:6px 0 0">「다시 옴」은 마지막으로 앱을 연 날이 가입 다음 날(또는 7일 뒤) 이후인지로 봐요.</p>
 </section>`
 }
 
 function renderActivity() {
-  const s = sec('activity')
-  const head = `<h2>🏍 활동 ${stamp(s)}</h2>`
-  if (!s.ok) return `<section>${head}${failBox(s)}</section>`
-  const a = s.data
-  return `<section>${head}<div class="kpis">
-  ${kpi(num(a.rides), '라이딩 전체')}${kpi(num(a.km), '누적 km')}${kpi(num(a.rides7), '7일 라이딩')}${kpi(num(a.km7), '7일 km')}
-  ${kpi(num(a.posts), '글 전체')}${kpi(num(a.posts7), '7일 글')}${kpi(num(a.crews), `크루 · 멤버 ${num(a.crew_members)}`)}${kpi(num(a.rooms7), '7일 그룹 방')}
+  const head = '<h2>주행 · 글</h2>'
+  if (!T()) return `<section>${head}${failBox(sec('today'))}</section>`
+  return `<section>${head}<p class="lead">기록된 주행과 글이에요. 주행은 끝내고 올라온 것만 세요.</p>
+  <div class="kpis">
+    ${kpi(unit(num(tnow('rides_today')), '건'), '오늘 주행', dl(tnow('rides_today'), tprev('rides_today')))}
+    ${kpi(unit(num(tnow('km_today'), 1), 'km'), '오늘 달린 거리', dl(tnow('km_today'), tprev('km_today'), { digits: 1 }))}
+    ${kpi(unit(num(tnow('rides7')), '건'), '7일 주행', dl(tnow('rides7'), tprev('rides7')))}
+    ${kpi(unit(num(tnow('km7')), 'km'), '7일 거리', dl(tnow('km7'), tprev('km7')))}
+    ${kpi(unit(num(tnow('rides_total')), '건'), '전체 주행', dl(tnow('rides_total'), tprev('rides_total')))}
+    ${kpi(unit(num(tnow('km_total')), 'km'), '누적 거리', dl(tnow('km_total'), tprev('km_total')))}
+    ${kpi(unit(num(tnow('posts_today')), '건'), '오늘 새 글', dl(tnow('posts_today'), tprev('posts_today')))}
+    ${kpi(unit(num(tnow('posts_total')), '건'), '글 전체', dl(tnow('posts_total'), tprev('posts_total')))}
   </div></section>`
+}
+
+function renderGroups() {
+  const s = sec('groups')
+  const head = '<h2>그룹 라이딩</h2>'
+  if (!s.ok) return `<section>${head}${failBox(s)}</section>`
+  const g = s.data
+  const list = g.riding.length
+    ? `<div class="tw"><table><tr><th>지금 달리는 방</th><th class="n">인원</th><th class="n">출발</th></tr>${g.riding.map((r) =>
+      `<tr><td>${r.title ? esc(r.title) : '<span class="mut">비공개 방</span>'}${r.crew ? ` <span class="mut">· ${esc(r.crew)}</span>` : ''}</td><td class="n">${num(r.n)}명</td><td class="n">${clock(r.since)}</td></tr>`).join('')}</table></div>`
+    : '<p class="mut small" style="margin:10px 0 0">지금 달리고 있는 방은 없어요.</p>'
+  return `<section>${head}<p class="lead">여럿이 같이 달리는 방이에요. 비공개 방은 이름을 숨겨요.</p>
+  <div class="kpis">
+    ${kpi(unit(num(g.riding.length), '개'), '지금 달리는 방')}
+    ${kpi(unit(num(tnow('rooms_today')), '개'), '오늘 만든 방', dl(tnow('rooms_today'), tprev('rooms_today')))}
+    ${kpi(unit(num(tnow('rooms7')), '개'), '7일 방', dl(tnow('rooms7'), tprev('rooms7')))}
+    ${kpi(unit(num(tnow('group_riders7')), '명'), '7일 참여한 사람', dl(tnow('group_riders7'), tprev('group_riders7')))}
+    ${kpi(unit(num(g.avg7, 1), '명'), '방 하나 평균 인원(7일)')}
+    ${kpi(g.rest7 == null ? '—' : unit(num(g.rest7), '개'), '쉬어 가기 쓴 방(7일)')}
+  </div>${list}</section>`
+}
+
+function renderCrews() {
+  const s = sec('crews')
+  const head = '<h2>크루</h2>'
+  const top = s.ok ? s.data.top : []
+  return `<section>${head}<p class="lead">크루 수와 대화가 얼마나 오가는지예요. 대화 내용은 보지 않고 수만 세요.</p>
+  <div class="kpis">
+    ${kpi(unit(num(tnow('crews_total')), '개'), '크루', dl(tnow('crews_total'), tprev('crews_total')))}
+    ${kpi(unit(num(tnow('crew_members')), '명'), '크루 멤버', dl(tnow('crew_members'), tprev('crew_members')))}
+    ${kpi(unit(num(tnow('crews_active7')), '개'), '7일 대화 있는 크루', dl(tnow('crews_active7'), tprev('crews_active7')))}
+    ${kpi(unit(num(tnow('crew_msgs7')), '건'), '7일 크루 대화', dl(tnow('crew_msgs7'), tprev('crew_msgs7')))}
+    ${kpi(unit(num(tnow('crew_joins7')), '명'), '7일 새로 들어간 사람', dl(tnow('crew_joins7'), tprev('crew_joins7')))}
+  </div>
+  <h3>가장 활발한 크루 <small>최근 7일 대화 수</small></h3>
+  ${!s.ok ? failBox(s) : top.length ? `<div class="tw"><table><tr><th>크루</th><th class="n">멤버</th><th class="n">7일 대화</th></tr>${top.map((c) => `<tr><td>${esc(c.name)}</td><td class="n">${num(c.members)}명</td><td class="n">${num(c.msgs7)}건</td></tr>`).join('')}</table></div>` : '<p class="mut small">최근 7일 크루 대화가 없어요.</p>'}
+</section>`
+}
+
+function renderReports() {
+  const s = sec('reports')
+  const head = '<h2>신고 · 차단</h2>'
+  const open = Number(tnow('reports_open'))
+  const old = s.ok ? s.data.oldest_open_at : null
+  const state = open > 0 ? (old && mins(old) > 1440 ? 'bad' : 'warn') : 'ok'
+  return `<section>${head}<p class="lead">처리 안 된 신고가 있으면 운영진 계정으로 확인해 주세요. 하루 넘게 둔 신고는 「문제」로 보여요.</p>
+  <p style="margin:0 0 12px">${pill(state, STATE_TEXT[state])} ${open > 0 ? `처리 안 된 신고 <b>${num(open)}건</b>${old ? ` · 가장 오래된 것 ${when(old)} (${ago(old)})` : ''}` : '처리 안 된 신고가 없어요.'}</p>
+  <div class="kpis">
+    ${kpi(unit(num(tnow('reports_open')), '건'), '처리 안 된 신고', dl(tnow('reports_open'), tprev('reports_open'), { bad: true }))}
+    ${kpi(unit(num(tnow('reports_today')), '건'), '오늘 들어온 신고', dl(tnow('reports_today'), tprev('reports_today'), { bad: true }))}
+    ${kpi(unit(num(tnow('reports7')), '건'), '7일 신고', dl(tnow('reports7'), tprev('reports7'), { bad: true }))}
+    ${kpi(unit(num(tnow('blocks7')), '건'), '7일 차단', dl(tnow('blocks7'), tprev('blocks7'), { bad: true }))}
+  </div>
+  ${s.ok && s.data.open_by_type.length ? `<h3>처리 안 된 신고 — 무엇을 신고했나</h3><div class="tw"><table>${s.data.open_by_type.map((r) => `<tr><td>${esc(REPORT_TYPES[r.type] ?? '그 밖')}</td><td class="n">${num(r.n)}건</td></tr>`).join('')}</table></div>` : ''}
+  ${s.ok && s.data.reasons7.length ? `<h3>최근 7일 신고 이유</h3><div class="tw"><table>${s.data.reasons7.map((r) => `<tr><td>${esc(REPORT_REASONS[r.reason] ?? '기타')}</td><td class="n">${num(r.n)}건</td></tr>`).join('')}</table></div>` : ''}
+</section>`
+}
+
+function renderPush() {
+  const s = sec('push')
+  const head = '<h2>앱 알림</h2>'
+  if (!s.ok) return `<section>${head}${failBox(s)}</section>`
+  const p = s.data
+  const fail24 = Number(tnow('push_fail24'))
+  const kinds = new Map()
+  for (const r of p.notif_by_type) kinds.set(notifKind(r.type), (kinds.get(notifKind(r.type)) ?? 0) + Number(r.n))
+  const kindRows = [...kinds.entries()].sort((x, y) => y[1] - x[1])
+  const max = Math.max(1, ...kindRows.map((x) => x[1]))
+  const dev = (pf) => p.devices.find((d) => d.platform === pf) ?? { all: 0, d30: 0 }
+  const d30 = p.devices.reduce((a, d) => a + Number(d.d30), 0)
+  return `<section>${head}<p class="lead">앱 알림이 잘 가는지 봐요. 「보내지 못한 알림」이 생기면 개발자에게 알려 주세요.</p>
+  <p style="margin:0 0 12px">${pill(fail24 > 0 ? 'warn' : 'ok', fail24 > 0 ? '주의' : '정상')} ${fail24 > 0 ? `최근 24시간 보내지 못한 알림 ${num(fail24)}건` : '최근 24시간 보내지 못한 알림이 없어요.'}</p>
+  <div class="kpis">
+    ${kpi(unit(num(tnow('notif7')), '건'), '7일 만든 알림', dl(tnow('notif7'), tprev('notif7')))}
+    ${kpi(unit(num(tnow('push_fail7')), '건'), '7일 보내지 못한 알림', dl(tnow('push_fail7'), tprev('push_fail7'), { bad: true }))}
+    ${kpi(unit(num(d30), '대'), '알림 받는 기기(30일)')}
+  </div>
+  <h3>어떤 알림이 많았나 <small>최근 7일</small></h3>
+  ${kindRows.map(([k, n]) => `<div class="barrow"><span>${esc(k)}</span><div class="track"><div class="fill" style="width:${Math.round((n / max) * 100)}%"></div></div><span class="n">${num(n)}건</span></div>`).join('') || '<p class="mut small">없음</p>'}
+  <h3>알림 받는 기기</h3>
+  <div class="tw"><table><tr><th></th><th class="n">등록된 기기</th><th class="n">30일 안에 쓴 기기</th></tr>
+  <tr><td>안드로이드</td><td class="n">${num(dev('android').all)}대</td><td class="n">${num(dev('android').d30)}대</td></tr>
+  <tr><td>아이폰</td><td class="n">${num(dev('ios').all)}대</td><td class="n">${num(dev('ios').d30)}대</td></tr></table></div>
+</section>`
+}
+
+const DIR_UNIT_WON = 5
+const DIR_FREE_MONTH = 60000
+const OPINET_DAILY_CAP = 300
+function renderDirections() {
+  const s = sec('directions')
+  const head = '<h2>네이버 길찾기 요금 <small>가장 돈이 드는 외부 서비스</small></h2>'
+  if (!s.ok) return `<section>${head}${failBox(s)}</section>`
+  const { k, reasons } = s.data
+  const month = Number(k.billed_month), b7 = Number(k.billed7), rides7 = Number(k.rides7)
+  const ratio = rides7 > 0 ? Math.round((b7 / rides7) * 10) / 10 : null
+  const p = pctOf(month, DIR_FREE_MONTH)
+  const state = p >= 100 ? 'bad' : p >= 80 ? 'warn' : 'ok'
+  const max = Math.max(1, ...reasons.map((r) => Number(r.billed)))
+  const bars = reasons.filter((r) => Number(r.billed) > 0).map((r) =>
+    `<div class="barrow"><span>${esc(REASONS[r.reason] ?? '그 밖')}</span><div class="track"><div class="fill" style="width:${Math.round((Number(r.billed) / max) * 100)}%"></div></div><span class="n">${num(r.billed)}번</span></div>`).join('') || '<p class="mut small">최근 7일 쓴 적 없음</p>'
+  const scale = [1000, 10000, 50000].map((rides) => {
+    if (ratio == null) return ''
+    const over = Math.max(0, Math.round(rides * ratio) - DIR_FREE_MONTH)
+    return `<tr><td>한 달 주행 ${num(rides)}건</td><td class="n">${won(over * DIR_UNIT_WON)}</td></tr>`
+  }).join('')
+  return `<section>${head}
+  <p class="lead">한 달에 6만 번까지 무료, 넘으면 한 번에 5원이에요. 무료량의 80%를 넘으면 개발자에게 알려 주세요.</p>
+  <p style="margin:0 0 12px">${pill(state, STATE_TEXT[state])} 이번 달 무료량의 <b>${p}%</b> 사용</p>
+  <div class="kpis">
+    ${kpi(unit(num(month), '번'), '이번 달 쓴 횟수')}
+    ${kpi(won(Math.max(0, month - DIR_FREE_MONTH) * DIR_UNIT_WON), '이번 달 예상 요금')}
+    ${kpi(unit(num(k.billed24), '번'), '최근 24시간')}
+    ${kpi(ratio == null ? '—' : unit(`약 ${ratio}`, '번'), '주행 1건당(7일)')}
+  </div>
+  <h3>최근 7일 어디에 썼나 <small>${num(b7)}번</small></h3>${bars}
+  ${scale ? `<h3>사용자가 늘면 한 달 요금 <small>지금 비율로 어림</small></h3><div class="tw"><table>${scale}</table></div>` : ''}
+</section>`
 }
 
 function renderCapacity() {
   const s = sec('capacity')
-  const head = `<h2>🗄 용량 <small>Supabase · </small>${stamp(s)}</h2>`
+  const head = '<h2>저장 공간</h2>'
   if (!s.ok) return `<section>${head}${failBox(s)}</section>`
-  const { k, buckets } = s.data
-  const label = (id) => (id === 'maptiles' ? 'maptiles (지도 타일)' : id)
-  const rows = buckets.slice(0, 4).map((b) => `<tr><td>${esc(label(b.bucket_id))}</td><td class="n">${num(b.n)}</td><td class="n">${bytes(b.size)}</td></tr>`)
-  const rest = buckets.slice(4)
-  if (rest.length) {
-    rows.push(`<tr><td>그 밖 ${rest.length}개</td><td class="n">${num(rest.reduce((t, b) => t + Number(b.n), 0))}</td><td class="n">${bytes(rest.reduce((t, b) => t + Number(b.size), 0))}</td></tr>`)
-  }
-  const perRide = Number(k.rides) > 0 ? Math.round(Number(k.pts) / Number(k.rides)) : null
-  return `<section>${head}
-  <div class="kpis">${kpi(bytes(k.db), 'DB 전체')}${kpi(bytes(k.pts_bytes), `기록 점 표 · ${num(k.pts)}점`)}</div>
-  <table style="margin-top:12px"><tr><th>저장소</th><th class="n">파일</th><th class="n">용량</th></tr>${rows.join('')}</table>
-  <p class="mut" style="font-size:12px;margin:8px 0 0">기록 점은 라이딩 1건에 약 ${num(perRide)}점.</p>
+  const { k, buckets, hist } = s.data
+  const first = (hist ?? [])[0]
+  const since = first ? `${Number(first.d.slice(5, 7))}/${Number(first.d.slice(8, 10))}부터` : ''
+  const grow = (cur, old, f) => (first && isNum(old) ? `<span class="mut small">${since} ${Number(cur) - Number(old) >= 0 ? '+' : ''}${f(Number(cur) - Number(old))}</span>` : '')
+  const top = buckets.slice(0, 5)
+  const rest = buckets.slice(5)
+  const rows = top.map((b) => `<tr><td>${esc(BUCKETS[b.bucket_id] ?? '그 밖의 파일')}</td><td class="n">${num(b.n)}개</td><td class="n">${bytes(b.size)}</td></tr>`)
+  if (rest.length) rows.push(`<tr><td>그 밖 ${rest.length}종</td><td class="n">${num(rest.reduce((t, b) => t + Number(b.n), 0))}개</td><td class="n">${bytes(rest.reduce((t, b) => t + Number(b.size), 0))}</td></tr>`)
+  return `<section>${head}<p class="lead">서버에 쌓인 자료의 크기예요. 며칠 사이 갑자기 크게 늘면 개발자에게 알려 주세요.</p>
+  <div class="kpis">
+    ${kpi(bytes(k.db), '기록 저장소(데이터베이스)', grow(k.db, first?.db, bytes))}
+    ${kpi(unit(num(k.pts), '개'), '주행 경로 점', grow(k.pts, first?.pts, (v) => `${num(v)}개`))}
+  </div>
+  <h3>사진·파일</h3>
+  <div class="tw"><table><tr><th>종류</th><th class="n">개수</th><th class="n">크기</th></tr>${rows.join('')}</table></div>
 </section>`
 }
 
-function renderStatus() {
-  const s = sec('status')
-  const g = sec('mgmt')
-  const head = `<h2>🚨 실패 · 상태 ${stamp(s)}</h2>`
-  if (!s.ok) return `<section>${head}${failBox(s)}</section>`
-  const { nf, cron, thumb } = s.data
-  const fns = g.ok ? g.data.fns : null
-  const dbErr = g.ok ? g.data.dbErr : { error: g.error }
-  const dbLine = !dbErr || dbErr.error
-    ? `조회 실패${dbErr?.error ? ` · ${esc(dbErr.error)}` : ''}`
-    : `${num(dbErr.total)}건${dbErr.top.length ? ` · ${dbErr.top.map((x) => `${esc(CODE[x.code] ?? x.code)} ${num(x.n)}`).join(' · ')}` : ''}`
-  let fnRow
-  let fnList = ''
-  if (!fns) {
-    fnRow = `<tr><td>Edge 함수</td><td class="n">조회 실패 · ${esc(g.ok ? g.data.fns_error : g.error)}</td></tr>`
-  } else {
-    const active = fns.filter((f) => f.status === 'ACTIVE').length
-    const lastDeploy = fns.reduce((m, f) => (!m || (f.updated && f.updated > m) ? f.updated : m), null)
-    const notActive = fns.filter((f) => f.status !== 'ACTIVE').map((f) => f.slug)
-    fnRow = `<tr><td>Edge 함수 ${num(active)}/${num(fns.length)} ACTIVE <span class="mut">${stamp(g)}</span></td><td class="n">${notActive.length ? `<span class="st late">멈춤: ${esc(notActive.join(', '))}</span> · ` : ''}마지막 배포 ${kstShort(lastDeploy)}</td></tr>`
-    const sorted = [...fns].sort((a, b) => String(b.updated ?? '').localeCompare(String(a.updated ?? '')))
-    fnList = `<details><summary>함수별 마지막 배포 ${fns.length}개</summary><table>${sorted.map((f) => `<tr><td>${esc(f.slug)}</td><td>${esc(f.status)}${f.version != null ? ` <span class="mut">v${num(f.version)}</span>` : ''}</td><td class="n">${kstShort(f.updated)}</td></tr>`).join('')}</table></details>`
-  }
-  return `<section>${head}
-  <table>
-    <tr><td>푸시·알림 조용한 실패(7일)</td><td class="n">${Number(nf.n1h) ? `<span class="st late">최근 1시간 ${num(nf.n1h)}</span> · ` : ''}${num(nf.n7)}건${nf.top ? ` · ${esc(nf.top)}` : ''}</td></tr>
-    <tr><td>예약 작업(pg_cron) ${num(cron.active)}/${num(cron.jobs)} 켜짐</td><td class="n">7일 실패 ${num(cron.fail7)}건${cron.fail_names ? ` · ${esc(cron.fail_names)}` : ''}</td></tr>
-    <tr><td>DB 오류(최근 24시간)</td><td class="n">${dbLine}</td></tr>
-    <tr><td>지도 썸네일</td><td class="n">대기 ${num(thumb.pending)}건 · 포기(5회 실패) ${num(thumb.gave_up)}건${Number(thumb.errored) ? ` · 오류 ${num(thumb.errored)}건` : ''}</td></tr>
-    ${fnRow}
-  </table>
-  ${fnList}
-  <p class="mut" style="font-size:12px;margin:8px 0 0">함수 상태는 배포 목록의 값이다(함수를 불러 보지 않는다). 「코드보다 밀린 배포」 판정은 git이 있어야 해서 맥의 <code>tool/ops_dashboard.mjs</code>에만 있다. Edge 오류 로그와 Crashlytics 크래시는 아직 못 넣었다.</p>
-</section>`
-}
-
-function freshRow(src, at, amount, state, why) {
-  const badge = {
-    ok: '<span class="st ok">정상</span>', late: '<span class="st late">늦음</span>', fail: '<span class="st late">실패</span>',
-    info: '<span class="st info">정보</span>', none: '<span class="st info">PROD에 아직 없음</span>',
-  }[state]
-  return `<tr><td>${src}</td><td>${at ? `${kstShort(at)} <span class="mut">${esc(ago(at))}</span>` : '—'}</td><td>${amount}</td><td>${badge}${why ? ` <span class="mut">${why}</span>` : ''}</td></tr>`
-}
-
-function renderFresh() {
+function freshRows() {
   const s = sec('fresh')
-  const head = `<h2>🛰 외부 데이터 마지막 갱신 ${stamp(s)}</h2>`
-  if (!s.ok) return `<section>${head}${failBox(s)}</section>`
+  if (!s.ok) return []
   const { ex, rows } = s.data
-  const none = isProd ? 'none' : 'info'
   const out = []
+  const days = (d) => (d ? mins(d) / 1440 : null)
   if (ex.cams && rows.cams) {
     const { ok, last, bundle } = rows.cams
     const failed = last?.status === 'failed'
-    const late = !ok || ageDays(ok.finished_at) > 8
-    out.push(freshRow('단속 카메라 묶음 <span class="mut">공공데이터포털 · 주 1회</span>', ok?.finished_at,
-      bundle ? `v${esc(bundle.version)} · ${num(bundle.camera_count)}대` : '묶음 없음',
-      failed ? 'fail' : late ? 'late' : 'ok', failed ? `마지막 회차 실패 ${kstShort(last.finished_at)}` : late ? '8일 넘게 성공 없음' : ''))
-  } else {
-    out.push(freshRow('단속 카메라 묶음', null, '—', none, ''))
+    const late = !ok || days(ok.finished_at) > 8
+    out.push({ name: '과속 단속 카메라 목록', at: ok?.finished_at, amount: bundle ? `${num(bundle.camera_count)}대` : '없음', state: failed ? 'bad' : late ? 'warn' : 'ok', why: failed ? '마지막 갱신 실패' : late ? '8일 넘게 갱신 안 됨(주 1회)' : '주 1회 갱신' })
   }
   if (ex.fuel && rows.fuel) {
-    const f = rows.fuel
-    const today = Number(f.today ?? 0)
-    out.push(freshRow('주유소 가격 <span class="mut">오피넷 · 요청 때 받고 2시간 캐시</span>', f.last_fetch ?? f.last_price,
-      `주유소 ${num(f.stations)}곳 · 오늘 호출 ${num(today)}/${OPINET_DAILY_CAP}`,
-      today >= OPINET_DAILY_CAP ? 'late' : 'ok', today >= OPINET_DAILY_CAP ? '오늘 한도 소진' : today >= OPINET_DAILY_CAP * 0.8 ? '한도 80% 넘음' : ''))
-  } else {
-    out.push(freshRow('주유소 가격 <span class="mut">오피넷</span>', null, '—', none, ''))
+    const today = Number(rows.fuel.today ?? 0)
+    out.push({ name: '주유소 가격', at: rows.fuel.last_fetch ?? rows.fuel.last_price, amount: `주유소 ${num(rows.fuel.stations)}곳 · 오늘 ${num(today)}/${OPINET_DAILY_CAP}번`, state: today >= OPINET_DAILY_CAP ? 'warn' : 'ok', why: today >= OPINET_DAILY_CAP ? '오늘 조회 한도를 다 썼어요' : '필요할 때 받아 2시간 보관' })
   }
   const tiles = rows.tiles ?? []
-  for (const [name, label] of [['korea.pmtiles', 'OSM 지도 타일 · 한국'], ['japan.pmtiles', 'OSM 지도 타일 · 일본']]) {
+  for (const [name, label] of [['korea.pmtiles', '지도(한국)'], ['japan.pmtiles', '지도(일본)']]) {
     const t = tiles.find((x) => x.name === name)
-    if (!t) { out.push(freshRow(label, null, '파일 없음', 'late', '')); continue }
-    const late = ageDays(t.updated_at) > 120
-    out.push(freshRow(`${label} <span class="mut">maptiles · 분기 1회</span>`, t.updated_at, `${esc(name)} · ${bytes(t.size)}`, late ? 'late' : 'ok', late ? '120일 넘음' : ''))
-  }
-  const extra = tiles.filter((t) => !String(t.name).endsWith('.pmtiles'))
-  if (extra.length) {
-    const lastExtra = extra.reduce((m, t) => (!m || t.updated_at > m ? t.updated_at : m), null)
-    out.push(freshRow('지명 목록 · 글꼴 <span class="mut">maptiles</span>', lastExtra,
-      `파일 ${num(extra.length)}개 · ${bytes(extra.reduce((t, x) => t + Number(x.size), 0))}`, 'info', ''))
+    if (!t) { out.push({ name: label, at: null, amount: '파일 없음', state: 'warn', why: '지도 파일이 없어요' }); continue }
+    const late = days(t.updated_at) > 120
+    out.push({ name: label, at: t.updated_at, amount: bytes(t.size), state: late ? 'warn' : 'ok', why: late ? '120일 넘게 갱신 안 됨(분기 1회)' : '분기 1회 갱신' })
   }
   if (ex.bans && rows.bans) {
-    const b = rows.bans
-    const late = ageDays(b.snapshot) > 120
-    out.push(freshRow('이륜차 금지 도로 <span class="mut">OSM 추출</span>', b.snapshot, `금지 ${num(b.banned)} · 전체 ${num(b.ways)}구간`, late ? 'late' : 'ok', late ? 'OSM 스냅샷 120일 넘음' : ''))
-  } else {
-    out.push(freshRow('이륜차 금지 도로 <span class="mut">OSM 추출</span>', null, '—', none, isProd ? '' : '표 없음'))
+    const late = days(rows.bans.snapshot) > 120
+    out.push({ name: '이륜차 금지 도로', at: rows.bans.snapshot, amount: `${num(rows.bans.banned)}구간`, state: late ? 'warn' : 'ok', why: late ? '120일 넘게 갱신 안 됨' : '' })
   }
-  const meta = sec('meta')
-  if (meta.ok) {
-    const m = meta.data
-    out.push(freshRow('앱 버전 설정 <span class="mut">app_settings</span>', m.build_at, `권장 ${esc(m.rec ?? '—')} · 최소 ${esc(m.min ?? '—')}`, 'info', ''))
-    out.push(freshRow('최신 migration', null, `${esc(m.mig ?? '—')} ${m.mig_name ? `<span class="mut">${esc(m.mig_name)}</span>` : ''} · ${num(m.mig_count)}개`, 'info', '적용 시각은 기록되지 않는다'))
-  }
-  return `<section>${head}
-  <div class="tw"><table class="fresh"><tr><th>출처</th><th>마지막 갱신(KST)</th><th>건수 · 버전</th><th>상태</th></tr>${out.join('')}</table></div>
-  <p class="mut" style="font-size:12px;margin:8px 0 0">늦음 기준 — 단속 카메라 8일(주 1회 월 03:17) · 지도 타일·금지 도로 120일(분기 1회) · 주유소는 시각이 아니라 하루 한도(${OPINET_DAILY_CAP}회)로 본다.</p>
-</section>`
+  return out
+}
+function renderFresh() {
+  const s = sec('fresh')
+  const head = '<h2>외부 자료 최신 상태</h2>'
+  if (!s.ok) return `<section>${head}${failBox(s)}</section>`
+  return `<section>${head}<p class="lead">앱이 바깥에서 받아 쓰는 자료예요. 「주의」나 「문제」가 보이면 개발자에게 알려 주세요.</p>
+  <div class="tw"><table><tr><th>자료</th><th>마지막 갱신</th><th>양</th><th>상태</th></tr>
+  ${freshRows().map((r) => `<tr><td>${esc(r.name)}</td><td>${r.at ? `${when(r.at)} <span class="mut">${ago(r.at)}</span>` : '—'}</td><td>${r.amount}</td><td>${pill(r.state, STATE_TEXT[r.state])}${r.why ? ` <span class="mut small">${esc(r.why)}</span>` : ''}</td></tr>`).join('')}
+  </table></div></section>`
 }
 
-/** 칸 하나의 그리기가 터져도 나머지는 그린다 — 집계 모양이 바뀐 경우 */
+function renderServer() {
+  const st = sec('status'), mg = sec('mgmt'), mga = sec('mgmt', A)
+  const head = '<h2>서버 상태</h2>'
+  if (!st.ok) return `<section>${head}${failBox(st)}</section>`
+  const { cron, thumb } = st.data
+  const m = mg.ok ? mg.data : null
+  const fns = m?.fns ?? null
+  const down = (fns ?? []).filter((f) => f.status !== 'ACTIVE')
+  const e5 = m?.edgeErr && !m.edgeErr.error ? Number(m.edgeErr.e5) : null
+  const dbE = m?.dbErr && !m.dbErr.error ? Number(m.dbErr.total) : null
+  const dbEp = mga.ok && mga.data.dbErr && !mga.data.dbErr.error ? Number(mga.data.dbErr.total) : null
+  const row = (state, name, text, extra = '') => `<tr><td>${esc(name)}</td><td>${pill(state, STATE_TEXT[state])}</td><td>${text}${extra}</td></tr>`
+  return `<section>${head}<p class="lead">앱 뒤에서 도는 서버가 잘 돌아가는지예요. 「문제」가 보이면 개발자에게 알려 주세요.</p>
+  <div class="tw"><table><tr><th>무엇</th><th>상태</th><th>내용</th></tr>
+  ${row(fns == null ? 'warn' : down.length ? 'bad' : 'ok', '앱 서버 기능', fns == null ? '목록을 못 읽었어요' : down.length ? `${down.length}개가 멈췄어요` : `${fns.length}개 모두 켜져 있어요`)}
+  ${row(e5 == null ? 'info' : e5 > 0 ? 'warn' : 'ok', '앱 서버 기능 오류(24시간)', e5 == null ? '못 읽었어요' : `${num(e5)}건 · 호출 ${num(m.edgeErr.calls)}번`)}
+  ${row('info', '기록 저장소 오류(24시간)', dbE == null ? '못 읽었어요' : `${num(dbE)}건`, ` ${dl(dbE, dbEp, { bad: true })} <span class="mut small">— 권한 거절처럼 정상 동작에서도 생겨요. 갑자기 크게 늘 때만 보세요</span>`)}
+  ${row(Number(cron.fail7) > 0 ? 'warn' : 'ok', '서버 예약 작업', `${num(cron.active)}개 켜짐 · 지난 7일 실패 ${num(cron.fail7)}번`)}
+  ${row(Number(thumb.pending) > 20 ? 'warn' : 'ok', '지도 그림 만들기', `기다리는 것 ${num(thumb.pending)}건 · 못 만든 것 ${num(thumb.gave_up)}건`)}
+  </table></div></section>`
+}
+
+function renderDev(newest) {
+  const meta = sec('meta'), st = sec('status'), mg = sec('mgmt'), ps = sec('push')
+  const m = meta.ok ? meta.data : {}
+  const g = mg.ok ? mg.data : {}
+  const CODE = { '57014': '시간 초과', '42703': '없는 열', '23514': '제약 위반', '42501': '권한', P0001: '함수 거부', '40P01': '교착' }
+  const fns = [...(g.fns ?? [])].sort((a, b) => String(b.updated ?? '').localeCompare(String(a.updated ?? '')))
+  const edgeBy = new Map((g.edgeErr?.by ?? []).map((x) => [x.slug, x]))
+  const failed = Object.entries(S).filter(([, r]) => !r.ok)
+  return `<details class="dev"><summary>개발자용 자세히</summary>
+  <div class="tw small" style="margin-top:10px"><table>
+    <tr><td>서버 migration</td><td>${esc(m.mig ?? '—')} ${esc(m.mig_name ?? '')} · ${num(m.mig_count)}개</td></tr>
+    <tr><td>업데이트 권장/최소 빌드</td><td>${esc(m.rec ?? '—')} / ${esc(m.min ?? '—')} · 바뀐 때 ${when(m.build_at)}</td></tr>
+    <tr><td>마지막 스냅샷</td><td>${newest ? new Date(newest).toISOString() : '—'} · 비교용 24시간 전 스냅샷 ${Object.keys(A).length}칸</td></tr>
+    ${failed.length ? `<tr><td>실패한 칸</td><td>${failed.map(([k, r]) => `${esc(k)}: ${esc(r.payload?.error)}`).join('<br>')}</td></tr>` : ''}
+    <tr><td>pg_cron 7일 실패</td><td>${st.ok ? `${num(st.data.cron.fail7)}번 · ${esc(st.data.cron.fail_names ?? '없음')}` : '—'}</td></tr>
+    <tr><td>DB 오류 SQLSTATE(24h)</td><td>${g.dbErr && !g.dbErr.error ? g.dbErr.top.map((x) => `${esc(x.code)}(${esc(CODE[x.code] ?? '')}) ${num(x.n)}`).join(' · ') || '없음' : esc(g.dbErr?.error ?? '—')}</td></tr>
+    <tr><td>notify_failures 출처(7일)</td><td>${ps.ok ? ps.data.fail_by_source.map((x) => `${esc(x.source)} ${num(x.n)}`).join(' · ') || '없음' : '—'}</td></tr>
+    <tr><td>썸네일 오류</td><td>${st.ok ? `오류 ${num(st.data.thumb.errored)} · 포기 ${num(st.data.thumb.gave_up)}` : '—'}</td></tr>
+  </table>
+  <h3>Edge 함수 <small>배포 시각 · 24h 호출 · 5xx · 「코드보다 밀린 배포」 판정은 맥의 tool/ops_dashboard.mjs</small></h3>
+  <table><tr><th>함수</th><th>상태</th><th class="n">24h 호출</th><th class="n">5xx</th><th class="n">마지막 배포</th></tr>
+  ${fns.map((f) => { const e = edgeBy.get(f.slug); return `<tr><td>${esc(f.slug)}</td><td>${esc(f.status)}${f.version != null ? ` v${num(f.version)}` : ''}</td><td class="n">${num(e?.n ?? 0)}</td><td class="n">${num(e?.e5 ?? 0)}</td><td class="n">${when(f.updated)}</td></tr>` }).join('')}
+  </table>
+  <h3>알림 type(7일)</h3>
+  <p>${ps.ok ? ps.data.notif_by_type.map((x) => `${esc(x.type)} ${num(x.n)}`).join(' · ') : '—'}</p>
+  </div></details>`
+}
+
+/** 칸 하나의 그리기가 터져도 나머지는 그린다 */
 function safe(name, fn) {
-  try { return fn() } catch (e) { return `<section><h2>${esc(name)}</h2><p class="warn">그리기 실패 — ${esc(e.message)}</p></section>` }
+  try { return fn() } catch (e) { return `<section><h2>${esc(name)}</h2><p class="st warn" style="display:block;padding:8px 12px;border-radius:10px">이 칸을 그리지 못했어요 — 개발자에게 알려 주세요.</p></section>` }
 }
 
 // ── 화면 전환 ───────────────────────────────────────────────
 const $ = (id) => document.getElementById(id)
-function show(which) {
-  for (const id of ['login', 'denied', 'app']) $(id).hidden = id !== which
-}
+function show(which) { for (const id of ['login', 'denied', 'app']) $(id).hidden = id !== which }
 
-let newest = null
-let lastRead = null
-let timer = null
+let newest = null, lastRead = null, timer = null
 
 function paint() {
-  const app = $('app')
-  app.innerHTML = [
-    safe('header', () => renderHeader(newest)),
-    safe('directions', renderDirections),
-    `<div class="grid">${[safe('users', renderUsers), safe('activity', renderActivity), safe('capacity', renderCapacity), safe('status', renderStatus)].join('')}</div>`,
-    safe('fresh', renderFresh),
+  $('app').innerHTML = [
+    safe('머리', () => renderHeader(newest)),
+    safe('오늘 한눈에', renderToday),
+    safe('최근 14일 흐름', renderTrend),
+    `<div class="grid">${[
+      safe('사용자', renderUsers), safe('새로 온 사람', renderFunnel), safe('주행 · 글', renderActivity), safe('그룹 라이딩', renderGroups),
+      safe('크루', renderCrews), safe('신고 · 차단', renderReports), safe('앱 알림', renderPush), safe('서버 상태', renderServer),
+      safe('네이버 길찾기', renderDirections), safe('저장 공간', renderCapacity),
+    ].join('')}</div>`,
+    safe('외부 자료', renderFresh),
+    safe('개발자용', () => renderDev(newest)),
   ].join('')
   $('reloadBtn').onclick = () => load(true)
   $('logoutBtn').onclick = logout
@@ -405,29 +653,29 @@ function paint() {
 
 function tick() {
   const a = $('agoText')
-  if (a && newest) a.textContent = `${kstShort(newest)} · ${ago(newest)}`
+  if (a && newest) a.textContent = `${when(newest)} · ${ago(newest)}`
   const r = $('readAt')
-  if (r && lastRead) r.textContent = `화면 읽음 ${kstTime(lastRead)}`
+  if (r && lastRead) r.textContent = `화면 새로 읽음 ${clock(lastRead)}`
 }
 
 async function load(manual) {
   const btn = $('reloadBtn')
   if (manual && btn) btn.disabled = true
-  const { data, error } = await sb.rpc('ops_latest_snapshots')
+  const [{ data, error }, ago24] = await Promise.all([sb.rpc('ops_latest_snapshots'), sb.rpc('ops_snapshots_ago')])
   if (error) {
     if (/JWT|jwt|401/.test(error.message ?? '')) return gate()
     const r = $('readAt')
-    if (r) r.textContent = `다시 읽기 실패 — ${error.message}`
+    if (r) r.textContent = '다시 읽기에 실패했어요 — 잠시 뒤 다시 눌러 주세요'
     if (btn) btn.disabled = false
     return
   }
   if (!data.length) {
-    // 0행 = 운영판 표시가 꺼졌거나(권한 없음) 아직 집계가 한 번도 없다
     const staff = await sb.rpc('is_ops_staff')
     if (staff.data !== true) { clearInterval(timer); show('denied'); return }
   }
   S = Object.fromEntries(data.map((r) => [r.section, r]))
-  newest = data.reduce((m, r) => (!m || r.taken_at > m ? r.taken_at : m), null)
+  A = Object.fromEntries((ago24.data ?? []).map((r) => [r.section, r]))
+  newest = data.reduce((m, r) => (r.section !== 'mgmt' && (!m || r.taken_at > m) ? r.taken_at : m), null)
   lastRead = new Date()
   paint()
   show('app')
@@ -436,7 +684,7 @@ async function load(manual) {
 async function gate() {
   clearInterval(timer)
   const { data: { session } } = await sb.auth.getSession()
-  if (!session) { $('loginTag').textContent = isProd ? '' : 'DEV'; show('login'); return }
+  if (!session) { $('loginTag').textContent = isProd ? '' : '개발 서버'; show('login'); return }
   const { data, error } = await sb.rpc('is_ops_staff')
   if (error) { await sb.auth.signOut(); show('login'); return }
   if (data !== true) { show('denied'); return }
@@ -447,7 +695,7 @@ async function gate() {
 async function logout() {
   clearInterval(timer)
   await sb.auth.signOut()
-  S = {}; newest = null
+  S = {}; A = {}; newest = null
   $('app').innerHTML = ''
   $('loginPw').value = ''
   show('login')
