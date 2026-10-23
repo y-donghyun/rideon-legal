@@ -1,6 +1,6 @@
 <!doctype html>
 <html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="robots" content="noindex,nofollow,noarchive"><meta name="referrer" content="no-referrer">
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-FvSVklVW1k3tib80istO4kG5sUq10gLEf/voPYd4YXY=' https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.117.3/dist/umd/supabase.min.js; style-src 'unsafe-inline'; connect-src https://oefeqwkvbnhlkwjpvpwv.supabase.co; img-src data:; base-uri 'none'; form-action 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-9pnwsvoiQhSNSNJmc5Zq67R+Hy114BsNxtKqtLWnI58=' https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.117.3/dist/umd/supabase.min.js; style-src 'unsafe-inline'; connect-src https://oefeqwkvbnhlkwjpvpwv.supabase.co; img-src data:; base-uri 'none'; form-action 'none'">
 <title>Rideon 운영판</title>
 <style>
 :root{--bg:#f5f6f3;--fg:#15171a;--mut:#5d646c;--card:#ffffff;--line:#e2e5e0;--acc:#4f7a00;--accbg:#eef7d9;--warn:#a14a00;--warnbg:#fff1dc;--bad:#c42b2b;--badbg:#fde8e8;--bar:#8fbf1f;--bar2:#d9dfd2;--bar3:#c9d3bd}
@@ -425,8 +425,32 @@ function renderCrews() {
     ${kpi(unit(num(tnow('crew_msgs7')), '건'), '7일 크루 대화', dl(tnow('crew_msgs7'), tprev('crew_msgs7')))}
     ${kpi(unit(num(tnow('crew_joins7')), '명'), '7일 새로 들어간 사람', dl(tnow('crew_joins7'), tprev('crew_joins7')))}
   </div>
-  <h3>가장 활발한 크루 <small>최근 7일 대화 수</small></h3>
-  ${!s.ok ? failBox(s) : top.length ? `<div class="tw"><table><tr><th>크루</th><th class="n">멤버</th><th class="n">7일 대화</th></tr>${top.map((c) => `<tr><td>${esc(c.name)}</td><td class="n">${num(c.members)}명</td><td class="n">${num(c.msgs7)}건</td></tr>`).join('')}</table></div>` : '<p class="mut small">최근 7일 크루 대화가 없어요.</p>'}
+  <p class="mut small" style="margin:10px 0 0">크루마다 크루장·정보는 아래 「크루 목록」에 있어요.</p>
+</section>`
+}
+
+/** 크루 목록 — 해산 안 한 크루 전부 · 7일 대화 많은 순 · 20개 넘으면 접기 (0336). 비공개 크루도 운영자에겐 이름·크루장까지 */
+function renderCrewList() {
+  const s = sec('crews')
+  const head = '<h2>크루 목록 <small>해산하지 않은 크루 · 최근 7일 대화가 많은 순</small></h2>'
+  if (!s.ok) return `<section>${head}${failBox(s)}</section>`
+  const list = s.data.list ?? []
+  if (!list.length) return `<section>${head}<p class="mut small">아직 크루가 없어요.</p></section>`
+  const day = (d) => { if (!d) return '—'; const p = kst(d); return `${p.year}.${p.month}.${p.day}` }
+  const row = (c) => `<tr>
+    <td><b>${esc(c.name)}</b>${c.private ? ' <span class="st info">비공개</span>' : ''}<div class="mut small">${esc(c.region || '지역 없음')} · ${c.join_mode === 'approval' ? '승인 후 가입' : '바로 가입'} · ${day(c.created_at)} 만듦</div></td>
+    <td>${c.owner ? esc(c.owner) : '<span class="mut">없음(탈퇴)</span>'}</td>
+    <td class="n">${num(c.members)}명</td>
+    <td class="n">${num(c.msgs7)}건</td>
+    <td class="n">${num(c.month_rides)}번</td>
+    <td class="n">${c.last_active ? `${when(c.last_active)}<div class="mut small">${ago(c.last_active)}</div>` : '<span class="mut">활동 없음</span>'}</td></tr>`
+  const headRow = '<tr><th>크루</th><th>크루장</th><th class="n">멤버</th><th class="n">7일 대화</th><th class="n">이번 달 라이딩</th><th class="n">마지막 활동</th></tr>'
+  const first = list.slice(0, 20), rest = list.slice(20)
+  return `<section>${head}
+  <p class="lead">크루장에게 연락할 일이 있을 때 여기서 닉네임을 찾으세요. 「마지막 활동」은 크루 대화나 크루 라이딩 중 늦은 쪽이고, 대화 내용은 보지 않아요.</p>
+  <p class="small" style="margin:0 0 8px">크루 ${num(s.data.total ?? list.length)}개</p>
+  <div class="tw"><table>${headRow}${first.map(row).join('')}</table></div>
+  ${rest.length ? `<details style="margin-top:8px"><summary class="small" style="cursor:pointer">나머지 ${rest.length}개 더 보기</summary><div class="tw"><table>${headRow}${rest.map(row).join('')}</table></div></details>` : ''}
 </section>`
 }
 
@@ -643,6 +667,7 @@ function paint() {
       safe('크루', renderCrews), safe('신고 · 차단', renderReports), safe('앱 알림', renderPush), safe('서버 상태', renderServer),
       safe('네이버 길찾기', renderDirections), safe('저장 공간', renderCapacity),
     ].join('')}</div>`,
+    safe('크루 목록', renderCrewList),
     safe('외부 자료', renderFresh),
     safe('개발자용', () => renderDev(newest)),
   ].join('')
