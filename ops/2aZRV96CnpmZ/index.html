@@ -1,6 +1,6 @@
 <!doctype html>
 <html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="robots" content="noindex,nofollow,noarchive"><meta name="referrer" content="no-referrer">
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-9pnwsvoiQhSNSNJmc5Zq67R+Hy114BsNxtKqtLWnI58=' https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.117.3/dist/umd/supabase.min.js; style-src 'unsafe-inline'; connect-src https://oefeqwkvbnhlkwjpvpwv.supabase.co; img-src data:; base-uri 'none'; form-action 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-qeRqpLs9Y8NpBy4mAeBJd4jVI4TKJZ2iqJWzUkyXp7E=' https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.117.3/dist/umd/supabase.min.js; style-src 'unsafe-inline'; connect-src https://oefeqwkvbnhlkwjpvpwv.supabase.co; img-src data:; base-uri 'none'; form-action 'none'">
 <title>Rideon 운영판</title>
 <style>
 :root{--bg:#f5f6f3;--fg:#15171a;--mut:#5d646c;--card:#ffffff;--line:#e2e5e0;--acc:#4f7a00;--accbg:#eef7d9;--warn:#a14a00;--warnbg:#fff1dc;--bad:#c42b2b;--badbg:#fde8e8;--bar:#8fbf1f;--bar2:#d9dfd2;--bar3:#c9d3bd}
@@ -32,6 +32,8 @@ td.n,th.n{text-align:right;white-space:nowrap}
 .barrow{display:grid;grid-template-columns:110px 1fr 52px;gap:8px;align-items:center;margin:6px 0;font-size:13px}
 .track{height:10px;background:var(--bar2);border-radius:5px;overflow:hidden}
 .fill{height:100%;background:var(--bar);border-radius:5px}
+.barrow.meter{grid-template-columns:150px 1fr 160px}
+@media (max-width:560px){.barrow.meter{grid-template-columns:1fr auto}.barrow.meter .track{grid-column:1/-1;grid-row:2}}
 .mut{color:var(--mut)}
 .small{font-size:12px}
 .st{display:inline-block;border-radius:999px;padding:1px 9px;font-size:12px;font-weight:600;white-space:nowrap}
@@ -148,15 +150,15 @@ function won(n) {
 const pctOf = (a, b) => (b ? Math.round((a / b) * 100) : null)
 const unit = (v, u) => `${v}<small>${u}</small>`
 
-/** 어제 이맘때보다 — bad: 늘면 나쁜 값(빨강) */
-function dl(cur, prev, { bad = false, digits = 0 } = {}) {
+/** 어제 이맘때보다 — bad: 늘면 나쁜 값(빨강) · neutral: 좋고 나쁨이 없는 값(회색) · fmt: 차이를 그리는 법(예: bytes) */
+function dl(cur, prev, { bad = false, digits = 0, neutral = false, fmt = null } = {}) {
   if (!isNum(cur) || !isNum(prev)) return ''
   const diff = Number(cur) - Number(prev)
   const r = Math.round(diff * 10 ** digits) / 10 ** digits
   if (r === 0) return '<span class="d eq" title="어제 이맘때와 같음">–</span>'
   const up = r > 0
-  const cls = (up !== bad) ? 'good' : 'bad'
-  return `<span class="d ${cls}" title="어제 이맘때보다">${up ? '▲' : '▼'}${num(Math.abs(r), digits)}</span>`
+  const cls = neutral ? 'eq' : (up !== bad) ? 'good' : 'bad'
+  return `<span class="d ${cls}" title="어제 이맘때보다">${up ? '▲' : '▼'}${fmt ? fmt(Math.abs(r)) : num(Math.abs(r), digits)}</span>`
 }
 const kpi = (value, label, delta = '') => `<div class="k"><b>${value}</b><span class="l">${esc(label)} ${delta}</span></div>`
 const pill = (state, text) => `<span class="st ${state}">${esc(text)}</span>`
@@ -228,6 +230,8 @@ function issues(newest) {
   const st = sec('status')
   if (st.ok && Number(st.data.thumb.pending) > 20) add('warn', `지도 그림 만들기 대기 ${num(st.data.thumb.pending)}건`)
   for (const r of freshRows()) if (r.state === 'warn' || r.state === 'bad') add(r.state, `${r.name} — ${r.why || STATE_TEXT[r.state]}`)
+  const hv = healthVerdict()
+  if (hv && hv.state !== 'ok') add(hv.state, `서버 여유 — ${hv.signals.filter((x) => x.state !== 'ok').map((x) => x.what).join(', ')}`)
   return out
 }
 
@@ -618,6 +622,205 @@ function renderServer() {
   </table></div></section>`
 }
 
+// ── 서버 여유(0350) — Supabase 플랜·컴퓨트를 올릴 때인가 ──────────────
+// 숫자는 둘에서 온다: 'health'(DB 안에서 5분마다) · 'infra'(Edge ops-snapshot 이 관리 API로 15분마다).
+// 플랜별 포함량 — Supabase 가격표(supabase.com/pricing · 2026-10 기준). 바뀌면 여기만 고친다.
+//   Free: 넘으면 멈춘다(DB는 읽기 전용이 된다) → 미리 올려야 한다
+//   Pro·Team: 넘어도 안 멈추고 쓴 만큼 더 낸다 → 「요금이 늘어나는 때」로 읽는다
+const GB = 1024 ** 3
+const PLANS = {
+  free: { label: '무료(Free)', hard: true, db: 0.5 * GB, storage: 1 * GB, mau: 50000, edge: 500000, rt: 200 },
+  pro: { label: 'Pro', hard: false, db: 8 * GB, storage: 100 * GB, mau: 100000, edge: 2000000, rt: 500 },
+  team: { label: 'Team', hard: false, db: 8 * GB, storage: 100 * GB, mau: 100000, edge: 2000000, rt: 500 },
+}
+// 컴퓨트 크기 · 직접 연결 한도 · 메모리 (Supabase 문서 「Compute and Disk」) — 「한 단계 위」 안내용
+const COMPUTE = [['nano', 'Nano', 60, '0.5GB'], ['micro', 'Micro', 60, '1GB'], ['small', 'Small', 90, '2GB'], ['medium', 'Medium', 120, '4GB'],
+  ['large', 'Large', 160, '8GB'], ['xl', 'XL', 240, '16GB'], ['2xl', '2XL', 380, '32GB'], ['4xl', '4XL', 480, '64GB']]
+// 증설 신호 기준 [노랑, 빨강] — 근거:
+const HEALTH_RULES = {
+  quota: [70, 90], // 포함량 대비 %. Free 는 100%에서 멈추고, 플랜 변경·결제 확인에 하루 이틀 걸려 70%에서 미리 본다
+  conns: [70, 85], // 연결 / 최대 연결 %. 꽉 차면 새 요청이 「too many connections」로 실패한다. 관리용 예약 연결이 그 안에 있어 실제 여유는 더 적다
+  cache: [99, 95], // 캐시 적중률 %(이 아래로 내려가면). Supabase 문서: 99% 아래면 자주 쓰는 자료가 메모리에 다 안 들어간다 → 컴퓨트(메모리)
+  err5: [0.5, 1], // 5xx 비율 %(24시간 · 요청 1,000건 넘을 때만 판정). 1% = 100번에 한 번 실패
+  p95: [1000, 2000], // 자료 읽기(REST) 응답 느린 쪽 5%의 시간 ms. 1초를 넘으면 앱이 느리다고 느낀다
+  rt: [1, 20], // Realtime 「연결 풀을 늘려라」 경고(24시간). 동시 접속 한도에 닿았다는 경고는 한 번이라도 빨강
+  days: [60, 14], // 지금 늘어나는 속도로 DB가 포함량에 닿기까지 남은 날(이 안이면)
+  stale: 40, // 'infra' 가 이보다 오래되면(분) 플랜·API 숫자를 「오래됨」으로 본다(15분마다 들어온다)
+}
+const TABLES = {
+  riding_routes: '주행 기록', riding_points: '주행 경로 점', ops_snapshots: '운영판 집계', notifications: '알림', user_profiles: '프로필',
+  posts: '글', comments: '댓글', direct_messages: '1:1 메시지', group_messages: '대화방 메시지', route_photos: '주행 사진',
+  group_ride_sessions: '그룹 방', group_ride_participants: '그룹 방 참가자', crews: '크루', follows: '팔로우', users: '사용자',
+  directions_calls: '길찾기 기록', fuel_stations: '주유소', motorway_ban_ways: '이륜차 금지 도로', ops_daily_seen: '운영판 하루 접속',
+}
+const SVC = { rest: '자료 읽기·쓰기', auth: '로그인', storage: '사진·파일', realtime: '실시간 연결', functions: '앱 서버 기능', other: '그 밖' }
+
+/** 신호 목록 + 한 줄 판정. 숫자가 없으면 그 신호는 건너뛴다(못 읽은 것을 「정상」이라 하지 않는다 — 따로 적는다) */
+function healthVerdict() {
+  const h = sec('health'), inf = sec('infra'), mg = sec('mgmt')
+  if (!h.ok) return null
+  const k = h.data.k, I = inf.ok ? inf.data : null
+  const plan = PLANS[I?.plan] ?? null
+  const ci = COMPUTE.findIndex((c) => c[0] === I?.compute?.size)
+  const next = ci >= 0 ? COMPUTE[Math.min(ci + 1, COMPUTE.length - 1)] : null
+  const actPlan = plan?.hard ? '플랜 올리기(무료 → Pro)' : '쓴 만큼 요금이 늘어요(멈추지는 않음) — 요금 확인'
+  const actCompute = next && ci >= 0 ? `컴퓨트 한 단계 올리기(${COMPUTE[ci][1]} → ${next[1]})` : '컴퓨트 올리기'
+  const signals = []
+  const lvl = (v, [y, r], lower = false) => (lower ? (v < r ? 'bad' : v < y ? 'warn' : 'ok') : (v >= r ? 'bad' : v >= y ? 'warn' : 'ok'))
+  const quota = (what, cur, lim, extra = '') => {
+    if (!isNum(cur) || !lim) return
+    const p = (Number(cur) / lim) * 100
+    signals.push({ state: lvl(p, HEALTH_RULES.quota), what, why: `포함량의 ${Math.round(p)}%${extra}`, act: actPlan })
+  }
+  if (plan) {
+    quota('기록 저장소(DB) 용량', k.db_bytes, plan.db)
+    quota('사진·파일 용량', h.data.storage?.total, plan.storage)
+    quota('한 달 사용자(MAU)', k.mau, plan.mau)
+    const ec = mg.ok && mg.data.edgeErr && !mg.data.edgeErr.error ? Number(mg.data.edgeErr.calls) * 30 : null
+    quota('앱 서버 기능 호출(한 달 어림)', ec, plan.edge, ' · 하루치 × 30')
+  }
+  if (isNum(k.conns) && Number(k.conns_max) > 0) {
+    const p = (Number(k.conns) / Number(k.conns_max)) * 100
+    signals.push({ state: lvl(p, HEALTH_RULES.conns), what: '동시 연결', why: `${num(k.conns)} / ${num(k.conns_max)}개 (${Math.round(p)}%)`, act: actCompute })
+  }
+  if (isNum(k.cache_hit)) signals.push({ state: lvl(Number(k.cache_hit), HEALTH_RULES.cache, true), what: '캐시 적중률', why: `${num(k.cache_hit, 2)}%`, act: actCompute })
+  const rest = I?.api?.by?.find((x) => x.svc === 'rest')
+  if (isNum(rest?.p95)) signals.push({ state: lvl(Number(rest.p95), HEALTH_RULES.p95), what: '자료 읽기 속도', why: `느린 쪽 5%가 ${num(rest.p95)}ms`, act: actCompute })
+  const ratio = (n, e) => (Number(n) >= 1000 ? (Number(e) / Number(n)) * 100 : null)
+  const ar = I?.api ? ratio(I.api.n, I.api.e5) : null
+  if (ar != null) signals.push({ state: lvl(ar, HEALTH_RULES.err5), what: '서버 오류 비율(API)', why: `${ar.toFixed(2)}% · ${num(I.api.e5)}건`, act: '오류부터 확인(증설로 안 풀릴 수 있어요)' })
+  const er = mg.ok && mg.data.edgeErr && !mg.data.edgeErr.error ? ratio(mg.data.edgeErr.calls, mg.data.edgeErr.e5) : null
+  if (er != null) signals.push({ state: lvl(er, HEALTH_RULES.err5), what: '앱 서버 기능 오류 비율', why: `${er.toFixed(2)}%`, act: '오류부터 확인(증설로 안 풀릴 수 있어요)' })
+  if (I?.rtlog) {
+    if (Number(I.rtlog.limit) > 0) signals.push({ state: 'bad', what: '실시간 연결 한도', why: `한도에 닿았다는 경고 ${num(I.rtlog.limit)}번(24시간)`, act: plan?.hard ? '플랜 올리기(동시 접속 200 → 500)' : 'Realtime 한도 올리기(지원 요청)' })
+    else signals.push({ state: lvl(Number(I.rtlog.pool), HEALTH_RULES.rt), what: '실시간 연결 풀', why: Number(I.rtlog.pool) ? `「연결 풀을 늘려라」 경고 ${num(I.rtlog.pool)}번(24시간)` : '경고 없음', act: `Realtime 연결 풀 늘리기(설정 · 지금 ${num(I.rt?.pool)})` })
+  }
+  const run = healthRunway(h.data.hist, plan)
+  if (run && run.days != null) signals.push({ state: lvl(run.days, HEALTH_RULES.days, true), what: 'DB가 포함량에 닿을 때', why: `지금 속도면 약 ${num(run.days)}일 뒤`, act: actPlan })
+  const rank = { ok: 0, warn: 1, bad: 2 }
+  const state = signals.reduce((m, x) => (rank[x.state] > rank[m] ? x.state : m), 'ok')
+  return { state, signals, plan, next, ci, run, I }
+}
+
+/** DB 크기 하루 증가량(최근 7일 · 사흘 이상 쌓였을 때) → 포함량에 닿기까지 남은 날 */
+function healthRunway(hist, plan) {
+  const pts = (hist ?? []).filter((x) => isNum(x.db)).slice(-8)
+  if (pts.length < 3 || !plan) return null
+  const a = pts[0], b = pts[pts.length - 1]
+  const span = (new Date(b.d) - new Date(a.d)) / 86400000
+  if (span < 2) return null
+  const perDay = (Number(b.db) - Number(a.db)) / span
+  const left = plan.db - Number(b.db)
+  return { perDay, days: perDay > 0 ? Math.max(0, Math.round(left / perDay)) : null }
+}
+
+/** 한도 막대 한 줄 */
+function meter(label, cur, lim, fmt, delta = '', note = '') {
+  if (!isNum(cur)) return `<div class="barrow meter"><span>${esc(label)}</span><div class="track"></div><span class="n mut">못 읽었어요</span></div>`
+  const p = lim ? Math.min(100, (Number(cur) / lim) * 100) : null
+  const st = p == null ? 'ok' : p >= HEALTH_RULES.quota[1] ? 'bad' : p >= HEALTH_RULES.quota[0] ? 'warn' : 'ok'
+  const color = st === 'bad' ? 'var(--bad)' : st === 'warn' ? 'var(--warn)' : 'var(--bar)'
+  return `<div class="barrow meter"><span>${esc(label)}${note ? `<div class="mut small">${note}</div>` : ''}</span>
+    <div class="track" title="${p == null ? '' : `${p.toFixed(1)}%`}"><div class="fill" style="width:${p == null ? 0 : Math.max(p, 1).toFixed(1)}%;background:${color}"></div></div>
+    <span class="n">${fmt(cur)}${lim ? ` <span class="mut">/ ${fmt(lim)}</span>` : ''} ${delta}</span></div>`
+}
+
+/** DB 크기 하루 막대(포함량 선은 높이가 맞을 때만) */
+function sizeChart(hist, key, label, lim) {
+  const days = (hist ?? []).filter((x) => isNum(x[key])).slice(-30)
+  if (!days.length) return ''
+  const vals = days.map((x) => Number(x[key]))
+  const max = Math.max(1, ...vals)
+  const W = 280, H = 90, top = 14, bottom = 16, gap = 3
+  const bw = Math.min(40, (W - gap * (days.length - 1)) / days.length) // 며칠 안 쌓였을 때 막대 하나가 판을 다 덮지 않게
+  const bars = vals.map((v, i) => {
+    const h = Math.max(2, ((H - top - bottom) * v) / max)
+    return `<rect x="${(i * (bw + gap)).toFixed(1)}" y="${(H - bottom - h).toFixed(1)}" width="${bw.toFixed(1)}" height="${h.toFixed(1)}" rx="2" fill="${i === days.length - 1 ? 'var(--bar3)' : 'var(--bar)'}"><title>${esc(String(days[i].d).slice(5).replace('-', '/'))} ${bytes(v)}</title></rect>`
+  }).join('')
+  const md = (s) => `${Number(String(s).slice(5, 7))}/${Number(String(s).slice(8, 10))}`
+  return `<div class="chart" role="img" aria-label="${esc(label)} 하루 단위">
+    <div class="t"><b>${esc(label)}</b><span class="mut">${days.length}일 · 오늘 ${bytes(vals[vals.length - 1])}${lim ? ` · 포함량 ${bytes(lim)}` : ''}</span></div>
+    <svg viewBox="0 0 ${W} ${H}" preserveAspectRatio="none">
+      <line x1="0" y1="${H - bottom}" x2="${W}" y2="${H - bottom}" stroke="var(--line)"></line>
+      <text x="0" y="10" font-size="10" fill="var(--mut)">최고 ${bytes(max)}</text>${bars}
+      <text x="0" y="${H - 3}" font-size="10" fill="var(--mut)">${md(days[0].d)}</text>
+      <text x="${W}" y="${H - 3}" font-size="10" fill="var(--mut)" text-anchor="end">오늘</text>
+    </svg>
+    ${days.length < 3 ? '<div class="mut small">0350이 들어간 날부터 하루 한 줄씩 쌓여요 — 사흘이 지나면 「언제 닿나」를 어림해요.</div>' : ''}
+  </div>`
+}
+
+function renderHealth() {
+  const h = sec('health'), ha = sec('health', A), inf = sec('infra'), ia = sec('infra', A), mg = sec('mgmt')
+  const v = healthVerdict()
+  const planText = v?.plan ? v.plan.label : (inf.ok ? (inf.data.plan ?? '모름') : '못 읽음')
+  const compText = v && v.ci >= 0 ? `${COMPUTE[v.ci][1]}${inf.data.compute?.src === 'plan_default' ? '(플랜 기본)' : ''}` : '모름'
+  const head = `<h2>서버 여유 <small>Supabase · 플랜 ${esc(planText)} · 컴퓨트 ${esc(compText)} · ▲▼ = 어제 이맘때보다</small></h2>`
+  if (!h.ok) return `<section>${head}${failBox(h)}</section>`
+  const k = h.data.k, pk = ha.ok ? ha.data.k : {}
+  const I = inf.ok ? inf.data : null, PI = ia.ok ? ia.data : null
+  const plan = v.plan
+  const infraOld = !inf.at || mins(inf.at) > HEALTH_RULES.stale
+  const headline = { ok: '지금은 여유 있어요 — 플랜·컴퓨트 그대로 두면 돼요', warn: '곧 올릴 때예요 — 아래 노란 줄을 개발자와 같이 보세요', bad: '지금 올릴 때예요 — 빨간 줄부터 개발자에게 알려 주세요' }[v.state]
+  const shown = v.signals.filter((x) => x.state !== 'ok')
+  const verdict = `<div class="verdict ${v.state === 'ok' ? '' : v.state}" role="status" style="margin-bottom:12px"><b>${esc(headline)}</b>
+    ${shown.length ? `<ul>${shown.map((x) => `<li>${pill(x.state, STATE_TEXT[x.state])} <span style="font-weight:600">${esc(x.what)}</span> ${esc(x.why)} <span class="mut">→ ${esc(x.act)}</span></li>`).join('')}</ul>`
+      : `<span class="small">본 것 ${v.signals.length}가지 모두 기준 안이에요.</span>`}
+    ${infraOld ? `<div class="small mut" style="margin-top:6px">플랜·API 숫자가 ${inf.at ? `${ago(inf.at)} 것` : '아직 없어요'} — 15분마다 들어와요${inf.ok ? '' : ' · 지금은 못 읽었어요'}</div>` : ''}
+  </div>`
+  const ec = mg.ok && mg.data.edgeErr && !mg.data.edgeErr.error ? Number(mg.data.edgeErr.calls) : null
+  const meters = [
+    meter('기록 저장소(DB)', k.db_bytes, plan?.db, bytes, dl(k.db_bytes, pk.db_bytes, { neutral: true, fmt: bytes })),
+    meter('사진·파일', h.data.storage?.total, plan?.storage, bytes, dl(h.data.storage?.total, ha.ok ? ha.data.storage?.total : null, { neutral: true, fmt: bytes })),
+    meter('동시 연결', k.conns, Number(k.conns_max) || null, (x) => `${num(x)}개`, dl(k.conns, pk.conns, { bad: true }), '지금 이 순간'),
+    meter('한 달 사용자(MAU)', k.mau, plan?.mau, (x) => `${num(x)}명`, dl(k.mau, pk.mau, { neutral: true }), '30일 안에 로그인한 계정'),
+    meter('앱 서버 기능 호출', ec == null ? null : ec * 30, plan?.edge, (x) => `${num(x)}번`, '', '한 달 어림(하루 × 30)'),
+  ].join('')
+  const rest = I?.api?.by?.find((x) => x.svc === 'rest')
+  const prest = PI?.api?.by?.find((x) => x.svc === 'rest')
+  const rate = (a) => (a && Number(a.n) > 0 ? Math.round((Number(a.e5) / Number(a.n)) * 10000) / 100 : null)
+  const tbl = h.data.tables ?? []
+  const slow = (h.data.slow ?? []).filter((x) => !x.error)
+  const slowErr = (h.data.slow ?? []).find((x) => x.error)
+  const by = I?.api?.by ?? []
+  const cb = k.conns_by ?? {}
+  const CB = { api: '앱 자료 요청', auth: '로그인', storage: '사진·파일', platform: 'Supabase 내부', server: '서버 작업', other: '그 밖' }
+  return `<section>${head}
+  <p class="lead">앱 뒤에서 도는 서버(Supabase)에 아직 여유가 있는지예요. 막대가 노랑·빨강으로 차면 플랜이나 컴퓨트(서버 크기)를 올릴 때예요.${plan?.hard ? ' 지금은 무료 플랜이라 한도를 넘으면 <b>멈춰요</b>.' : ''}</p>
+  ${verdict}
+  <h3>한도까지 얼마나 찼나</h3>
+  ${meters}
+  ${I?.rt ? `<p class="mut small" style="margin:4px 0 0">실시간 연결(그룹 라이딩·대화) 동시 접속 한도 ${num(I.rt.max_users)}명 — 지금 몇 명이 붙어 있는지는 서버가 알려 주지 않아요. 한도에 닿으면 위 판정에 빨강으로 떠요.</p>` : ''}
+  <h3>지금 상태 <small>최근 24시간</small></h3>
+  <div class="kpis">
+    ${kpi(unit(num(I?.api?.n), '건'), 'API 요청', dl(I?.api?.n, PI?.api?.n, { neutral: true }))}
+    ${kpi(rate(I?.api) == null ? '—' : unit(rate(I.api).toFixed(2), '%'), '서버 오류 비율(5xx)', dl(rate(I?.api), rate(PI?.api), { bad: true, digits: 2 }))}
+    ${kpi(isNum(rest?.p95) ? unit(num(rest.p95), 'ms') : '—', '자료 읽기 속도(느린 쪽 5%)', dl(rest?.p95, prest?.p95, { bad: true }))}
+    ${kpi(isNum(k.cache_hit) ? unit(num(k.cache_hit, 2), '%') : '—', '캐시 적중률', dl(k.cache_hit, pk.cache_hit, { digits: 2 }))}
+    ${kpi(unit(num(k.auth_users), '명'), '로그인 계정', dl(k.auth_users, pk.auth_users))}
+    ${kpi(I?.rtlog ? unit(num(Number(I.rtlog.pool) + Number(I.rtlog.limit)), '번') : '—', '실시간 연결 경고', dl(I?.rtlog ? Number(I.rtlog.pool) + Number(I.rtlog.limit) : null, PI?.rtlog ? Number(PI.rtlog.pool) + Number(PI.rtlog.limit) : null, { bad: true }))}
+  </div>
+  <div class="charts" style="margin-top:14px;grid-template-columns:repeat(auto-fit,minmax(240px,380px))">${sizeChart(h.data.hist, 'db', '기록 저장소(DB) 크기', plan?.db)}${sizeChart(h.data.hist, 'st', '사진·파일 크기', plan?.storage)}</div>
+  ${v.run?.perDay != null ? `<p class="small" style="margin:6px 0 0">DB가 하루 <b>${bytes(Math.abs(v.run.perDay))}</b>씩 ${v.run.perDay >= 0 ? '늘고' : '줄고'} 있어요${v.run.days != null ? ` — 이 속도면 약 <b>${num(v.run.days)}일 뒤</b> 포함량(${bytes(plan.db)})에 닿아요` : ''}.</p>` : ''}
+  <h3>가장 큰 표 5개 <small>DB 용량을 많이 차지하는 것</small></h3>
+  <div class="tw"><table><tr><th>무엇</th><th class="n">줄 수</th><th class="n">크기</th></tr>
+  ${tbl.map((t) => `<tr><td>${esc(TABLES[t.name] ?? '그 밖의 표')} <code class="mut">${esc(t.name)}</code></td><td class="n">${num(t.rows)}줄</td><td class="n">${bytes(t.bytes)}</td></tr>`).join('')}</table></div>
+  <details style="margin-top:10px"><summary class="small" style="cursor:pointer">개발자용 — 오래 걸리는 일 · API 서비스별 · 연결 내역</summary>
+    <h3>오래 걸리는 일 상위 <small>pg_stat_statements · 합계 시간 순 · ${h.data.slow_since ? `${when(h.data.slow_since)}부터 누적` : '누적'} · 쿼리 원문은 싣지 않음</small></h3>
+    ${slowErr ? `<p class="mut small">못 읽음: ${esc(slowErr.error)}</p>` : ''}
+    ${slow.length ? `<div class="tw"><table><tr><th>함수·표</th><th style="white-space:nowrap">누가</th><th class="n">평균</th><th class="n">횟수</th><th class="n">합계</th></tr>
+    ${slow.map((x) => `<tr><td><code>${esc(x.name)}</code> <span class="mut small">${x.kind === 'fn' ? '함수' : x.kind === 'table' ? '표' : ''}</span></td><td style="white-space:nowrap">${x.who === 'app' ? '앱' : '서버'}</td><td class="n">${Number(x.mean_ms) >= 500 ? pill('warn', `${num(x.mean_ms, 1)}ms`) : `${num(x.mean_ms, 1)}ms`}</td><td class="n">${num(x.calls)}</td><td class="n">${num(x.total_s)}초</td></tr>`).join('')}</table></div>` : (slowErr ? '' : '<p class="mut small">pg_stat_statements 가 없어요.</p>')}
+    <h3>API 서비스별 <small>24시간</small></h3>
+    ${by.length ? `<div class="tw"><table><tr><th>무엇</th><th class="n">요청</th><th class="n">5xx</th><th class="n">429</th><th class="n">느린 쪽 5%</th><th class="n">응답 크기 합</th></tr>
+    ${by.map((x) => `<tr><td>${esc(SVC[x.svc] ?? x.svc)}</td><td class="n">${num(x.n)}</td><td class="n">${num(x.e5)}</td><td class="n">${num(x.e429)}</td><td class="n">${isNum(x.p95) ? `${num(x.p95)}ms` : '—'}</td><td class="n">${bytes(x.out_b)}</td></tr>`).join('')}</table></div>
+    <p class="mut small">응답 크기 합은 길이 머리글이 있는 응답만 더해 실제 내보낸 데이터(egress)보다 적게 나와요 — 한도 판정에 쓰지 않아요.</p>` : '<p class="mut small">못 읽었어요</p>'}
+    <h3>연결 내역 <small>지금</small></h3>
+    <p class="small">${Object.entries(cb).map(([g, n]) => `${esc(CB[g] ?? g)} ${num(n)}`).join(' · ') || '—'} · 실행 중 ${num(k.conns_active)} · 관리용 예약 ${num(k.conns_reserved)} · DB 변경 구독 ${num(k.rt_subs)}</p>
+    <p class="mut small">컴퓨트 표: ${COMPUTE.map((c) => `${c[1]} 연결 ${c[2]}·메모리 ${c[3]}`).join(' · ')}${I?.disk_gb != null ? ` · 디스크 ${num(I.disk_gb)}GB` : ''}${inf.ok && Object.keys(inf.data.errs ?? {}).length ? ` · 관리 API 못 읽은 것: ${esc(Object.entries(inf.data.errs).map(([a, b]) => `${a} ${b}`).join(' / '))}` : ''}</p>
+  </details>
+</section>`
+}
+
 function renderDev(newest) {
   const meta = sec('meta'), st = sec('status'), mg = sec('mgmt'), ps = sec('push')
   const m = meta.ok ? meta.data : {}
@@ -662,6 +865,7 @@ function paint() {
     safe('머리', () => renderHeader(newest)),
     safe('오늘 한눈에', renderToday),
     safe('최근 14일 흐름', renderTrend),
+    safe('서버 여유', renderHealth),
     `<div class="grid">${[
       safe('사용자', renderUsers), safe('새로 온 사람', renderFunnel), safe('주행 · 글', renderActivity), safe('그룹 라이딩', renderGroups),
       safe('크루', renderCrews), safe('신고 · 차단', renderReports), safe('앱 알림', renderPush), safe('서버 상태', renderServer),
@@ -700,7 +904,7 @@ async function load(manual) {
   }
   S = Object.fromEntries(data.map((r) => [r.section, r]))
   A = Object.fromEntries((ago24.data ?? []).map((r) => [r.section, r]))
-  newest = data.reduce((m, r) => (r.section !== 'mgmt' && (!m || r.taken_at > m) ? r.taken_at : m), null)
+  newest = data.reduce((m, r) => (!['mgmt', 'infra', 'health'].includes(r.section) && (!m || r.taken_at > m) ? r.taken_at : m), null)
   lastRead = new Date()
   paint()
   show('app')
