@@ -1,6 +1,6 @@
 <!doctype html>
 <html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="robots" content="noindex,nofollow,noarchive"><meta name="referrer" content="no-referrer">
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-qeRqpLs9Y8NpBy4mAeBJd4jVI4TKJZ2iqJWzUkyXp7E=' https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.117.3/dist/umd/supabase.min.js; style-src 'unsafe-inline'; connect-src https://oefeqwkvbnhlkwjpvpwv.supabase.co; img-src data:; base-uri 'none'; form-action 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-bYNXloEOSeg9TjTBZrJp2naWd/87AP6YIfLvtoQiiAY=' https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.117.3/dist/umd/supabase.min.js; style-src 'unsafe-inline'; connect-src https://oefeqwkvbnhlkwjpvpwv.supabase.co; img-src data:; base-uri 'none'; form-action 'none'">
 <title>Rideon 운영판</title>
 <style>
 :root{--bg:#f5f6f3;--fg:#15171a;--mut:#5d646c;--card:#ffffff;--line:#e2e5e0;--acc:#4f7a00;--accbg:#eef7d9;--warn:#a14a00;--warnbg:#fff1dc;--bad:#c42b2b;--badbg:#fde8e8;--bar:#8fbf1f;--bar2:#d9dfd2;--bar3:#c9d3bd}
@@ -23,7 +23,10 @@ h3{font-size:14px;margin:16px 0 8px}
 .k span.l{color:var(--mut);font-size:12px;display:block}
 .d{font-size:12px;font-weight:600;font-variant-numeric:tabular-nums;white-space:nowrap}
 .d.good{color:var(--acc)} .d.bad{color:var(--bad)} .d.eq{color:var(--mut);font-weight:400}
-.today{border:2px solid var(--acc)}
+.today,.settle{border:2px solid var(--acc)}
+.settle .say{margin:0 0 12px;padding:12px 14px;border-radius:12px;background:var(--accbg);display:grid;gap:4px;font-size:14px}
+.settle td.mutd{color:var(--mut)}
+.settle .new{font-size:11px;font-weight:600;border-radius:999px;padding:0 7px;background:var(--accbg);color:var(--fg);margin-left:4px;white-space:nowrap}
 table{width:100%;border-collapse:collapse;font-variant-numeric:tabular-nums}
 th,td{text-align:left;padding:7px 4px;border-bottom:1px solid var(--line);font-size:13px;vertical-align:top}
 th{color:var(--mut);font-weight:500;font-size:12px}
@@ -150,15 +153,16 @@ function won(n) {
 const pctOf = (a, b) => (b ? Math.round((a / b) * 100) : null)
 const unit = (v, u) => `${v}<small>${u}</small>`
 
-/** 어제 이맘때보다 — bad: 늘면 나쁜 값(빨강) · neutral: 좋고 나쁨이 없는 값(회색) · fmt: 차이를 그리는 법(예: bytes) */
-function dl(cur, prev, { bad = false, digits = 0, neutral = false, fmt = null } = {}) {
+/** 어제 이맘때보다 — bad: 늘면 나쁜 값(빨강) · neutral: 좋고 나쁨이 없는 값(회색) · fmt: 차이를 그리는 법(예: bytes) ·
+ *  vs: 무엇과 비교했나(정착 칸은 「그 전 주」) */
+function dl(cur, prev, { bad = false, digits = 0, neutral = false, fmt = null, vs = '어제 이맘때' } = {}) {
   if (!isNum(cur) || !isNum(prev)) return ''
   const diff = Number(cur) - Number(prev)
   const r = Math.round(diff * 10 ** digits) / 10 ** digits
-  if (r === 0) return '<span class="d eq" title="어제 이맘때와 같음">–</span>'
+  if (r === 0) return `<span class="d eq" title="${esc(vs)}와 같음">–</span>`
   const up = r > 0
   const cls = neutral ? 'eq' : (up !== bad) ? 'good' : 'bad'
-  return `<span class="d ${cls}" title="어제 이맘때보다">${up ? '▲' : '▼'}${fmt ? fmt(Math.abs(r)) : num(Math.abs(r), digits)}</span>`
+  return `<span class="d ${cls}" title="${esc(vs)}보다">${up ? '▲' : '▼'}${fmt ? fmt(Math.abs(r)) : num(Math.abs(r), digits)}</span>`
 }
 const kpi = (value, label, delta = '') => `<div class="k"><b>${value}</b><span class="l">${esc(label)} ${delta}</span></div>`
 const pill = (state, text) => `<span class="st ${state}">${esc(text)}</span>`
@@ -230,6 +234,8 @@ function issues(newest) {
   const st = sec('status')
   if (st.ok && Number(st.data.thumb.pending) > 20) add('warn', `지도 그림 만들기 대기 ${num(st.data.thumb.pending)}건`)
   for (const r of freshRows()) if (r.state === 'warn' || r.state === 'bad') add(r.state, `${r.name} — ${r.why || STATE_TEXT[r.state]}`)
+  const st8 = sec('settle')
+  if (!st8.ok || mins(st8.at) > SETTLE_STALE_H * 60) add('warn', `정착 칸 숫자가 ${st8.at ? `${ago(st8.at)} 것이에요` : '아직 없어요'} — 하루 한 번 새벽 4시에 새로 세요`)
   const hv = healthVerdict()
   if (hv && hv.state !== 'ok') add(hv.state, `서버 여유 — ${hv.signals.filter((x) => x.state !== 'ok').map((x) => x.what).join(', ')}`)
   return out
@@ -244,7 +250,7 @@ function renderHeader(newest) {
   return `<header>
   <h1>Rideon 운영판 <span class="tag ${isProd ? '' : 'dev'}">${isProd ? '실서비스' : '개발 서버'}</span></h1>
   <p>숫자는 서버가 5분마다 새로 세고, 이 화면은 1분마다 다시 읽어요. 마지막으로 센 때: <b id="agoText">${newest ? `${when(newest)} · ${ago(newest)}` : '—'}</b></p>
-  <div class="bar"><button id="reloadBtn" type="button">지금 다시 읽기</button><button id="logoutBtn" type="button">로그아웃</button><span class="mut small" id="readAt"></span></div>
+  <div class="bar"><button id="reloadBtn" type="button">지금 다시 읽기</button><button id="logoutBtn" type="button">로그아웃</button><a class="small" href="#settle" style="color:var(--fg)">주간 보고: 정착 칸 ↓</a><span class="mut small" id="readAt"></span></div>
 </header>${verdict}`
 }
 
@@ -265,6 +271,128 @@ function renderToday() {
     ${kpi(unit(num(tnow('reports_open')), '건'), '처리 안 된 신고', dl(tnow('reports_open'), tprev('reports_open'), { bad: true }))}
     ${kpi(unit(num(e24), '건'), '24시간 오류(서버 기능·알림)', dl(e24, e24p, { bad: true }))}
   </div></section>`
+}
+
+// ── 정착 (0356) — 대표가 매주 월요일 이 칸 하나만 본다 ─────────
+// 숫자는 서버가 하루 한 번(한국 04:03) 8주 치를 다시 센다. 기준값(골수 4주 중 2주 · 첫 주행 7일 …)은 서버
+// _ops_settle_rules() 한 곳에 있고, 아래 설명 글도 그 값(payload.rules)을 읽는다 — 여기서 숫자를 따로 적지 않는다.
+const SETTLE_STALE_H = 30
+const SETTLE_SHOW = 30
+const SETTLE_MIN_N = 5   // 「가장 많이 멈추는 곳」은 앞 단계에 이만큼은 있어야 말한다(한두 명으로 판정하지 않게)
+const md = (d) => `${Number(String(d).slice(5, 7))}/${Number(String(d).slice(8, 10))}`
+const weekEnd = (ws) => new Date(Date.parse(`${ws}T00:00:00Z`) + 6 * 86400e3).toISOString().slice(0, 10)
+const weekLabel = (ws) => `${md(ws)}~${md(weekEnd(ws))}`
+const dw = (cur, prev, o = {}) => dl(cur, prev, { ...o, vs: '그 전 주' })
+/** 깔때기 다섯 단계 — key 는 서버 payload.weeks[] 의 열 · mature 는 그 단계를 「다 셌나」 */
+const STEPS = (R) => [
+  { key: 'signups', label: '가입', mature: () => true },
+  { key: 'ride1', label: `${R.first_days}일 안에 첫 주행`, mature: (w) => w.m7 },
+  { key: 'ride2', label: `${R.second_days}일 안에 두 번째 주행`, mature: (w) => w.m28 },
+  { key: 'crew', label: '크루 가입', mature: (w) => w.m28 },
+  { key: 'group', label: '그룹 라이딩 참가', mature: (w) => w.m28 },
+]
+
+function renderSettle() {
+  const s = sec('settle')
+  const head = '<h2 id="settle">정착 — 라이더가 자리 잡고 있나 <small>대표 주간 보고 · 주 단위(월~일, 한국 시간) · ▲▼ = 그 전 주보다</small></h2>'
+  if (!s.ok) return `<section class="settle">${head}${failBox(s)}</section>`
+  const p = s.data, R = p.rules
+  const W = (k) => p.weeks.find((w) => w.k === k) ?? {}
+  const last = W(1), prev = W(2), cur = W(0)
+  const steps = STEPS(R)
+
+  // 깔때기 — 가입하고 마지막 단계까지 다 센 주(가입 주가 끝나고 R.second_days 일 지남)만 더한다. 덜 센 주를 섞으면 낮게 나온다
+  const ripe = p.weeks.filter((w) => !w.partial && w.m28 && w.signups > 0)
+  const tot = Object.fromEntries(steps.map((st) => [st.key, ripe.reduce((a, w) => a + Number(w[st.key]), 0)]))
+  let weakest = null
+  const funnelRows = steps.map((st, i) => {
+    const n = tot[st.key], pAll = pctOf(n, tot.signups)
+    const pStep = i === 0 ? null : pctOf(n, tot[steps[i - 1].key])
+    if (i > 0 && pStep != null && tot[steps[i - 1].key] >= SETTLE_MIN_N && (!weakest || pStep < weakest.p)) weakest = { from: steps[i - 1].label, to: st.label, p: pStep }
+    return `<div class="barrow meter"><span>${esc(st.label)}${i > 0 && pStep != null ? `<div class="mut small">앞 단계에서 ${pStep}% 넘어감</div>` : ''}</span>
+      <div class="track"><div class="fill" style="width:${pAll == null ? 0 : Math.max(pAll, n > 0 ? 1 : 0)}%"></div></div>
+      <span class="n"><b>${pAll == null ? '—' : `${pAll}%`}</b> <span class="mut">${num(n)}명</span></span></div>`
+  }).join('')
+  const ripeText = ripe.length
+    ? `${md(ripe[ripe.length - 1].w)} ~ ${md(weekEnd(ripe[0].w))} 사이 가입한 ${num(tot.signups)}명 (가입한 지 ${R.second_days}일 넘은 사람만 — 그래야 끝까지 센 숫자예요)`
+    : ''
+
+  // 한 줄씩 — 대표가 이것만 읽어도 되게
+  const newCore = p.core.list.filter((x) => x.new).length
+  const say = []
+  const coreDiff = Number(last.core) - Number(prev.core)
+  say.push(`지난주(${weekLabel(last.w)}) 골수 라이더는 <b>${num(last.core)}명</b>이에요 — ${coreDiff > 0 ? `그 전 주보다 ${num(coreDiff)}명 늘었어요` : coreDiff < 0 ? `그 전 주보다 ${num(-coreDiff)}명 줄었어요` : '그 전 주와 같아요'}.${newCore || p.core.lost.length ? ` (새로 ${num(newCore)}명 · 빠진 사람 ${num(p.core.lost.length)}명)` : ''}`)
+  say.push(Number(last.rooms)
+    ? `그룹 라이딩은 <b>${num(last.rooms)}번</b>, <b>${num(last.riders)}명</b>이 같이 달렸어요${Number(last.off_rooms) ? ` — 그중 공식 번개 ${num(last.off_rooms)}번 · ${num(last.off_riders)}명` : ' — 공식 번개는 없었어요'}.`
+    : '지난주 그룹 라이딩은 없었어요.')
+  if (Number(p.nudge.n) > 0) say.push(`최근 ${R.nudge_days}일 안에 가입했는데 아직 한 번도 안 달린 사람이 <b>${num(p.nudge.n)}명</b>이에요 — 첫 주행을 권해 보세요.`)
+  if (weakest) say.push(`가장 많이 멈추는 곳 — 「${esc(weakest.from)} → ${esc(weakest.to)}」에서 ${weakest.p}%만 다음 단계로 넘어가요.`)
+
+  // 가입한 주별 — 덜 센 칸은 흐리게(아직 오를 수 있다)
+  const cohortRows = p.weeks.map((w) => `<tr><td>${w.partial ? `이번 주 <span class="mut small">진행 중</span>` : weekLabel(w.w)}</td>${steps.map((st, i) => {
+    if (i === 0) return `<td class="n">${num(w.signups)}명</td>`
+    if (!Number(w.signups)) return '<td class="n mutd">—</td>'
+    const pc = pctOf(Number(w[st.key]), Number(w.signups))
+    const ripeCell = st.mature(w)
+    return `<td class="n${ripeCell ? '' : ' mutd'}" title="${ripeCell ? '' : '아직 세는 중 — 더 오를 수 있어요'}">${pc}%<div class="small mut">${num(w[st.key])}명${ripeCell ? '' : ' · 세는 중'}</div></td>`
+  }).join('')}</tr>`).join('')
+
+  // 주별 흐름 — 다 끝난 주는 그 전 주와 ▲▼ · 이번 주는 지금까지
+  const trendRows = p.weeks.map((w) => {
+    const older = W(w.k + 1)
+    const d = (key, o) => (w.partial || older.w == null ? '' : dw(w[key], older[key], o))
+    return `<tr><td>${w.partial ? `이번 주 <span class="mut small">지금까지</span>` : weekLabel(w.w)}</td>
+      <td class="n">${num(w.core)}명 ${d('core')}</td>
+      <td class="n">${num(w.rooms)}번 ${d('rooms')}</td>
+      <td class="n">${num(w.riders)}명 ${d('riders')}</td>
+      <td class="n">${Number(w.off_rooms) ? `${num(w.off_rooms)}번 · ${num(w.off_riders)}명` : '<span class="mut">—</span>'}</td></tr>`
+  }).join('')
+
+  const coreRow = (x) => `<tr><td>${x.nickname ? esc(x.nickname) : '<span class="mut">닉네임 없음</span>'}${x.new ? '<span class="new">새로</span>' : ''}</td><td>${when(x.last)} <span class="mut small">${ago(x.last)}</span></td><td class="n">${num(x.rides)}번</td><td class="n">${num(x.weeks)}/${R.core_window}주</td></tr>`
+  const coreHead = `<tr><th>닉네임</th><th>최근 주행</th><th class="n">총 주행</th><th class="n">달린 주</th></tr>`
+  const list = p.core.list, shown = list.slice(0, SETTLE_SHOW), rest = list.slice(SETTLE_SHOW)
+  const lost = p.core.lost
+  const nudge = p.nudge
+  const days = (d) => Math.max(0, Math.floor((new Date(p.at) - new Date(d)) / 86400e3))
+
+  return `<section class="settle">${head}
+  <p class="lead">광고보다 먼저 볼 숫자예요. 가입한 사람이 달리고, 다시 달리고, 크루와 그룹 라이딩까지 이어지는지 봐요. 운영진·공식·시험 계정은 빼고 세요.</p>
+  <div class="say" role="status">${say.map((x) => `<div>${x}</div>`).join('')}</div>
+  <div class="kpis">
+    ${kpi(unit(num(last.core), '명'), '골수 라이더(지난주)', dw(last.core, prev.core))}
+    ${kpi(unit(num(last.rooms), '번'), '그룹 라이딩(지난주)', dw(last.rooms, prev.rooms))}
+    ${kpi(unit(num(last.riders), '명'), '그룹 라이딩 참가(지난주)', dw(last.riders, prev.riders))}
+    ${kpi(`${num(last.off_rooms)}<small>번</small> ${num(last.off_riders)}<small>명</small>`, '공식 번개(지난주)', dw(last.off_rooms, prev.off_rooms, { neutral: true }))}
+    ${kpi(unit(num(last.signups), '명'), '가입(지난주)', dw(last.signups, prev.signups))}
+    ${kpi(unit(num(nudge.n), '명'), `첫 주행 기다리는 사람(최근 ${R.nudge_days}일 가입)`, dl(nudge.n, nudge.prev, { bad: true, vs: '7일 전' }))}
+  </div>
+  <p class="mut small" style="margin:8px 0 0">이번 주(진행 중) 지금까지: 골수 ${num(cur.core)}명 · 그룹 라이딩 ${num(cur.rooms)}번 · ${num(cur.riders)}명 · 가입 ${num(cur.signups)}명</p>
+
+  <h3>가입부터 그룹 라이딩까지 <small>단계를 차례로 넘은 사람 · 가입한 사람 중 몇 %</small></h3>
+  ${ripe.length ? `${funnelRows}<p class="mut small" style="margin:4px 0 0">${ripeText}</p>` : `<p class="mut small">아직 끝까지 센 주가 없어요 — 가입한 지 ${R.second_days}일이 지나야 마지막 단계까지 셀 수 있어요.</p>`}
+
+  <h3>가입한 주별 <small>흐린 칸 = 아직 세는 중(${R.first_days}일·${R.second_days}일이 안 지나 더 오를 수 있어요)</small></h3>
+  <div class="tw"><table><tr><th>가입한 주</th>${steps.map((st) => `<th class="n">${esc(st.label)}</th>`).join('')}</tr>${cohortRows}</table></div>
+
+  <h3>주별 흐름 <small>골수 · 그룹 라이딩 · 공식 번개</small></h3>
+  <div class="tw"><table><tr><th>주</th><th class="n">골수</th><th class="n">그룹 라이딩</th><th class="n">참가</th><th class="n">공식 번개</th></tr>${trendRows}</table></div>
+
+  <h3>골수 라이더 ${num(list.length)}명 <small>지난주(${weekLabel(last.w)})까지 ${R.core_window}주 중 ${R.core_min}주 이상 달린 사람 · 최근 주행 순</small></h3>
+  ${list.length ? `<div class="tw"><table>${coreHead}${shown.map(coreRow).join('')}</table></div>
+  ${rest.length ? `<details style="margin-top:8px"><summary class="small" style="cursor:pointer">나머지 ${rest.length}명 더 보기</summary><div class="tw"><table>${coreHead}${rest.map(coreRow).join('')}</table></div></details>` : ''}` : '<p class="mut small">아직 골수 라이더가 없어요.</p>'}
+
+  <details style="margin-top:12px"${lost.length ? '' : ' hidden'}><summary class="small" style="cursor:pointer;font-weight:600">지난주에 골수에서 빠진 사람 ${num(lost.length)}명 — 다시 달리게 말 걸어 볼 사람</summary>
+  <div class="tw"><table><tr><th>닉네임</th><th>마지막 주행</th><th class="n">총 주행</th></tr>${lost.map((x) => `<tr><td>${x.nickname ? esc(x.nickname) : '<span class="mut">닉네임 없음</span>'}</td><td>${when(x.last)} <span class="mut small">${ago(x.last)}</span></td><td class="n">${num(x.rides)}번</td></tr>`).join('')}</table></div></details>
+
+  <details style="margin-top:12px"${Number(nudge.n) ? '' : ' hidden'}><summary class="small" style="cursor:pointer;font-weight:600">첫 주행 기다리는 사람 ${num(nudge.n)}명 — 최근 ${R.nudge_days}일 안에 가입했고 아직 주행 기록이 없어요</summary>
+  <div class="tw"><table><tr><th>닉네임</th><th>가입</th><th class="n">가입 뒤</th></tr>${nudge.list.map((x) => `<tr><td>${esc(x.nickname)}</td><td>${when(x.joined)}</td><td class="n">${num(days(x.joined))}일</td></tr>`).join('')}</table></div>
+  ${Number(nudge.no_nick) ? `<p class="mut small" style="margin:6px 0 0">닉네임을 정하기 전(가입 마무리 전)인 사람 ${num(nudge.no_nick)}명은 목록에 없어요.</p>` : ''}</details>
+
+  <p class="mut small" style="margin:14px 0 0;line-height:1.6"><b>이렇게 셉니다</b> · 골수 = 최근 ${R.core_window}주 중 ${R.core_min}주 이상 달린 사람 · 주행 = ${R.min_km}km 넘게 달린 정상 기록(출발 시각 기준) ·
+  그룹 라이딩 = 그 주에 그룹 방에서 나온 기록의 방 수(아무도 기록을 안 남긴 방은 빼요) · 공식 번개 = 공식 계정이 만든 방 ·
+  크루 가입 = 지금 크루에 들어 있는 사람(나간 사람은 못 세요) · 운영진·공식·시험 계정은 빼요 ·
+  하루 한 번 새벽 4시에 8주 치를 다시 셉니다(마지막: ${when(s.at)}).</p>
+</section>`
 }
 
 // ── 추이 그래프(SVG · 외부 라이브러리 없음) ──────────────────
@@ -864,6 +992,7 @@ function paint() {
   $('app').innerHTML = [
     safe('머리', () => renderHeader(newest)),
     safe('오늘 한눈에', renderToday),
+    safe('정착', renderSettle),
     safe('최근 14일 흐름', renderTrend),
     safe('서버 여유', renderHealth),
     `<div class="grid">${[
@@ -904,7 +1033,7 @@ async function load(manual) {
   }
   S = Object.fromEntries(data.map((r) => [r.section, r]))
   A = Object.fromEntries((ago24.data ?? []).map((r) => [r.section, r]))
-  newest = data.reduce((m, r) => (!['mgmt', 'infra', 'health'].includes(r.section) && (!m || r.taken_at > m) ? r.taken_at : m), null)
+  newest = data.reduce((m, r) => (!['mgmt', 'infra', 'health', 'settle'].includes(r.section) && (!m || r.taken_at > m) ? r.taken_at : m), null)
   lastRead = new Date()
   paint()
   show('app')
