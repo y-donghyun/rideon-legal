@@ -1,6 +1,6 @@
 <!doctype html>
 <html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="robots" content="noindex,nofollow,noarchive"><meta name="referrer" content="no-referrer">
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-Ruyn9eL4hleDWLM4qDcoKLOxywgKlccIfmIpw/0ZrVM=' https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.117.3/dist/umd/supabase.min.js; style-src 'unsafe-inline'; connect-src https://oefeqwkvbnhlkwjpvpwv.supabase.co; img-src data:; base-uri 'none'; form-action 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-noyUYBbsggu8NLevOtMao9KHnkUVV2Mb9KefjhSFeu4=' https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.117.3/dist/umd/supabase.min.js; style-src 'unsafe-inline'; connect-src https://oefeqwkvbnhlkwjpvpwv.supabase.co; img-src data:; base-uri 'none'; form-action 'none'">
 <title>Rideon 운영판</title>
 <style>
 :root{--bg:#f5f6f3;--fg:#15171a;--mut:#5d646c;--card:#ffffff;--line:#e2e5e0;--acc:#4f7a00;--accbg:#eef7d9;--warn:#a14a00;--warnbg:#fff1dc;--bad:#c42b2b;--badbg:#fde8e8;--bar:#8fbf1f;--bar2:#d9dfd2;--bar3:#c9d3bd}
@@ -233,7 +233,7 @@ function issues(newest) {
   }
   if (Number(tnow('push_fail24')) > 0) add('warn', `최근 24시간 보내지 못한 알림 ${num(tnow('push_fail24'))}건`)
   const mg = sec('mgmt').ok ? sec('mgmt').data : null
-  if (Number(mg?.edgeErr?.e5) > 0) add('warn', `앱 서버 기능 오류 ${num(mg.edgeErr.e5)}건(24시간)${edgeErrWhere(mg.edgeErr)}`)
+  if (Number(mg?.edgeErr?.e5) > 0 && !(mg.edgeErr.last5 && Date.now() - Date.parse(mg.edgeErr.last5) > 3600e3)) add('warn', `앱 서버 기능 오류 ${num(mg.edgeErr.e5)}건(24시간)${edgeErrWhere(mg.edgeErr)}`)
   const down = (mg?.fns ?? []).filter((f) => f.status !== 'ACTIVE')
   if (down.length) add('bad', `멈춘 앱 서버 기능 ${down.length}개`)
   const dir = sec('directions')
@@ -836,7 +836,8 @@ function healthVerdict() {
     const ee = mg.data.edgeErr
     const lastMs = ee.last5 ? Date.now() - Date.parse(ee.last5) : null
     let st = lvl(er, HEALTH_RULES.err5)
-    if (st === 'bad' && lastMs != null && lastMs > 3600e3) st = 'warn'
+    // 마지막 오류가 1시간 넘게 지났으면 끝난 일 — 판정(올릴 때인가)에 넣지 않는다(2026-10-26 사용자 「계속 떠 있네」)
+    if (lastMs != null && lastMs > 3600e3) st = 'ok'
     const act = lastMs != null && lastMs > 3600e3 ? '지난 일 — 그 뒤로 오류 없음 · 같은 일이 또 나지 않게 원인만 확인' : '오류부터 확인(증설로 안 풀릴 수 있어요)'
     signals.push({ state: st, what: '앱 서버 기능 오류 비율', why: `${er.toFixed(2)}%${edgeErrWhere(ee)}`, act })
   }
