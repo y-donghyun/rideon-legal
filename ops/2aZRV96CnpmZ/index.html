@@ -1,6 +1,6 @@
 <!doctype html>
 <html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="robots" content="noindex,nofollow,noarchive"><meta name="referrer" content="no-referrer">
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-lkfMZxBMOTrvdjzSqTVUMN4528mZg485oDcqmZTLuvE=' https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.117.3/dist/umd/supabase.min.js; style-src 'unsafe-inline'; connect-src https://oefeqwkvbnhlkwjpvpwv.supabase.co; img-src data:; base-uri 'none'; form-action 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-Ruyn9eL4hleDWLM4qDcoKLOxywgKlccIfmIpw/0ZrVM=' https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.117.3/dist/umd/supabase.min.js; style-src 'unsafe-inline'; connect-src https://oefeqwkvbnhlkwjpvpwv.supabase.co; img-src data:; base-uri 'none'; form-action 'none'">
 <title>Rideon 운영판</title>
 <style>
 :root{--bg:#f5f6f3;--fg:#15171a;--mut:#5d646c;--card:#ffffff;--line:#e2e5e0;--acc:#4f7a00;--accbg:#eef7d9;--warn:#a14a00;--warnbg:#fff1dc;--bad:#c42b2b;--badbg:#fde8e8;--bar:#8fbf1f;--bar2:#d9dfd2;--bar3:#c9d3bd}
@@ -129,6 +129,13 @@ function when(d) {
   return `${Number(p.month)}/${Number(p.day)} ${clock(d)}`
 }
 const mins = (d) => (d ? (Date.now() - new Date(d).getTime()) / 60000 : null)
+/** 오류가 어느 함수에서 · 마지막이 언제였나 — 「send-push 54건 · 마지막 2시간 전」 */
+function edgeErrWhere(ee) {
+  const top = (ee?.by ?? []).filter((x) => Number(x.e5) > 0).sort((a, b) => b.e5 - a.e5).slice(0, 2)
+  const parts = top.map((x) => `${x.slug} ${Number(x.e5).toLocaleString('ko-KR')}건`)
+  if (ee?.last5) parts.push(`마지막 ${ago(ee.last5)}`)
+  return parts.length ? ` · ${parts.join(' · ')}` : ''
+}
 function ago(d) {
   const m = mins(d)
   if (m == null) return ''
@@ -226,7 +233,7 @@ function issues(newest) {
   }
   if (Number(tnow('push_fail24')) > 0) add('warn', `최근 24시간 보내지 못한 알림 ${num(tnow('push_fail24'))}건`)
   const mg = sec('mgmt').ok ? sec('mgmt').data : null
-  if (Number(mg?.edgeErr?.e5) > 0) add('warn', `앱 서버 기능 오류 ${num(mg.edgeErr.e5)}건(24시간)`)
+  if (Number(mg?.edgeErr?.e5) > 0) add('warn', `앱 서버 기능 오류 ${num(mg.edgeErr.e5)}건(24시간)${edgeErrWhere(mg.edgeErr)}`)
   const down = (mg?.fns ?? []).filter((f) => f.status !== 'ACTIVE')
   if (down.length) add('bad', `멈춘 앱 서버 기능 ${down.length}개`)
   const dir = sec('directions')
@@ -824,7 +831,15 @@ function healthVerdict() {
   const ar = I?.api ? ratio(I.api.n, I.api.e5) : null
   if (ar != null) signals.push({ state: lvl(ar, HEALTH_RULES.err5), what: '서버 오류 비율(API)', why: `${ar.toFixed(2)}% · ${num(I.api.e5)}건`, act: '오류부터 확인(증설로 안 풀릴 수 있어요)' })
   const er = mg.ok && mg.data.edgeErr && !mg.data.edgeErr.error ? ratio(mg.data.edgeErr.calls, mg.data.edgeErr.e5) : null
-  if (er != null) signals.push({ state: lvl(er, HEALTH_RULES.err5), what: '앱 서버 기능 오류 비율', why: `${er.toFixed(2)}%`, act: '오류부터 확인(증설로 안 풀릴 수 있어요)' })
+  if (er != null) {
+    // 마지막 오류가 1시간 넘게 지났으면 「끝난 일」 — 빨강을 노랑으로 낮춘다(비율은 24시간 창이라 하루 종일 남는다)
+    const ee = mg.data.edgeErr
+    const lastMs = ee.last5 ? Date.now() - Date.parse(ee.last5) : null
+    let st = lvl(er, HEALTH_RULES.err5)
+    if (st === 'bad' && lastMs != null && lastMs > 3600e3) st = 'warn'
+    const act = lastMs != null && lastMs > 3600e3 ? '지난 일 — 그 뒤로 오류 없음 · 같은 일이 또 나지 않게 원인만 확인' : '오류부터 확인(증설로 안 풀릴 수 있어요)'
+    signals.push({ state: st, what: '앱 서버 기능 오류 비율', why: `${er.toFixed(2)}%${edgeErrWhere(ee)}`, act })
+  }
   if (I?.rtlog) {
     if (Number(I.rtlog.limit) > 0) signals.push({ state: 'bad', what: '실시간 연결 한도', why: `한도에 닿았다는 경고 ${num(I.rtlog.limit)}번(24시간)`, act: plan?.hard ? '플랜 올리기(동시 접속 200 → 500)' : 'Realtime 한도 올리기(지원 요청)' })
     else signals.push({ state: lvl(Number(I.rtlog.pool), HEALTH_RULES.rt), what: '실시간 연결 풀', why: Number(I.rtlog.pool) ? `「연결 풀을 늘려라」 경고 ${num(I.rtlog.pool)}번(24시간)` : '경고 없음', act: `Realtime 연결 풀 늘리기(설정 · 지금 ${num(I.rt?.pool)})` })
