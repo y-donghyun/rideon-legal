@@ -1,6 +1,6 @@
 <!doctype html>
 <html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="robots" content="noindex,nofollow,noarchive"><meta name="referrer" content="no-referrer">
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-noyUYBbsggu8NLevOtMao9KHnkUVV2Mb9KefjhSFeu4=' https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.117.3/dist/umd/supabase.min.js; style-src 'unsafe-inline'; connect-src https://oefeqwkvbnhlkwjpvpwv.supabase.co; img-src data:; base-uri 'none'; form-action 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-RoH++U1o6mAaPpi2rH0oy57e3ik93NZ4YUay6bt++rk=' https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.117.3/dist/umd/supabase.min.js; style-src 'unsafe-inline'; connect-src https://oefeqwkvbnhlkwjpvpwv.supabase.co; img-src data:; base-uri 'none'; form-action 'none'">
 <title>Rideon 운영판</title>
 <style>
 :root{--bg:#f5f6f3;--fg:#15171a;--mut:#5d646c;--card:#ffffff;--line:#e2e5e0;--acc:#4f7a00;--accbg:#eef7d9;--warn:#a14a00;--warnbg:#fff1dc;--bad:#c42b2b;--badbg:#fde8e8;--bar:#8fbf1f;--bar2:#d9dfd2;--bar3:#c9d3bd}
@@ -67,6 +67,16 @@ code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:12px}
 .gate input{font:inherit;font-size:15px;color:var(--fg);background:var(--bg);border:1px solid var(--line);border-radius:10px;padding:10px 12px;min-height:44px;box-sizing:border-box;width:100%}
 .gate input:focus{outline:2px solid var(--acc);outline-offset:1px}
 .err{color:var(--bad);font-size:13px;min-height:1.5em;margin:0}
+/* 스토어 리뷰 (0363) — 답 기다리는 리뷰는 노랑 테두리 · 1~2점 빨강 · 3점 노랑 */
+.rv{border:1px solid var(--line);border-radius:12px;padding:10px 12px;margin:8px 0;display:grid;gap:4px}
+.rv.wait{border-color:var(--warn);background:var(--warnbg)}
+.rv .h{display:flex;gap:4px 10px;flex-wrap:wrap;align-items:center;font-size:12px;color:var(--mut)}
+.rv .h b{color:var(--fg);font-size:13px}
+.rv p{margin:0;white-space:pre-wrap;overflow-wrap:anywhere}
+.rv .tr{color:var(--mut);font-size:12px}
+.rv .reply{border-left:3px solid var(--line);padding-left:8px;color:var(--mut);font-size:13px}
+.stars{font-weight:700;letter-spacing:1px;color:var(--acc);white-space:nowrap}
+.stars.bad{color:var(--bad)} .stars.warn{color:var(--warn)}
 [hidden]{display:none!important}
 </style>
 </head><body>
@@ -223,7 +233,7 @@ function issues(newest) {
   const add = (state, text) => out.push({ state, text })
   const m = mins(newest)
   if (m == null || m > STALE_SNAPSHOT_MIN) add('bad', `운영판 숫자가 ${m == null ? '아직' : `${Math.round(m)}분째`} 새로 안 들어와요 — 개발자에게 알려 주세요`)
-  const failed = Object.entries(S).filter(([, r]) => !r.ok).map(([k]) => k)
+  const failed = Object.entries(S).filter(([k, r]) => !r.ok && k !== 'reviews').map(([k]) => k)
   if (failed.length) add('warn', `일부 칸(${failed.length}개)의 숫자를 못 읽었어요`)
   const open = tnow('reports_open')
   if (Number(open) > 0) {
@@ -243,6 +253,7 @@ function issues(newest) {
   for (const r of freshRows()) if (r.state === 'warn' || r.state === 'bad') add(r.state, `${r.name} — ${r.why || STATE_TEXT[r.state]}`)
   const st8 = sec('settle')
   if (!st8.ok || mins(st8.at) > SETTLE_STALE_H * 60) add('warn', `정착 칸 숫자가 ${st8.at ? `${ago(st8.at)} 것이에요` : '아직 없어요'} — 하루 한 번 새벽 4시에 새로 세요`)
+  for (const x of reviewIssues()) add(x.state, x.text)
   const hv = healthVerdict()
   if (hv && hv.state !== 'ok') add(hv.state, `서버 여유 — ${hv.signals.filter((x) => x.state !== 'ok').map((x) => x.what).join(', ')}`)
   return out
@@ -257,7 +268,7 @@ function renderHeader(newest) {
   return `<header>
   <h1>Rideon 운영판 <span class="tag ${isProd ? '' : 'dev'}">${isProd ? '실서비스' : '개발 서버'}</span></h1>
   <p>숫자는 서버가 5분마다 새로 세고, 이 화면은 1분마다 다시 읽어요. 마지막으로 센 때: <b id="agoText">${newest ? `${when(newest)} · ${ago(newest)}` : '—'}</b></p>
-  <div class="bar"><button id="reloadBtn" type="button">지금 다시 읽기</button><button id="logoutBtn" type="button">로그아웃</button><a class="small" href="#settle" style="color:var(--fg)">주간 보고: 정착 칸 ↓</a><span class="mut small" id="readAt"></span></div>
+  <div class="bar"><button id="reloadBtn" type="button">지금 다시 읽기</button><button id="logoutBtn" type="button">로그아웃</button><a class="small" href="#settle" style="color:var(--fg)">주간 보고: 정착 칸 ↓</a><a class="small" href="#reviews" style="color:var(--fg)">스토어 리뷰 ↓</a><span class="mut small" id="readAt"></span></div>
 </header>${verdict}`
 }
 
@@ -569,6 +580,68 @@ function renderCrews() {
 }
 
 /** 크루 목록 — 해산 안 한 크루 전부 · 7일 대화 많은 순 · 20개 넘으면 접기 (0336). 비공개 크루도 운영자에겐 이름·크루장까지 */
+// ── 스토어 리뷰 (0363) — 맥이 1시간마다 모은다(tool/ops_reviews_collect.mjs) ─────
+// 스토어 열쇠는 서버에 없다(2026-10-27 사용자 결정) — 그래서 맥이 꺼지면 수집이 멈춘다. 3시간 넘게 안 들어오면 노랑.
+const REVIEWS_STALE_H = 3
+const REVIEWS_SHOW = 8
+const STORES = [['play', 'Google Play'], ['app_store', 'App Store']]
+const revAt = (s) => s.data?.collected_at ?? s.at
+const revWaiting = (p) => STORES.reduce((a, [k]) => a + (p?.[k]?.reviews ?? []).filter((x) => !x.reply).length, 0)
+function reviewIssues() {
+  const out = []
+  if (!S.reviews) return [{ state: 'warn', text: '스토어 리뷰가 아직 한 번도 안 모였어요 — 개발자에게 알려 주세요' }]
+  const s = sec('reviews')
+  const w = revWaiting(s.data)
+  if (w > 0) out.push({ state: 'warn', text: `답 안 단 스토어 리뷰 ${w}건` })
+  if (mins(revAt(s)) > REVIEWS_STALE_H * 60) out.push({ state: 'warn', text: `스토어 리뷰 수집이 ${ago(revAt(s))}에 멈췄어요 — 수집하는 맥이 꺼졌거나 잠들었을 수 있어요` })
+  const bad = STORES.filter(([k]) => s.data?.[k]?.error).map(([, n]) => n)
+  if (bad.length) out.push({ state: 'warn', text: `스토어 리뷰를 못 읽었어요(${bad.join(' · ')}) — 개발자에게 알려 주세요` })
+  return out
+}
+function reviewCard(r) {
+  const n = Math.max(0, Math.min(5, Number(r.star) || 0))
+  const tone = n <= 2 ? 'bad' : n === 3 ? 'warn' : ''
+  const where = [r.version ? `버전 ${r.version}` : '', r.lang ?? r.territory ?? ''].filter(Boolean).join(' · ')
+  return `<div class="rv${r.reply ? '' : ' wait'}">
+    <div class="h"><span class="stars ${tone}" aria-label="별 ${n}개">${'★'.repeat(n)}${'☆'.repeat(5 - n)}</span><b>${esc(r.author ?? '이름 없음')}</b><span>${when(r.at)}</span>${where ? `<span>${esc(where)}</span>` : ''}${r.reply ? pill('ok', '답함') : pill('warn', '답 기다림')}</div>
+    ${r.title ? `<p><b>${esc(r.title)}</b></p>` : ''}${r.text ? `<p>${esc(r.text)}</p>` : ''}
+    ${r.text_ko ? `<p class="tr">번역: ${esc(r.text_ko)}</p>` : ''}
+    ${r.reply ? `<p class="reply">우리 답글 · ${when(r.reply.at)}${r.reply.state && r.reply.state !== 'PUBLISHED' ? ' (게시 대기)' : ''}<br>${esc(r.reply.text ?? '')}</p>` : ''}
+  </div>`
+}
+function renderReviews() {
+  const head = '<h2 id="reviews">스토어 리뷰 <small>글 있는 리뷰만 · 맥에서 1시간마다 수집</small></h2>'
+  if (!S.reviews) return `<section>${head}<p class="lead">아직 한 번도 안 모였어요 — 수집하는 맥을 확인해 주세요(개발자에게 알려 주세요).</p></section>`
+  const s = sec('reviews'), p = s.data ?? {}
+  const at = revAt(s), stale = mins(at) > REVIEWS_STALE_H * 60
+  const w = revWaiting(p)
+  const all = STORES.flatMap(([k]) => p[k]?.reviews ?? [])
+  const low = all.filter((x) => Number(x.star) <= 3).length
+  const store = ([k, name]) => {
+    const st = p[k] ?? { reviews: [] }
+    const list = st.reviews ?? []
+    const wait = list.filter((x) => !x.reply).length
+    // 답 기다리는 것 먼저, 그다음 최근 순
+    const sorted = [...list].sort((a, b) => (!a.reply === !b.reply ? String(b.at ?? '').localeCompare(String(a.at ?? '')) : a.reply ? 1 : -1))
+    const first = sorted.slice(0, REVIEWS_SHOW), rest = sorted.slice(REVIEWS_SHOW)
+    return `<div style="min-width:0"><h3>${esc(name)} <small>${num(list.length)}건${wait ? ` · 답 기다림 ${num(wait)}건` : ''}</small></h3>
+      ${st.error ? `<p style="margin:0 0 8px">${pill('warn', '주의')} 이번에 못 읽었어요 — 앞서 모은 리뷰만 보여요${st.fetched_at ? ` (마지막으로 읽은 때 ${ago(st.fetched_at)})` : ''}<br><span class="mut small">${esc(st.error)}</span></p>` : ''}
+      ${list.length ? first.map(reviewCard).join('') : '<p class="mut small">글 있는 리뷰가 아직 없어요.</p>'}
+      ${rest.length ? `<details><summary class="small" style="cursor:pointer">나머지 ${rest.length}건 더 보기</summary>${rest.map(reviewCard).join('')}</details>` : ''}
+    </div>`
+  }
+  return `<section>${head}
+  <p class="lead">별점만 남긴 리뷰는 스토어가 주지 않아 빠져요. Google Play는 최근 7일 것만 주기 때문에 그 전 것은 앞서 모아 둔 것이에요. 답글은 각 스토어 콘솔에서 달아요.</p>
+  <p style="margin:0 0 12px">${pill(stale ? 'warn' : 'ok', stale ? '주의' : '정상')} 마지막 수집 <b>${at ? `${when(at)} · ${ago(at)}` : '—'}</b>${stale ? ` — ${REVIEWS_STALE_H}시간 넘게 새로 안 모였어요. 수집하는 맥이 꺼졌거나 잠들었을 수 있어요` : ''}</p>
+  <div class="kpis">
+    ${kpi(unit(num(w), '건'), '답 기다림')}
+    ${kpi(unit(num(low), '건'), '3점 이하')}
+    ${STORES.map(([k, n]) => kpi(unit(num((p[k]?.reviews ?? []).length), '건'), n)).join('')}
+  </div>
+  <div class="charts">${STORES.map(store).join('')}</div>
+</section>`
+}
+
 function renderCrewList() {
   const s = sec('crews')
   const head = '<h2>크루 목록 <small>해산하지 않은 크루 · 최근 7일 대화가 많은 순</small></h2>'
@@ -1022,6 +1095,7 @@ function paint() {
       safe('크루', renderCrews), safe('신고 · 차단', renderReports), safe('앱 알림', renderPush), safe('서버 상태', renderServer),
       safe('네이버 길찾기', renderDirections), safe('저장 공간', renderCapacity),
     ].join('')}</div>`,
+    safe('스토어 리뷰', renderReviews),
     safe('크루 목록', renderCrewList),
     safe('외부 자료', renderFresh),
     safe('개발자용', () => renderDev(newest)),
@@ -1055,7 +1129,7 @@ async function load(manual) {
   }
   S = Object.fromEntries(data.map((r) => [r.section, r]))
   A = Object.fromEntries((ago24.data ?? []).map((r) => [r.section, r]))
-  newest = data.reduce((m, r) => (!['mgmt', 'infra', 'health', 'settle'].includes(r.section) && (!m || r.taken_at > m) ? r.taken_at : m), null)
+  newest = data.reduce((m, r) => (!['mgmt', 'infra', 'health', 'settle', 'reviews'].includes(r.section) && (!m || r.taken_at > m) ? r.taken_at : m), null)
   lastRead = new Date()
   paint()
   show('app')
