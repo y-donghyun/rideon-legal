@@ -1,6 +1,6 @@
 <!doctype html>
 <html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="robots" content="noindex,nofollow,noarchive"><meta name="referrer" content="no-referrer">
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-8qFtAr0k7nFDuIRvrr5i9ijsKDnpA1DlzssTs92mhPw=' https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.117.3/dist/umd/supabase.min.js; style-src 'unsafe-inline'; connect-src https://oefeqwkvbnhlkwjpvpwv.supabase.co; img-src data:; base-uri 'none'; form-action 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-0GWeHK9SpFKsnWIzyLfWiSukNdNDb5aoNe5p7qaw5v8=' https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.117.3/dist/umd/supabase.min.js; style-src 'unsafe-inline'; connect-src https://oefeqwkvbnhlkwjpvpwv.supabase.co; img-src data:; base-uri 'none'; form-action 'none'">
 <title>Rideon 운영판</title>
 <style>
 :root{--bg:#f5f6f3;--fg:#15171a;--mut:#5d646c;--card:#ffffff;--line:#e2e5e0;--acc:#4f7a00;--accbg:#eef7d9;--warn:#a14a00;--warnbg:#fff1dc;--bad:#c42b2b;--badbg:#fde8e8;--bar:#8fbf1f;--bar2:#d9dfd2;--bar3:#c9d3bd}
@@ -490,6 +490,18 @@ function renderTrend() {
   </div></section>`
 }
 
+/** 안드로이드·아이폰 비중 — 최근 30일 앱을 쓴(알림 받는) 기기 기준 · push 칸 devices.d30 */
+function platformShare() {
+  const ps = sec('push')
+  if (!ps.ok || !Array.isArray(ps.data.devices)) return ''
+  const n = (pf) => Number(ps.data.devices.find((d) => d.platform === pf)?.d30 ?? 0)
+  const an = n('android'), io = n('ios'), tot = an + io
+  if (!tot) return ''
+  const ap = Math.round((an / tot) * 100), ip = 100 - ap
+  return `<div style="margin:12px 0 0"><p class="small" style="margin:0 0 6px"><b>안드로이드 ${num(an)}대 (${ap}%)</b> · <b>아이폰 ${num(io)}대 (${ip}%)</b> <span class="mut">— 최근 30일 앱을 쓴 기기 기준</span></p>
+  <div class="track" style="display:flex;height:10px"><div style="width:${ap}%;background:var(--bar)"></div><div style="width:${ip}%;background:var(--bar3)"></div></div></div>`
+}
+
 function renderUsers() {
   const s = sec('users'), a = sec('users', A)
   const head = '<h2>사용자</h2>'
@@ -523,6 +535,7 @@ function renderUsers() {
     ${kpi(unit(num(k.active7), '명'), '7일 안에 앱 연 사람', dl(k.active7, pk.active7))}
     ${kpi(unit(num(k.active30m), '명'), '30분 안에 앱 연 사람', dl(k.active30m, pk.active30m))}
   </div>
+  ${platformShare()}
   <p class="small" style="margin:10px 0 0"><b>지금 주행 중:</b> ${ridingList} <span class="mut">— 「활동 상태」를 끈 사람은 안 보여요.</span></p>
   <h3>최근 가입한 15명 <small>첫 주행까지 간 사람 ${recent.filter((r) => Number(r.rides) > 0).length}명</small></h3>
   <div class="tw"><table><tr><th>닉네임</th><th>가입</th><th>폰 · 앱 버전</th><th class="n">주행</th></tr>
