@@ -1,6 +1,6 @@
 <!doctype html>
 <html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="robots" content="noindex,nofollow,noarchive"><meta name="referrer" content="no-referrer">
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-kfLuJLiLVlMW5sJyDXt3An04sL3aCuYo8IzDh3rvhm8=' https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.117.3/dist/umd/supabase.min.js; style-src 'unsafe-inline'; connect-src https://oefeqwkvbnhlkwjpvpwv.supabase.co; img-src data:; base-uri 'none'; form-action 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-U3eWkMi+gH36mapqgvsOSJybv+qpE7nZl6uTxQzbEvE=' https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.117.3/dist/umd/supabase.min.js; style-src 'unsafe-inline'; connect-src https://oefeqwkvbnhlkwjpvpwv.supabase.co; img-src data:; base-uri 'none'; form-action 'none'">
 <title>Rideon 운영판</title>
 <style>
 :root{--bg:#f5f6f3;--fg:#15171a;--mut:#5d646c;--card:#ffffff;--line:#e2e5e0;--acc:#4f7a00;--accbg:#eef7d9;--warn:#a14a00;--warnbg:#fff1dc;--bad:#c42b2b;--badbg:#fde8e8;--bar:#8fbf1f;--bar2:#d9dfd2;--bar3:#c9d3bd}
@@ -121,7 +121,7 @@ code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:12px}
 // 서비스 키·관리 토큰·비밀번호는 이 파일에 없다. 운영진 대부분이 개발자가 아니다 — 화면엔 쉬운 말만,
 // 기술 상세는 맨 아래 「개발자용 자세히」 한 곳에.
 const CFG = {"target":"prod","url":"https://oefeqwkvbnhlkwjpvpwv.supabase.co","anon":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9lZmVxd2t2Ym5obGt3anB2cHd2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODc1NjQ5MDMsImV4cCI6MjEwMzE0MDkwM30.6FsToBVliUCz-bPfGdEpEKEk7MzoeM2nDbdHesd3KfQ"}
-const EXPIRIES = [{"name":"공공데이터포털 · 무인교통단속카메라 API","expires":"2028-10-13","how":"data.go.kr 마이페이지 › 활용신청 현황 › 활용기간 연장 신청"},{"name":"공공데이터포털 · 기상청 단기예보 API","expires":"2028-11-01","how":"data.go.kr 마이페이지 › 활용신청 현황 › 활용기간 연장 신청"},{"name":"애플 로그인 client secret (Supabase)","expires":"2027-02-19","how":"node tool/apple_client_secret.mjs 로 새로 만들어 Supabase Auth › Apple 에 넣기 (DEV·PROD 둘 다)"},{"name":"도메인 rideon-app.com (Cloudflare)","expires":"2027-09-17","how":"Cloudflare Registrar 자동 갱신 켜져 있는지 · 결제 카드 확인"},{"name":"Apple Developer Program 멤버십","expires":null,"how":"developer.apple.com › Membership 에서 만료일 확인 후 여기 적기 — 끊기면 TestFlight·앱 배포가 멈춘다"},{"name":"iOS 배포 인증서","expires":null,"how":"developer.apple.com › Certificates 에서 만료일 확인 후 여기 적기"},{"name":"Supabase 관리 토큰 (맥 env/*.pat)","expires":null,"how":"supabase.com › Account › Access Tokens 에서 만료일 확인 후 여기 적기 — 끊기면 운영판·일일 보고가 멈춘다"}] // tool/ops_web/expiries.json — 만료일 있는 API·키·계정 (빌드 때 넣는다)
+const EXPIRIES = [{"name":"공공데이터포털 · 무인교통단속카메라 API","expires":"2028-10-13","how":"data.go.kr 마이페이지 › 활용신청 현황 › 활용기간 연장 신청"},{"name":"공공데이터포털 · 기상청 단기예보 API","expires":"2028-11-01","how":"data.go.kr 마이페이지 › 활용신청 현황 › 활용기간 연장 신청"},{"name":"애플 로그인 client secret (Supabase)","expires":"2027-02-19","how":"node tool/apple_client_secret.mjs 로 새로 만들어 Supabase Auth › Apple 에 넣기 (DEV·PROD 둘 다)"},{"name":"도메인 rideon-app.com (Cloudflare)","expires":"2027-09-17","how":"Cloudflare Registrar 자동 갱신 켜져 있는지 · 결제 카드 확인"}] // tool/ops_web/expiries.json — 만료일 있는 API·키·계정 (빌드 때 넣는다)
 const LOGIN_IDS = { admin: 'ops-admin@rideon-app.com' }
 const RELOAD_MS = 60000
 const STALE_SNAPSHOT_MIN = 15
