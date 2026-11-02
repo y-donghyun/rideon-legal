@@ -1,13 +1,13 @@
 <!doctype html>
 <html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="robots" content="noindex,nofollow,noarchive"><meta name="referrer" content="no-referrer">
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-U3eWkMi+gH36mapqgvsOSJybv+qpE7nZl6uTxQzbEvE=' https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.117.3/dist/umd/supabase.min.js; style-src 'unsafe-inline'; connect-src https://oefeqwkvbnhlkwjpvpwv.supabase.co; img-src data:; base-uri 'none'; form-action 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-mZGV1yHpKnzWJknZ+SMnKD9fZXohYxuaQruJSR7qQx4=' https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.117.3/dist/umd/supabase.min.js https://cdn.jsdelivr.net/npm/uplot@1.6.32/dist/uPlot.iife.min.js; style-src 'unsafe-inline'; connect-src https://oefeqwkvbnhlkwjpvpwv.supabase.co; img-src data:; base-uri 'none'; form-action 'none'">
 <title>Rideon 운영판</title>
 <style>
-:root{--bg:#f5f6f3;--fg:#15171a;--mut:#5d646c;--card:#ffffff;--line:#e2e5e0;--acc:#4f7a00;--accbg:#eef7d9;--warn:#a14a00;--warnbg:#fff1dc;--bad:#c42b2b;--badbg:#fde8e8;--bar:#8fbf1f;--bar2:#d9dfd2;--bar3:#c9d3bd}
-@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0d0e10;--fg:#eef0f2;--mut:#a0a7af;--card:#17191c;--line:#2a2d31;--acc:#c9f53d;--accbg:#22300a;--warn:#fbbf24;--warnbg:#2e2106;--bad:#ff7070;--badbg:#3a1414;--bar:#c9f53d;--bar2:#33373c;--bar3:#4a4f55;color-scheme:dark}}
-:root[data-theme="dark"]{--bg:#0d0e10;--fg:#eef0f2;--mut:#a0a7af;--card:#17191c;--line:#2a2d31;--acc:#c9f53d;--accbg:#22300a;--warn:#fbbf24;--warnbg:#2e2106;--bad:#ff7070;--badbg:#3a1414;--bar:#c9f53d;--bar2:#33373c;--bar3:#4a4f55;color-scheme:dark}
+:root{--bg:#f5f6f3;--fg:#15171a;--mut:#5d646c;--card:#ffffff;--line:#e2e5e0;--acc:#4f7a00;--accbg:#eef7d9;--warn:#a14a00;--warnbg:#fff1dc;--bad:#c42b2b;--badbg:#fde8e8;--bar:#8fbf1f;--bar2:#d9dfd2;--bar3:#c9d3bd;--s1:#2a78d6;--s2:#eb6834;--s3:#1baf7a;--s4:#eda100}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0d0e10;--fg:#eef0f2;--mut:#a0a7af;--card:#17191c;--line:#2a2d31;--acc:#c9f53d;--accbg:#22300a;--warn:#fbbf24;--warnbg:#2e2106;--bad:#ff7070;--badbg:#3a1414;--bar:#c9f53d;--bar2:#33373c;--bar3:#4a4f55;--s1:#3987e5;--s2:#d95926;--s3:#199e70;--s4:#c98500;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#0d0e10;--fg:#eef0f2;--mut:#a0a7af;--card:#17191c;--line:#2a2d31;--acc:#c9f53d;--accbg:#22300a;--warn:#fbbf24;--warnbg:#2e2106;--bad:#ff7070;--badbg:#3a1414;--bar:#c9f53d;--bar2:#33373c;--bar3:#4a4f55;--s1:#3987e5;--s2:#d95926;--s3:#199e70;--s4:#c98500;color-scheme:dark}
 body{background:var(--bg);color:var(--fg);font-family:-apple-system,"Apple SD Gothic Neo","Noto Sans KR",sans-serif;margin:0;padding-block:20px;padding-inline:16px;font-size:14px;line-height:1.5}
-.wrap{max-width:1080px;margin:0 auto;display:grid;gap:16px}
+.wrap{max-width:1240px;margin:0 auto;display:grid;gap:16px}
 header h1{font-size:24px;margin:0;letter-spacing:-.02em;display:flex;gap:10px;align-items:center;flex-wrap:wrap}
 header p{margin:4px 0 0;color:var(--mut);font-size:13px}
 header .bar{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-top:10px}
@@ -89,6 +89,58 @@ code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:12px}
 .rv .sub{color:var(--mut);font-size:12px;overflow-wrap:anywhere}
 .crsum{margin:0 0 6px;font-size:13px;font-variant-numeric:tabular-nums}
 .crsum b{font-size:15px}
+/* ── 그래프 (0378) — uPlot 1.6.32 (MIT · Leon Sorokin). 아래 .uplot~.u-cursor-pt 는 uPlot.min.css 에서 그래프에 쓰는 것만 옮겼다
+   계열 색 --s1~--s4 는 dataviz 기본 팔레트 앞 네 칸(밝은·어두운 화면 따로 고른 값 · 색맹 대비 검사 통과). 밝은 화면의 --s3·--s4 는
+   바탕 대비가 3:1 아래라 값은 늘 글자(읽기 줄)와 「표로 보기」로도 나온다 */
+.uplot,.uplot *,.uplot *::before,.uplot *::after{box-sizing:border-box}
+.uplot{font-family:inherit;line-height:1.5;width:min-content}
+.u-wrap{position:relative;user-select:none}
+.u-over,.u-under{position:absolute}
+.u-under{overflow:hidden}
+.uplot canvas{display:block;position:relative;width:100%;height:100%}
+.u-axis{position:absolute}
+.u-select{background:rgba(0,0,0,.07);position:absolute;pointer-events:none}
+.u-cursor-x,.u-cursor-y{position:absolute;left:0;top:0;pointer-events:none;will-change:transform}
+.u-hz .u-cursor-x{height:100%;border-right:1px solid var(--mut)}
+.u-hz .u-cursor-y{width:100%;border-bottom:1px solid var(--mut)}
+.u-cursor-pt{position:absolute;top:0;left:0;border-radius:50%;border:0 solid;pointer-events:none;will-change:transform;background-clip:padding-box!important}
+.u-axis.u-off,.u-select.u-off,.u-cursor-x.u-off,.u-cursor-y.u-off,.u-cursor-pt.u-off{display:none}
+.band{border-radius:14px;padding:12px 16px;background:var(--bad);color:var(--bg);display:grid;gap:4px;font-weight:600}
+.band b{font-size:17px}
+.band ul{margin:0;padding:0;list-style:none;display:grid;gap:2px;font-weight:500}
+.seg{display:flex;gap:6px;flex-wrap:wrap;align-items:center}
+.seg button[aria-pressed="true"]{background:var(--fg);border-color:var(--fg);color:var(--bg);font-weight:600}
+.seg .mut{margin-left:4px}
+.stack{display:grid;gap:16px;min-width:0}
+.dash{display:grid;gap:16px;min-width:0;transition:opacity .2s}
+.dash.loading{opacity:.55}
+.cgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:16px}
+.cgrid.small{grid-template-columns:repeat(auto-fit,minmax(240px,1fr))}
+.cc{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:14px 16px 10px;min-width:0;display:grid;gap:6px}
+.cc h3{margin:0;font-size:14px}
+.cc .big{font-size:28px;font-weight:700;letter-spacing:-.02em;line-height:1.15}
+.cc .big small{font-size:14px;font-weight:500;color:var(--mut);margin-left:3px}
+.cc .sub{color:var(--mut);font-size:12px}
+.cc .ro{display:flex;flex-wrap:wrap;gap:2px 14px;font-size:12px;color:var(--mut);min-height:20px;font-variant-numeric:tabular-nums}
+.cc .ro b{color:var(--fg);font-size:13px}
+.cc .ro .key{display:inline-block;width:14px;height:0;border-top:2px solid;vertical-align:middle;margin-right:4px}
+.cc .ro .key.dash{border-top-style:dashed}
+.cc .plot{min-height:150px;touch-action:pan-y}
+.cc .empty{color:var(--mut);font-size:13px;padding:40px 0;text-align:center}
+.cc details summary{cursor:pointer;font-size:12px;color:var(--mut)}
+.cc details .tw{max-height:260px;overflow:auto}
+.cc.wide{grid-column:1/-1}
+.tiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px}
+.tile b{display:block;font-size:34px;font-weight:700;letter-spacing:-.03em;line-height:1.1}
+.tile b small{font-size:15px;font-weight:500;color:var(--mut);margin-left:2px}
+.tile .l{color:var(--mut);font-size:13px;display:block;margin-top:2px}
+.fn{display:grid;gap:10px}
+.fn .r{display:grid;grid-template-columns:minmax(120px,190px) 1fr 92px;gap:10px;align-items:center;font-size:13px}
+.fn .r .bar{height:18px;background:var(--bar2);border-radius:4px;overflow:hidden}
+.fn .r .bar i{display:block;height:100%;background:var(--s1);border-radius:0 4px 4px 0}
+.fn .r .v{text-align:right;font-variant-numeric:tabular-nums}
+.fn .r .v b{font-size:15px}
+@media (max-width:560px){.fn .r{grid-template-columns:1fr 70px}.fn .r .bar{grid-column:1/-1;grid-row:2}.tile b{font-size:28px}.cc .big{font-size:24px}}
 [hidden]{display:none!important}
 </style>
 </head><body>
@@ -115,6 +167,7 @@ code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:12px}
 <div class="wrap" id="app" hidden></div>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.117.3/dist/umd/supabase.min.js" integrity="sha384-dl/4LkSyQ4uEucc48NM6VDZLAjLLq9yMzZ5JLXumBq7Ld33XBof73hseOqPhO89+" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/uplot@1.6.32/dist/uPlot.iife.min.js" integrity="sha384-Gx3t0zdBAuQOuvvmaLZj7HKEiSgWTAs+VdtNY7wt19QDPTDQjFIwAuXDj0zeN00c" crossorigin="anonymous"></script>
 <script>
 'use strict'
 // 빌드가 채운다(tool/ops_web_build.mjs --target dev|prod). anon 키는 앱에도 박혀 있는 공개 키다.
@@ -287,25 +340,6 @@ function renderHeader(newest) {
 </header>${verdict}`
 }
 
-function renderToday() {
-  const u = sec('users'), ua = sec('users', A), mg = sec('mgmt'), mga = sec('mgmt', A)
-  const rideNow = u.ok ? ridingNow(u.data).length : null
-  const ridePrev = ua.ok ? ridingNow(ua.data, new Date(ua.at).getTime()).length : null
-  const e24 = errors24(mg.ok ? mg.data : null, tnow('push_fail24'))
-  const e24p = mga.ok ? errors24(mga.data, tprev('push_fail24')) : null
-  const t = T()
-  return `<section class="today"><h2>오늘 한눈에 <small>▲▼ = 어제 이맘때보다</small></h2>
-  <p class="lead">오늘(한국 시간 0시부터) 지금까지의 숫자예요.</p>
-  <div class="kpis">
-    ${kpi(unit(num(tnow('users_today')), '명'), '오늘 가입', dl(tnow('users_today'), tprev('users_today')))}
-    ${kpi(unit(num(tnow('rides_today')), '건'), '오늘 주행', dl(tnow('rides_today'), tprev('rides_today')))}
-    ${kpi(unit(num(rideNow), '명'), '지금 주행 중', dl(rideNow, ridePrev))}
-    ${kpi(unit(num(t?.dau_today), '명'), '오늘 앱 연 사람', isNum(t?.dau_yesterday) && Number(t.dau_yesterday) > 0 ? `<span class="mut small">어제 하루 ${num(t.dau_yesterday)}명</span>` : '')}
-    ${kpi(unit(num(tnow('reports_open')), '건'), '처리 안 된 신고', dl(tnow('reports_open'), tprev('reports_open'), { bad: true }))}
-    ${kpi(unit(num(e24), '건'), '24시간 오류(서버 기능·알림)', dl(e24, e24p, { bad: true }))}
-  </div></section>`
-}
-
 // ── 정착 (0356) — 대표가 매주 월요일 이 칸 하나만 본다 ─────────
 // 숫자는 서버가 하루 한 번(한국 04:03) 8주 치를 다시 센다. 기준값(골수 4주 중 2주 · 첫 주행 7일 …)은 서버
 // _ops_settle_rules() 한 곳에 있고, 아래 설명 글도 그 값(payload.rules)을 읽는다 — 여기서 숫자를 따로 적지 않는다.
@@ -443,53 +477,6 @@ function renderSettle() {
   하루 한 번 새벽 4시에 8주 치를 다시 셉니다(마지막: ${when(s.at)}).</p>
   </details>
 </section>`
-}
-
-// ── 추이 그래프(SVG · 외부 라이브러리 없음) ──────────────────
-function miniChart(days, key, label, u) {
-  const vals = days.map((d) => (d[key] == null ? null : Number(d[key])))
-  const known = vals.filter((v) => v != null)
-  const max = Math.max(1, ...known)
-  const W = 280, H = 96, top = 14, bottom = 16, gap = 3
-  const bw = (W - gap * (days.length - 1)) / days.length
-  const bars = vals.map((v, i) => {
-    const x = i * (bw + gap)
-    if (v == null) return `<rect x="${x.toFixed(1)}" y="${H - bottom - 2}" width="${bw.toFixed(1)}" height="2" fill="var(--bar2)"></rect>`
-    const h = Math.max(v > 0 ? 2 : 0, ((H - top - bottom) * v) / max)
-    const today = i === days.length - 1
-    return `<rect x="${x.toFixed(1)}" y="${(H - bottom - h).toFixed(1)}" width="${bw.toFixed(1)}" height="${h.toFixed(1)}" rx="2" fill="${today ? 'var(--bar3)' : 'var(--bar)'}"><title>${esc(days[i].d.slice(5).replace('-', '/'))} ${num(v)}${u}${today ? ' (오늘 진행 중)' : ''}</title></rect>`
-  }).join('')
-  const md = (s) => `${Number(s.slice(5, 7))}/${Number(s.slice(8, 10))}`
-  const sum = known.reduce((a, b) => a + b, 0)
-  const todayV = vals[vals.length - 1]
-  const missing = vals.some((v) => v == null)
-  return `<div class="chart" role="img" aria-label="${esc(label)} 최근 14일">
-    <div class="t"><b>${esc(label)}</b><span class="mut">14일 ${num(sum, key === 'km' ? 1 : 0)}${u} · 오늘 ${num(todayV, key === 'km' ? 1 : 0)}${u}</span></div>
-    <svg viewBox="0 0 ${W} ${H}" preserveAspectRatio="none">
-      <line x1="0" y1="${H - bottom}" x2="${W}" y2="${H - bottom}" stroke="var(--line)"></line>
-      <text x="0" y="10" font-size="10" fill="var(--mut)">최고 ${num(max)}${u}</text>
-      ${bars}
-      <text x="0" y="${H - 3}" font-size="10" fill="var(--mut)">${md(days[0].d)}</text>
-      <text x="${W / 2}" y="${H - 3}" font-size="10" fill="var(--mut)" text-anchor="middle">${md(days[Math.floor(days.length / 2)].d)}</text>
-      <text x="${W}" y="${H - 3}" font-size="10" fill="var(--mut)" text-anchor="end">오늘</text>
-    </svg>
-    ${missing ? '<div class="mut small">회색 줄 = 그날은 아직 세지 않았어요(운영판을 연 날부터 셉니다)</div>' : ''}
-  </div>`
-}
-function renderTrend() {
-  const s = sec('trend')
-  const head = '<h2>최근 14일 흐름 <small>하루 단위 · 한국 시간 · 오늘 막대(옅은 색)는 진행 중</small></h2>'
-  if (!s.ok) return `<section>${head}${failBox(s)}</section>`
-  const days = s.data.days
-  return `<section>${head}<p class="lead">늘고 있는지 줄고 있는지만 보면 돼요. 막대에 손가락이나 마우스를 대면 그날 숫자가 나와요.</p>
-  <div class="charts">
-    ${miniChart(days, 'signups', '가입', '명')}
-    ${miniChart(days, 'rides', '주행 기록', '건')}
-    ${miniChart(days, 'riders', '달린 사람', '명')}
-    ${miniChart(days, 'km', '달린 거리', 'km')}
-    ${miniChart(days, 'posts', '새 글', '건')}
-    ${miniChart(days, 'dau', '앱 연 사람', '명')}
-  </div></section>`
 }
 
 /** 안드로이드·아이폰 비중 — 최근 30일 앱을 쓴(알림 받는) 기기 기준 · push 칸 devices.d30 */
@@ -1223,6 +1210,337 @@ function renderDev(newest) {
   </div></details>`
 }
 
+// ── 그래프 (0378 · uPlot) ────────────────────────────────────
+// 숫자는 ops_series(기간) 한 번에 온다(연결 · 시간별 오류 · 일별). 5분마다·기간을 바꿀 때만 다시 읽는다 —
+// 1분마다 도는 다시 그리기(paint)는 그래프를 건드리지 않는다(#dash 는 따로 그린다).
+const RANGES = [['24h', '24시간'], ['7d', '7일'], ['30d', '30일'], ['90d', '90일']]
+const SERIES_MS = 5 * 60000
+const DANGER = 0.8          // DB 연결 위험선 = 최대의 80%
+const DB_ERR_SURGE = { min: 20, x: 3 }   // 최근 한 시간 DB 오류가 20건 넘고 그 전 24시간 보통(가운데 값)의 3배면 「급증」
+let G = null, gErr = null, gRange = '24h', gAt = 0, gLoading = false
+let charts = []
+try { const r = localStorage.getItem('rideon-ops-range'); if (RANGES.some(([k]) => k === r)) gRange = r } catch { /* 저장 못 해도 기본 24시간 */ }
+
+const cssVar = (v) => getComputedStyle(document.documentElement).getPropertyValue(v).trim()
+const FONT = '12px -apple-system,"Apple SD Gothic Neo","Noto Sans KR",sans-serif'
+const WEEK = ['일', '월', '화', '수', '목', '금', '토']
+const md2 = (s) => { const p = kst(s * 1000); return `${Number(p.month)}/${Number(p.day)}` }
+/** 읽기 줄의 시각 — 5분 점 「11/2 14:35」 · 시간 「11/2 14시」 · 날 「11/2 (월)」 */
+function tLabel(s, step) {
+  const p = kst(s * 1000)
+  if (step === 'day') return `${md2(s)} (${WEEK[new Date(Date.parse(`${p.year}-${p.month}-${p.day}T00:00:00Z`)).getUTCDay()]})`
+  if (step === 'hour') return `${md2(s)} ${Number(p.hour)}시`
+  return `${md2(s)} ${p.hour}:${p.minute}`
+}
+function niceMax(v) {
+  if (!(v > 0)) return 5
+  const raw = v * 1.15, pow = 10 ** Math.floor(Math.log10(raw)), f = raw / pow
+  return (f <= 1 ? 1 : f <= 2 ? 2 : f <= 2.5 ? 2.5 : f <= 5 ? 5 : 10) * pow
+}
+/** 한 시간 간격으로 빈 시각을 채운다 — 줄이 없던 시각은 null(그때는 안 셌다 · 선이 끊긴다). 0 과 다르다 */
+function hourGrid(H, keys, sinceSec) {
+  const at = new Map(H.t.map((t, i) => [t, i]))
+  const start = Math.ceil(sinceSec / 3600) * 3600, end = Math.floor(Date.now() / 3600e3) * 3600
+  const out = { t: [] }
+  for (const k of keys) out[k] = []
+  for (let t = start; t <= end; t += 3600) {
+    const i = at.get(t)
+    out.t.push(t)
+    for (const k of keys) out[k].push(i == null ? null : H[k][i])
+  }
+  return out
+}
+const lastVal = (a) => { for (let i = a.length - 1; i >= 0; i--) if (a[i] != null) return a[i]; return null }
+const sumOf = (a) => a.reduce((x, v) => x + (v == null ? 0 : Number(v)), 0)
+const maxOf = (a) => a.reduce((x, v) => (v == null ? x : Math.max(x, Number(v))), 0)
+const hasAny = (a) => a.some((v) => v != null)
+
+// ── 빨간 띠 — 위험선 넘음 · 연결 거절 · DB 오류 급증 · 수집 멈춤 ─────────
+function alarms(newestMain) {
+  const out = []
+  const d = sec('db')
+  if (d.ok) {
+    const p = d.data, pct = Number(p.max) ? Number(p.conns) / Number(p.max) : 0
+    if (pct >= DANGER) out.push(`DB 연결이 위험선을 넘었어요 — 지금 ${num(p.conns)} / 최대 ${num(p.max)} (${Math.round(pct * 100)}%)`)
+    if (Number(p.refused2h) > 0) out.push(`최근 2시간 DB가 연결을 ${num(p.refused2h)}번 거절했어요 — 연결이 꽉 찼었어요(앱이 잠깐 안 됐을 수 있어요)`)
+  }
+  const dm = d.at ? mins(d.at) : null
+  if (dm == null || dm > STALE_SNAPSHOT_MIN) out.push(`DB 연결 수 모으기가 ${dm == null ? '아직 안 돌았어요' : `${Math.round(dm)}분째 멈췄어요`}`)
+  const m = mins(newestMain)
+  if (m == null || m > STALE_SNAPSHOT_MIN) out.push(`운영판 숫자 모으기가 ${m == null ? '아직 안 돌았어요' : `${Math.round(m)}분째 멈췄어요`}`)
+  const sg = G && dbErrSurge(G.hourly)
+  if (sg) out.push(`DB 오류가 늘었어요 — 최근 한 시간 ${num(sg.v)}건 (평소 시간당 ${num(sg.base)}건의 ${sg.x}배)`)
+  return out
+}
+function dbErrSurge(H) {
+  if (!H || !H.t.length) return null
+  const now = Math.floor(Date.now() / 3600e3) * 3600
+  const idx = H.t.indexOf(now) >= 0 ? H.t.indexOf(now) : H.t.indexOf(now - 3600)
+  if (idx < 0) return null
+  const v = Number(H.db_err[idx] ?? 0)
+  const prev = H.t.map((t, i) => [t, H.db_err[i]]).filter(([t, x]) => x != null && t < H.t[idx] && t >= H.t[idx] - 24 * 3600).map(([, x]) => Number(x)).sort((a, b) => a - b)
+  if (prev.length < 6) return null
+  const base = Math.max(1, prev[Math.floor(prev.length / 2)])
+  return v >= DB_ERR_SURGE.min && v >= DB_ERR_SURGE.x * base ? { v, base, x: Math.round(v / base) } : null
+}
+function renderBand(newestMain) {
+  const list = alarms(newestMain)
+  if (!list.length) return ''
+  return `<div class="band" role="alert"><b>지금 확인하세요 — ${list.length}개</b><ul>${list.map((x) => `<li>● ${esc(x)}</li>`).join('')}</ul></div>`
+}
+
+// ── 오늘 한눈에(큰 숫자 넷 + 작은 줄) ───────────────────────
+function renderToday() {
+  const u = sec('users'), ua = sec('users', A), mg = sec('mgmt'), mga = sec('mgmt', A)
+  const rideNow = u.ok ? ridingNow(u.data).length : null
+  const ridePrev = ua.ok ? ridingNow(ua.data, new Date(ua.at).getTime()).length : null
+  const e24 = errors24(mg.ok ? mg.data : null, tnow('push_fail24'))
+  const e24p = mga.ok ? errors24(mga.data, tprev('push_fail24')) : null
+  const t = T()
+  const tile = (v, u2, label, delta) => `<div class="tile"><b>${v}<small>${u2}</small></b><span class="l">${esc(label)} ${delta}</span></div>`
+  return `<section class="today"><h2>오늘 한눈에 <small>한국 시간 0시부터 지금까지 · ▲▼ = 어제 이맘때보다</small></h2>
+  <div class="tiles" style="margin-top:8px">
+    ${tile(num(t?.dau_today), '명', '오늘 앱 연 사람', dl(t?.dau_today, G?.dau_ago))}
+    ${tile(num(tnow('rides_today')), '건', '오늘 주행', dl(tnow('rides_today'), tprev('rides_today')))}
+    ${tile(num(tnow('users_today')), '명', '오늘 가입', dl(tnow('users_today'), tprev('users_today')))}
+    ${tile(num(tnow('km_today'), 1), 'km', '오늘 달린 거리', dl(tnow('km_today'), tprev('km_today'), { digits: 1 }))}
+  </div>
+  <div class="kpis" style="margin-top:14px">
+    ${kpi(unit(num(rideNow), '명'), '지금 주행 중', dl(rideNow, ridePrev))}
+    ${kpi(unit(num(tnow('riders_today')), '명'), '오늘 달린 사람', dl(tnow('riders_today'), tprev('riders_today')))}
+    ${kpi(unit(num(tnow('reports_open')), '건'), '처리 안 된 신고', dl(tnow('reports_open'), tprev('reports_open'), { bad: true }))}
+    ${kpi(unit(num(e24), '건'), '24시간 오류(서버 기능·알림)', dl(e24, e24p, { bad: true }))}
+  </div></section>`
+}
+
+// ── 그래프 카드 ─────────────────────────────────────────────
+/** 카드 한 장의 틀 — 그래프는 mountChart 가 .plot 에 그린다 */
+function card(id, title, big, sub, { wide = false } = {}) {
+  return `<div class="cc${wide ? ' wide' : ''}" id="${id}"><h3>${esc(title)}</h3>
+    <div class="big">${big}</div>${sub ? `<div class="sub">${sub}</div>` : ''}
+    <div class="ro" aria-live="polite"></div><div class="plot"></div>
+    <details class="tv"><summary>표로 보기</summary><div class="tw"></div></details></div>`
+}
+
+/** cfg: { x: 초[], step: '5m'|'hour'|'day', series: [{ label, data, color: '--s1', dash?, fmt? }], floor?: y 최소 위 끝 } */
+function mountChart(id, cfg) {
+  const el = document.getElementById(id)
+  if (!el) return
+  const holder = el.querySelector('.plot'), ro = el.querySelector('.ro')
+  if (!cfg.x.length || !cfg.series.some((s) => hasAny(s.data))) {
+    holder.innerHTML = `<div class="empty">${esc(cfg.empty ?? '아직 모은 숫자가 없어요')}</div>`
+    ro.textContent = ''
+    el.querySelector('.tv').hidden = true
+    return
+  }
+  const fmt = (s, v) => (v == null ? '—' : (s.fmt ? s.fmt(v) : num(v)))
+  const readout = (i) => {
+    const idx = i == null ? cfg.x.length - 1 : i
+    ro.replaceChildren()
+    const when2 = document.createElement('span')
+    when2.textContent = i == null ? `마지막 ${tLabel(cfg.x[idx], cfg.step)}` : tLabel(cfg.x[idx], cfg.step)
+    ro.append(when2)
+    for (const s of cfg.series) {
+      const row = document.createElement('span')
+      const key = document.createElement('i'); key.className = `key${s.dash ? ' dash' : ''}`; key.style.borderTopColor = cssVar(s.color)
+      const b = document.createElement('b'); b.textContent = fmt(s, s.data[idx])
+      row.append(key, b, document.createTextNode(` ${s.label}`))
+      ro.append(row)
+    }
+  }
+  const ink = cssVar('--mut'), grid = cssVar('--line')
+  const small = window.innerWidth < 560
+  const xfmt = (v) => {
+    if (cfg.step === 'day') return md2(v)
+    const span = cfg.x[cfg.x.length - 1] - cfg.x[0]
+    const p = kst(v * 1000)
+    if (span <= 2.1 * 86400) return Number(p.hour) === 0 ? md2(v) : `${Number(p.hour)}시`
+    return md2(v)
+  }
+  const top = Math.max(cfg.floor ?? 0, ...cfg.series.map((s) => maxOf(s.data)))
+  const opts = {
+    width: Math.max(220, holder.clientWidth),
+    height: small ? 150 : 180,
+    tzDate: (ts) => uPlot.tzDate(new Date(ts * 1e3), 'Asia/Seoul'),
+    legend: { show: false },
+    cursor: { drag: { x: false, y: false, setScale: false }, y: false, points: { size: 8, width: 2 } },
+    scales: { x: { time: true }, y: { range: () => [0, niceMax(top)] } },
+    axes: [
+      { stroke: ink, font: FONT, size: 30, grid: { show: false }, ticks: { stroke: grid, size: 4, width: 1 }, space: small ? 48 : 64, values: (u, splits) => splits.map(xfmt) },
+      { stroke: ink, font: FONT, grid: { stroke: grid, width: 1 }, ticks: { show: false }, size: 40, space: 32, values: (u, splits) => splits.map((v) => (Number.isInteger(v) ? num(v) : num(v, 1))) },
+    ],
+    series: [{}, ...cfg.series.map((s) => ({
+      label: s.label, stroke: cssVar(s.color), width: s.width ?? 2, dash: s.dash, spanGaps: !!s.spanGaps,
+      points: { show: cfg.step === 'day' && cfg.x.length <= 31, size: 6, fill: cssVar('--card') },
+    }))],
+    hooks: { setCursor: [(u) => readout(u.cursor.idx)] },
+  }
+  holder.replaceChildren()
+  const u = new uPlot(opts, [cfg.x, ...cfg.series.map((s) => s.data)], holder)
+  // 손가락 — uPlot 은 마우스만 따라온다. 대거나 끌면 그 자리 값을 읽고, 떼면 마지막 값으로
+  const over = u.over
+  const at = (e) => { const r = over.getBoundingClientRect(), t = e.touches[0]; if (t) u.setCursor({ left: t.clientX - r.left, top: t.clientY - r.top }) }
+  over.addEventListener('touchstart', at, { passive: true })
+  over.addEventListener('touchmove', at, { passive: true })
+  over.addEventListener('touchend', () => { u.setCursor({ left: -10, top: -10 }); readout(null) }, { passive: true })
+  over.addEventListener('mouseleave', () => readout(null))
+  readout(null)
+  // 표로 보기 — 펼칠 때 채운다(최근 것부터 최대 120줄)
+  const tv = el.querySelector('.tv')
+  tv.hidden = false
+  tv.ontoggle = () => {
+    if (!tv.open) return
+    const rows = []
+    for (let i = cfg.x.length - 1; i >= 0 && rows.length < 120; i--) {
+      if (!cfg.series.some((s) => s.data[i] != null)) continue
+      rows.push(`<tr><td>${esc(tLabel(cfg.x[i], cfg.step))}</td>${cfg.series.map((s) => `<td class="n">${esc(fmt(s, s.data[i]))}</td>`).join('')}</tr>`)
+    }
+    tv.querySelector('.tw').innerHTML = `<table><tr><th>때</th>${cfg.series.map((s) => `<th class="n">${esc(s.label)}</th>`).join('')}</tr>${rows.join('')}</table>`
+  }
+  charts.push({ u, holder })
+}
+
+function destroyCharts() { for (const c of charts) c.u.destroy(); charts = [] }
+
+function renderDash() {
+  const box = $('dash')
+  if (!box) return
+  const rangeLabel = RANGES.find(([k]) => k === gRange)[1]
+  const bar = `<div class="seg" role="group" aria-label="기간">${RANGES.map(([k, l]) => `<button type="button" data-range="${k}" aria-pressed="${k === gRange}">${l}</button>`).join('')}<span class="mut small" id="gAt">${G ? `그래프 숫자 ${clock(G.at)} 기준 · 5분마다 다시 읽어요` : gErr ? '' : '읽는 중…'}</span></div>`
+  if (!G) {
+    destroyCharts()
+    box.innerHTML = `${bar}${gErr ? `<p class="st warn" style="display:block;padding:8px 12px;border-radius:10px">그래프 숫자를 못 읽었어요 — 잠시 뒤 다시 읽어요.</p>` : ''}`
+    bindRange()
+    return
+  }
+  const C = G.conns, D = G.daily
+  const sinceSec = Date.parse(G.since) / 1000
+  const H = hourGrid(G.hourly, ['db_err', 'conn_refused', 'fn_calls', 'fn_5xx', 'fn_429', 'api_req', 'api_5xx', 'api_429', 'push_fail'], sinceSec)
+  const step = G.grain === '5m' ? '5m' : 'hour'
+  // DB 연결
+  const dbNow = sec('db')
+  const cNow = dbNow.ok ? Number(dbNow.data.conns) : lastVal(C.used)
+  const cMax = dbNow.ok ? Number(dbNow.data.max) : lastVal(C.max)
+  const cPct = cMax ? Math.round((cNow / cMax) * 100) : null
+  const danger = C.max.map((m) => (m == null ? null : Math.round(m * DANGER * 10) / 10))
+  const peak = maxOf(C.used), peakI = C.used.findIndex((v) => v === peak)
+  const dangerNow = cMax ? Math.round(cMax * DANGER) : null
+  // 일별
+  const dayX = D.d.map((d) => Date.parse(`${d}T00:00:00+09:00`) / 1000)
+  const dayCard = (id, key, title, u2, digits = 0) => {
+    const vals = D[key]
+    const today = vals[vals.length - 1], tot = sumOf(vals)
+    return card(id, title, `${num(today, digits)}<small>${u2} 오늘</small>`, `${D.d.length}일 합 ${num(tot, digits)}${u2} · 하루 많을 때 ${num(maxOf(vals), digits)}${u2}`)
+  }
+  // 오류
+  const errNow = (k) => { const i = H.t.length - 1; return i >= 0 ? H[k][i] : null }
+  const fnSum = sumOf(H.fn_5xx) + sumOf(H.fn_429) + sumOf(H.api_5xx) + sumOf(H.api_429)
+  const logsAt = dbNow.ok ? dbNow.data.logs_at : null
+  const logsNote = hasAny(H.db_err) ? '' : ' · 서버 로그를 아직 못 읽었어요(관리 열쇠 확인)'
+
+  box.innerHTML = `${bar}
+  <div class="cgrid">
+    ${card('cConn', 'DB 연결 수 — 지금 몇 개를 쓰고 있나', `${num(cNow)}<small>지금 / 최대 ${num(cMax)}${cPct != null ? ` · ${cPct}%` : ''}</small>`,
+      `빨간 점선 = 위험선(최대의 ${Math.round(DANGER * 100)}%${dangerNow ? ` · ${num(dangerNow)}개` : ''}) — 넘으면 앱이 느려지거나 연결이 거절돼요 · ${rangeLabel} 가장 많을 때 ${num(peak)}${peakI >= 0 ? ` (${tLabel(C.t[peakI], step)})` : ''} · 큰 숫자는 지금, 선은 ${step === '5m' ? '5분마다 잰 값' : '한 시간 중 가장 많을 때'}`, { wide: true })}
+  </div>
+  <h2 style="margin:4px 0 0">하루하루 흐름 <small>${D.d.length}일 · 한국 시간 · 마지막 점은 오늘(진행 중)</small></h2>
+  <div class="cgrid small">
+    ${dayCard('cDau', 'dau', '앱 연 사람', '명')}
+    ${dayCard('cRides', 'rides', '주행 기록', '건')}
+    ${dayCard('cSign', 'signups', '가입', '명')}
+    ${dayCard('cRiders', 'riders', '달린 사람', '명')}
+    ${dayCard('cKm', 'km', '달린 거리', 'km', 1)}
+    ${dayCard('cPosts', 'posts', '새 글', '건')}
+  </div>
+  <div class="cgrid">
+    ${renderFunnelBars()}
+  </div>
+  <h2 style="margin:4px 0 0">오류 <small>한 시간마다 · ${rangeLabel}${logsAt ? ` · 서버 로그 ${when(logsAt)} 것까지` : ''}${logsNote}</small></h2>
+  <div class="cgrid">
+    ${card('cDbErr', 'DB 오류', `${num(errNow('db_err'))}<small>건 · 이번 시간</small>`, `${rangeLabel} 합 ${num(sumOf(H.db_err))}건 · 연결 거절 ${num(sumOf(H.conn_refused))}번 — 평소에도 권한 거절 같은 정상 오류가 섞여요. 갑자기 솟으면 봐요`)}
+    ${card('cFn', '서버 기능 · API 오류', `${num((errNow('fn_5xx') ?? 0) + (errNow('api_5xx') ?? 0))}<small>건 · 이번 시간 5xx</small>`, `${rangeLabel} 합 ${num(fnSum)}건 — 5xx = 서버가 실패 · 429 = 너무 많이 불러 한도에 걸림`)}
+    ${card('cPush', '보내지 못한 알림', `${num(errNow('push_fail'))}<small>건 · 이번 시간</small>`, `${rangeLabel} 합 ${num(sumOf(H.push_fail))}건`)}
+  </div>`
+  bindRange()
+  destroyCharts()
+  const cStep = step
+  mountChart('cConn', { x: C.t, step: cStep, floor: cMax ?? 0, series: [
+    { label: '쓰는 중', data: C.used, color: '--s1', spanGaps: true },
+    { label: '그중 일하는 중', data: C.active, color: '--s3', spanGaps: true, width: 1.5 },
+    { label: '최대', data: C.max, color: '--mut', width: 1.5, spanGaps: true },
+    { label: '위험선', data: danger, color: '--bad', dash: [6, 4], width: 1.5, spanGaps: true },
+  ] })
+  const day = (id, key, digits = 0) => mountChart(id, { x: dayX, step: 'day', series: [{ label: { dau: '명', rides: '건', signups: '명', riders: '명', km: 'km', posts: '건' }[key], data: D[key], color: '--s1', fmt: (v) => num(v, digits) }], empty: key === 'dau' ? '앱 연 사람은 운영판을 연 날(2026-10-23)부터 세요' : undefined })
+  day('cDau', 'dau'); day('cRides', 'rides'); day('cSign', 'signups'); day('cRiders', 'riders'); day('cKm', 'km', 1); day('cPosts', 'posts')
+  const logsEmpty = '서버 로그 숫자를 아직 못 읽었어요 — 새 수집이 돈 뒤부터 쌓여요'
+  mountChart('cDbErr', { x: H.t, step: 'hour', empty: logsEmpty, series: [
+    { label: 'DB 오류', data: H.db_err, color: '--s1' },
+    { label: '연결 거절(꽉 참)', data: H.conn_refused, color: '--s2' },
+  ] })
+  mountChart('cFn', { x: H.t, step: 'hour', empty: logsEmpty, series: [
+    { label: '서버 기능 5xx', data: H.fn_5xx, color: '--s1' },
+    { label: '서버 기능 429', data: H.fn_429, color: '--s2' },
+    { label: 'API 5xx', data: H.api_5xx, color: '--s3' },
+    { label: 'API 429', data: H.api_429, color: '--s4' },
+  ] })
+  mountChart('cPush', { x: H.t, step: 'hour', series: [{ label: '건', data: H.push_fail, color: '--s1' }] })
+}
+
+/** 정착 깔때기 — 최근 30일 가입한 사람 중 몇 %가 다음 걸음까지 왔나(funnel 칸 · 5분마다) */
+function renderFunnelBars() {
+  const s = sec('funnel')
+  if (!s.ok) return `<div class="cc wide"><h3>새로 온 사람이 자리 잡나</h3>${failBox(s)}</div>`
+  const c = s.data.c30
+  const rows = [
+    ['가입', c.n, c.n],
+    ['첫 주행 기록', c.ride, c.n],
+    ['다음 날 이후 다시 옴', c.back1, c.n],
+    [`7일 뒤에도 다시 옴`, c.back7, c.d7n, `가입한 지 7일 넘은 ${num(c.d7n)}명 중`],
+  ]
+  return `<div class="cc wide"><h3>새로 온 사람이 자리 잡나 <small class="mut" style="font-weight:400">최근 30일 가입 ${num(c.n)}명</small></h3>
+  <div class="sub">막대 = 가입한 사람 중 몇 %가 여기까지 왔나. 짧게 떨어지는 칸이 손볼 곳이에요.</div>
+  <div class="fn" style="margin-top:6px">${rows.map(([label, n, base, note]) => {
+    const p = pctOf(Number(n), Number(base))
+    return `<div class="r" title="${esc(label)} ${num(n)}명${note ? ` (${esc(note)})` : ''}"><span>${esc(label)}${note ? `<div class="mut small">${esc(note)}</div>` : ''}</span>
+    <div class="bar"><i style="width:${p == null ? 0 : Math.max(p, Number(n) > 0 ? 1 : 0)}%"></i></div>
+    <span class="v"><b>${p == null ? '—' : `${p}%`}</b> <span class="mut">${num(n)}명</span></span></div>`
+  }).join('')}</div></div>`
+}
+
+function bindRange() {
+  for (const b of document.querySelectorAll('#dash [data-range]')) {
+    b.onclick = () => {
+      if (b.dataset.range === gRange) return
+      gRange = b.dataset.range
+      try { localStorage.setItem('rideon-ops-range', gRange) } catch { /* 이 기기에선 기억 못 함 */ }
+      loadSeries(true)
+    }
+  }
+}
+
+async function loadSeries(force) {
+  if (gLoading || (!force && Date.now() - gAt < SERIES_MS && G?.range === gRange)) return
+  gLoading = true
+  $('dash')?.classList.add('loading')
+  try {
+    const { data, error } = await sb.rpc('ops_series', { _range: gRange })
+    if (error) { gErr = error; if (!G) renderDash(); return }
+    G = data; gErr = null; gAt = Date.now()
+    renderDash()
+    paintTop()
+  } finally {
+    gLoading = false
+    $('dash')?.classList.remove('loading')
+  }
+}
+
+let resizeT = null
+window.addEventListener('resize', () => {
+  clearTimeout(resizeT)
+  resizeT = setTimeout(() => { if (G && !$('app').hidden) renderDash() }, 200)
+})
+try { matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => { if (G) renderDash() }) } catch { /* 옛 브라우저 */ }
+
 /** 칸 하나의 그리기가 터져도 나머지는 그린다 */
 function safe(name, fn) {
   try { return fn() } catch (e) { return `<section><h2>${esc(name)}</h2><p class="st warn" style="display:block;padding:8px 12px;border-radius:10px">이 칸을 그리지 못했어요 — 개발자에게 알려 주세요.</p></section>` }
@@ -1234,12 +1552,27 @@ function show(which) { for (const id of ['login', 'denied', 'app']) $(id).hidden
 
 let newest = null, lastRead = null, timer = null
 
-function paint() {
-  $('app').innerHTML = [
+/** 맨 위(빨간 띠 · 머리 · 오늘 한눈에) — 1분마다 · 그래프 숫자가 새로 오면 한 번 더(접속 ▲▼ · DB 오류 급증) */
+function paintTop() {
+  const top = $('top')
+  if (!top) return
+  top.innerHTML = [
+    safe('빨간 띠', () => renderBand(newest)),
     safe('머리', () => renderHeader(newest)),
     safe('오늘 한눈에', renderToday),
+  ].join('')
+  $('reloadBtn').onclick = () => load(true)
+  $('logoutBtn').onclick = logout
+  tick()
+}
+
+function paint() {
+  // 그래프(#dash)는 여기서 다시 그리지 않는다 — 1분마다 부수고 새로 만들면 손가락으로 읽던 자리가 날아간다
+  if (!$('top')) $('app').innerHTML = '<div id="top" class="stack"></div><div id="dash" class="dash"></div><div id="rest" class="stack"></div>'
+  paintTop()
+  $('rest').innerHTML = [
+    '<h2 style="margin:8px 0 0">자세한 숫자 <small>표 · 목록 · 서버 여유 · 외부 자료</small></h2>',
     safe('정착', renderSettle),
-    safe('최근 14일 흐름', renderTrend),
     safe('서버 여유', renderHealth),
     `<div class="grid">${[
       safe('사용자', renderUsers), safe('새로 온 사람', renderFunnel), safe('주행 · 글', renderActivity), safe('그룹 라이딩', renderGroups),
@@ -1253,9 +1586,7 @@ function paint() {
     safe('외부 자료', renderFresh),
     safe('개발자용', () => renderDev(newest)),
   ].join('')
-  $('reloadBtn').onclick = () => load(true)
-  $('logoutBtn').onclick = logout
-  tick()
+  if (!$('dash').childElementCount) renderDash()
 }
 
 function tick() {
@@ -1282,10 +1613,11 @@ async function load(manual) {
   }
   S = Object.fromEntries(data.map((r) => [r.section, r]))
   A = Object.fromEntries((ago24.data ?? []).map((r) => [r.section, r]))
-  newest = data.reduce((m, r) => (!['mgmt', 'infra', 'health', 'settle', 'reviews', 'crashes'].includes(r.section) && (!m || r.taken_at > m) ? r.taken_at : m), null)
+  newest = data.reduce((m, r) => (!['mgmt', 'infra', 'health', 'settle', 'reviews', 'crashes', 'db'].includes(r.section) && (!m || r.taken_at > m) ? r.taken_at : m), null)
   lastRead = new Date()
   paint()
   show('app')
+  loadSeries(manual === true)
 }
 
 async function gate() {
@@ -1302,7 +1634,8 @@ async function gate() {
 async function logout() {
   clearInterval(timer)
   await sb.auth.signOut()
-  S = {}; A = {}; newest = null
+  S = {}; A = {}; newest = null; G = null; gAt = 0
+  destroyCharts()
   $('app').innerHTML = ''
   $('loginPw').value = ''
   show('login')
