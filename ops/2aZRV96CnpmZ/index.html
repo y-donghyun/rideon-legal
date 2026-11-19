@@ -1,6 +1,6 @@
 <!doctype html>
 <html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="robots" content="noindex,nofollow,noarchive"><meta name="referrer" content="no-referrer">
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-mZGV1yHpKnzWJknZ+SMnKD9fZXohYxuaQruJSR7qQx4=' https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.117.3/dist/umd/supabase.min.js https://cdn.jsdelivr.net/npm/uplot@1.6.32/dist/uPlot.iife.min.js; style-src 'unsafe-inline'; connect-src https://oefeqwkvbnhlkwjpvpwv.supabase.co; img-src data:; base-uri 'none'; form-action 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-D+iEuNzKpDBYQZUdPtFXM2HBd7B2SnRDWQ+gNwcjnPA=' https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.117.3/dist/umd/supabase.min.js https://cdn.jsdelivr.net/npm/uplot@1.6.32/dist/uPlot.iife.min.js; style-src 'unsafe-inline'; connect-src https://oefeqwkvbnhlkwjpvpwv.supabase.co; img-src data:; base-uri 'none'; form-action 'none'">
 <title>Rideon 운영판</title>
 <style>
 :root{--bg:#f5f6f3;--fg:#15171a;--mut:#5d646c;--card:#ffffff;--line:#e2e5e0;--acc:#4f7a00;--accbg:#eef7d9;--warn:#a14a00;--warnbg:#fff1dc;--bad:#c42b2b;--badbg:#fde8e8;--bar:#8fbf1f;--bar2:#d9dfd2;--bar3:#c9d3bd;--s1:#2a78d6;--s2:#eb6834;--s3:#1baf7a;--s4:#eda100}
@@ -24,7 +24,7 @@ h3{font-size:14px;margin:16px 0 8px}
 .d{font-size:12px;font-weight:600;font-variant-numeric:tabular-nums;white-space:nowrap}
 .d.good{color:var(--acc)} .d.bad{color:var(--bad)} .d.eq{color:var(--mut);font-weight:400}
 .today,.settle{border:2px solid var(--acc)}
-.settle .say{margin:0 0 12px;padding:12px 14px;border-radius:12px;background:var(--accbg);display:grid;gap:4px;font-size:14px}
+.settle .say,.roads .say{margin:0 0 12px;padding:12px 14px;border-radius:12px;background:var(--accbg);display:grid;gap:4px;font-size:14px}
 .settle td.mutd{color:var(--mut)}
 .settle .sum{font-size:15px;margin:0 0 10px;line-height:1.6}
 .settle .flow{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:8px}
@@ -174,7 +174,7 @@ code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:12px}
 // 서비스 키·관리 토큰·비밀번호는 이 파일에 없다. 운영진 대부분이 개발자가 아니다 — 화면엔 쉬운 말만,
 // 기술 상세는 맨 아래 「개발자용 자세히」 한 곳에.
 const CFG = {"target":"prod","url":"https://oefeqwkvbnhlkwjpvpwv.supabase.co","anon":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9lZmVxd2t2Ym5obGt3anB2cHd2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODc1NjQ5MDMsImV4cCI6MjEwMzE0MDkwM30.6FsToBVliUCz-bPfGdEpEKEk7MzoeM2nDbdHesd3KfQ"}
-const EXPIRIES = [{"name":"공공데이터포털 · 무인교통단속카메라 API","expires":"2028-10-13","how":"data.go.kr 마이페이지 › 활용신청 현황 › 활용기간 연장 신청"},{"name":"공공데이터포털 · 기상청 단기예보 API","expires":"2028-11-01","how":"data.go.kr 마이페이지 › 활용신청 현황 › 활용기간 연장 신청"},{"name":"애플 로그인 client secret (Supabase)","expires":"2027-02-19","how":"node tool/apple_client_secret.mjs 로 새로 만들어 Supabase Auth › Apple 에 넣기 (DEV·PROD 둘 다)"},{"name":"도메인 rideon-app.com (Cloudflare)","expires":"2027-09-17","how":"Cloudflare Registrar 자동 갱신 켜져 있는지 · 결제 카드 확인"}] // tool/ops_web/expiries.json — 만료일 있는 API·키·계정 (빌드 때 넣는다)
+const EXPIRIES = [{"name":"공공데이터포털 · 무인교통단속카메라 API","expires":"2028-10-13","how":"data.go.kr 마이페이지 › 활용신청 현황 › 활용기간 연장 신청"},{"name":"공공데이터포털 · 기상청 단기예보 API","expires":"2028-11-01","how":"data.go.kr 마이페이지 › 활용신청 현황 › 활용기간 연장 신청"},{"name":"애플 로그인 client secret (Supabase)","expires":"2027-02-19","how":"node tool/apple_client_secret.mjs 로 새로 만들어 Supabase Auth › Apple 에 넣기 (DEV·PROD 둘 다)"},{"name":"도메인 rideon-app.com (Cloudflare)","expires":"2027-09-17","how":"Cloudflare Registrar 자동 갱신 켜져 있는지 · 결제 카드 확인"},{"name":"iOS 배포 인증서 · CarPlay·RideActivity App Store 프로필","expires":"2027-11-17","how":"이 맥 키(~/.appstoreconnect/dist-20261117/)로 ASC API 인증서·프로필 재발급 → ios/ExportOptions-AppStore.plist·tool/release_check.mjs 이름 갱신 (ios-setup-runbook.md)"}] // tool/ops_web/expiries.json — 만료일 있는 API·키·계정 (빌드 때 넣는다)
 const LOGIN_IDS = { admin: 'ops-admin@rideon-app.com' }
 const RELOAD_MS = 60000
 const STALE_SNAPSHOT_MIN = 15
@@ -299,7 +299,7 @@ function issues(newest) {
   const add = (state, text) => out.push({ state, text })
   const m = mins(newest)
   if (m == null || m > STALE_SNAPSHOT_MIN) add('bad', `운영판 숫자가 ${m == null ? '아직' : `${Math.round(m)}분째`} 새로 안 들어와요 — 개발자에게 알려 주세요`)
-  const failed = Object.entries(S).filter(([k, r]) => !r.ok && k !== 'reviews' && k !== 'crashes').map(([k]) => k)
+  const failed = Object.entries(S).filter(([k, r]) => !r.ok && k !== 'reviews' && k !== 'crashes' && k !== 'camera').map(([k]) => k)
   if (failed.length) add('warn', `일부 칸(${failed.length}개)의 숫자를 못 읽었어요`)
   const open = tnow('reports_open')
   if (Number(open) > 0) {
@@ -321,6 +321,8 @@ function issues(newest) {
   if (!st8.ok || mins(st8.at) > SETTLE_STALE_H * 60) add('warn', `정착 칸 숫자가 ${st8.at ? `${ago(st8.at)} 것이에요` : '아직 없어요'} — 하루 한 번 새벽 4시에 새로 세요`)
   for (const x of crashIssues()) add(x.state, x.text)
   for (const x of reviewIssues()) add(x.state, x.text)
+  for (const x of cameraIssues()) add(x.state, x.text)
+  for (const x of roadsIssues()) add(x.state, x.text)
   for (const x of expiryRows()) if (x.state !== 'ok') add(x.state, `${x.name} — ${x.left}`)
   const hv = healthVerdict()
   if (hv && hv.state !== 'ok') add(hv.state, `서버 여유 — ${hv.signals.filter((x) => x.state !== 'ok').map((x) => x.what).join(', ')}`)
@@ -336,7 +338,7 @@ function renderHeader(newest) {
   return `<header>
   <h1>Rideon 운영판 <span class="tag ${isProd ? '' : 'dev'}">${isProd ? '실서비스' : '개발 서버'}</span></h1>
   <p>숫자는 서버가 5분마다 새로 세고, 이 화면은 1분마다 다시 읽어요. 마지막으로 센 때: <b id="agoText">${newest ? `${when(newest)} · ${ago(newest)}` : '—'}</b></p>
-  <div class="bar"><button id="reloadBtn" type="button">지금 다시 읽기</button><button id="logoutBtn" type="button">로그아웃</button><a class="small" href="#settle" style="color:var(--fg)">주간 보고: 정착 칸 ↓</a><a class="small" href="#crashes" style="color:var(--fg)">앱 크래시 ↓</a><a class="small" href="#reviews" style="color:var(--fg)">스토어 리뷰 ↓</a><span class="mut small" id="readAt"></span></div>
+  <div class="bar"><button id="reloadBtn" type="button">지금 다시 읽기</button><button id="logoutBtn" type="button">로그아웃</button><a class="small" href="#settle" style="color:var(--fg)">주간 보고: 정착 칸 ↓</a><a class="small" href="#crashes" style="color:var(--fg)">앱 크래시 ↓</a><a class="small" href="#reviews" style="color:var(--fg)">스토어 리뷰 ↓</a><a class="small" href="#camera" style="color:var(--fg)">카메라 정확도 ↓</a><span class="mut small" id="readAt"></span></div>
 </header>${verdict}`
 }
 
@@ -777,6 +779,158 @@ function renderCrashes() {
   <p class="lead">크래시는 앱이 죽은 것(치명·응답 없음)이에요. 비치명은 앱은 살아 있는 오류·진단이라 따로 세요. 크래시 없는 사용자는 그 기간 앱을 연 사람 중 한 번도 앱이 안 죽은 사람의 비율이에요. 새 버전 크래시는 몇 시간 늦게 잡혀요.</p>
   <p style="margin:0 0 12px">${pill(stale ? 'warn' : 'ok', stale ? '주의' : '정상')} 마지막 수집 <b>${at ? `${when(at)} · ${ago(at)}` : '—'}</b>${stale ? ` — ${CRASHES_STALE_H}시간 넘게 새로 안 모였어요. 수집하는 맥이 꺼졌거나 잠들었을 수 있어요` : ''}</p>
   <div class="charts">${PLATS.map(plat).join('')}</div>
+</section>`
+}
+
+// ── 단속 카메라 정확도 주간 (0385) — 맥이 매일 올린다(tool/speed_camera_accuracy/weekly.py · 끝난 주는 월요일에 새로 잰다) ─────
+// 실서비스 주행을 앱 판정기 그대로 재생해 「틀린 알림·놓친 카메라」를 센다. 사람이 고칠 것은 없다 — 보정은 배치가 재생으로
+// 좋아질 때만 스스로 채택한다. 이 칸은 「나빠지지 않는지」 보는 곳이다. 30시간 넘게 안 올라오면 노랑(맥이 꺼졌다).
+const CAMERA_STALE_H = 30
+const CAMERA_CLS = [['fast', '직선·고속'], ['city', '시내·일반'], ['curvy', '굽은 길·산길']]
+const KNOB_NAME = { lateral_m: ['앞길 옆 거리', 'm'], heading_deg: ['방향 허용', '°'], fixes: ['연속 측위', '번'], max_junctions: ['남은 교차로', '개 이하'], miss_drop: ['벗어나면 내림', '측위'] }
+const pctTxt = (v) => (isNum(v) ? `${num(v, 1)}%` : '—')
+function cameraIssues() {
+  if (!S.camera) return []
+  const s = sec('camera')
+  if (mins(s.at) > CAMERA_STALE_H * 60) return [{ state: 'warn', text: `카메라 정확도 배치가 ${ago(s.at)}에 멈췄어요 — 배치를 돌리는 맥이 꺼졌거나 잠들었을 수 있어요` }]
+  return []
+}
+/** 주별 틀림%·놓침% 선 두 줄 */
+function cameraTrend(weeks) {
+  const pts = (weeks ?? []).filter((w) => isNum(w.bad_pct) || isNum(w.miss_pct))
+  if (pts.length < 2) return '<p class="mut small">주가 둘 이상 쌓이면 추이 선이 나와요.</p>'
+  const W = 560, H = 140, top = 14, bottom = 18, left = 4
+  const max = Math.max(5, ...pts.flatMap((w) => [Number(w.bad_pct) || 0, Number(w.miss_pct) || 0])) * 1.15
+  const x = (i) => left + ((W - left * 2) * i) / (pts.length - 1)
+  const y = (v) => H - bottom - ((H - top - bottom) * v) / max
+  const line = (k, color) => {
+    const d = pts.map((w, i) => (isNum(w[k]) ? `${x(i).toFixed(1)},${y(Number(w[k])).toFixed(1)}` : null)).filter(Boolean).join(' ')
+    const dots = pts.map((w, i) => (isNum(w[k]) ? `<circle cx="${x(i).toFixed(1)}" cy="${y(Number(w[k])).toFixed(1)}" r="3" fill="${color}"><title>${esc(w.week)} ${num(w[k], 2)}%</title></circle>` : '')).join('')
+    return `<polyline points="${d}" fill="none" stroke="${color}" stroke-width="2"></polyline>${dots}`
+  }
+  return `<div class="chart" role="img" aria-label="주별 틀림·놓침 비율">
+    <div class="t"><b>주별 추이</b><span class="mut"><span style="color:var(--s2)">●</span> 틀림% <span style="color:var(--s1)">●</span> 놓침% · 점 위에 손을 올리면 숫자</span></div>
+    <svg viewBox="0 0 ${W} ${H}" preserveAspectRatio="none">
+      <line x1="0" y1="${H - bottom}" x2="${W}" y2="${H - bottom}" stroke="var(--line)"></line>
+      <text x="0" y="10" font-size="10" fill="var(--mut)">${num(max, 0)}%</text>
+      ${line('bad_pct', 'var(--s2)')}${line('miss_pct', 'var(--s1)')}
+      <text x="0" y="${H - 4}" font-size="10" fill="var(--mut)">${esc(pts[0].week)}</text>
+      <text x="${W}" y="${H - 4}" font-size="10" fill="var(--mut)" text-anchor="end">${esc(pts[pts.length - 1].week)}</text>
+    </svg></div>`
+}
+function renderCamera() {
+  const head = '<h2 id="camera">단속 카메라 정확도 주간 <small>실서비스 주행을 앱 판정기로 다시 돌려 봄 · 안심주행(길안내 없음) · 맥에서 매일</small></h2>'
+  if (!S.camera) return `<section>${head}<p class="lead">아직 한 번도 안 올라왔어요 — 배치를 켜면 월요일마다 지난주 숫자가 들어와요.</p></section>`
+  const s = sec('camera'), p = s.data ?? {}
+  const tw = p.this_week ?? {}, c = p.corrections ?? {}
+  const stale = mins(s.at) > CAMERA_STALE_H * 60
+  const prev = (p.weeks ?? []).slice(-2)[0]
+  const d = (k) => (prev && prev.week !== p.week && isNum(prev[k]) && isNum(tw[k]) ? Number(tw[k]) - Number(prev[k]) : null)
+  const delta = (k) => { const v = d(k); return v == null ? '' : `<span class="d ${v > 0.05 ? 'bad' : v < -0.05 ? 'good' : 'eq'}" style="font-size:12px">${v > 0 ? '▲' : v < 0 ? '▼' : ''}${num(Math.abs(v), 1)}%p</span>` }
+  const cls = CAMERA_CLS.filter(([k]) => p.cls?.[k]).map(([k, n]) => { const r = p.cls[k]; return `<tr><td>${n}</td><td class="n">${num(r.ann)}</td><td class="n">${pctTxt(r.bad_pct)}</td><td class="n">${num(r.edge)}</td><td class="n">${num(r.ended)}</td><td class="n">${pctTxt(r.miss_pct)}</td><td class="n">${pctTxt(r.late_pct)}</td></tr>` }).join('')
+  const worst = (p.cards?.worst ?? []).map((w) => `<tr><td><code>${esc(w.id)}</code></td><td class="n">${num(w.ann)}</td><td class="n">${num(w.ok)}</td><td class="n">${num(w.bad)}</td><td class="n">${num(w.pass)}</td><td class="n">${num(w.miss)}</td></tr>`).join('')
+  const rules = (p.rules_compare ?? []).map((r) => { const [n, u] = KNOB_NAME[r.knob] ?? [r.knob, '']; const f = (v) => (isNum(v) ? `<span class="d ${v > 0 ? 'bad' : v < 0 ? 'good' : 'eq'}">${v > 0 ? '+' : ''}${num(v, 2)}</span>` : '—'); return `<tr><td>${esc(n)}</td><td class="n">${num(r.app)}${u} → ${num(r.value)}${u}</td><td class="n">${f(r.d_bad_pp)}</td><td class="n">${f(r.d_miss_pp)}</td><td class="n">${f(r.d_late_pp)}</td></tr>` }).join('')
+  const corrLine = c.adopted
+    ? `${pill('ok', '새 보정판')} v${num(c.version)} 채택 — ${esc(c.kinds ?? '')} · 틀림 ${pctTxt(c.before?.bad_pct)} → ${pctTxt(c.after?.bad_pct)} · 놓침 ${pctTxt(c.before?.miss_pct)} → ${pctTxt(c.after?.miss_pct)}`
+    : `${pill('info', '보정판 그대로')} v${num(c.version ?? 0)} — 후보 다시 붙이기 ${num(c.candidates?.snap)} · 방향 빼기 ${num(c.candidates?.prune)} · 길안내 중에만 ${num(c.candidates?.demote)} · 복귀 ${num(c.candidates?.restore)}${(c.tried ?? []).length ? ` · 시험 ${c.tried.length}번 모두 기각(좋아지지 않으면 이전 판 유지)` : ''}`
+  return `<section>${head}
+  <p class="lead">「틀림」은 알렸는데 그 카메라를 안 지난 것, 「놓침」은 지났는데 안 알린 것이에요. 30~45m 옆을 지난 것(넓은 길·반대 차로)과 카메라 앞에서 주행이 끝난 것은 틀림에서 빼고 따로 세요. 개인 경로·사용자는 싣지 않고 숫자만 올라와요. 고칠 일이 있으면 배치가 재생으로 확인한 뒤 스스로 고쳐요 — 여기서는 숫자가 나빠지지 않는지만 보면 돼요.</p>
+  <p style="margin:0 0 12px">${pill(stale ? 'warn' : 'ok', stale ? '주의' : '정상')} ${esc(p.week ?? '')} · 마지막으로 올라온 때 <b>${s.at ? `${when(s.at)} · ${ago(s.at)}` : '—'}</b> · 주행 ${num(p.window?.routes)}건 · ${num(p.window?.km)}km(최근 ${num((p.window?.weeks ?? []).length)}주)</p>
+  <div class="kpis">
+    ${kpi(unit(num(tw.bad_pct, 1), '%'), '이번 주 틀림', delta('bad_pct'))}
+    ${kpi(unit(num(tw.miss_pct, 1), '%'), '이번 주 놓침', delta('miss_pct'))}
+    ${kpi(unit(num(tw.late_pct, 0), '%'), '늦게 알림', delta('late_pct'))}
+    ${kpi(unit(num(tw.ann), '번'), '울림')}
+    ${kpi(unit(num(tw.pass), '번'), '카메라 지남')}
+  </div>
+  ${cameraTrend(p.weeks)}
+  <p class="small" style="margin:12px 0">${corrLine}</p>
+  <div class="charts">
+    <div style="min-width:0"><h3>도로 유형별 <small>최근 ${num((p.window?.weeks ?? []).length)}주</small></h3><div class="tw"><table><tr><th>유형</th><th class="n">울림</th><th class="n">틀림</th><th class="n">30~45m</th><th class="n">주행 끝남</th><th class="n">놓침</th><th class="n">늦음</th></tr>${cls}</table></div></div>
+    <div style="min-width:0"><h3>자주 틀리는 카메라 <small>라이더 3명 이상 지난 곳만</small></h3>${worst ? `<div class="tw"><table><tr><th>카메라</th><th class="n">울림</th><th class="n">맞음</th><th class="n">틀림</th><th class="n">지남</th><th class="n">놓침</th></tr>${worst}</table></div>` : '<p class="mut small">없어요.</p>'}</div>
+  </div>
+  ${rules ? `<details style="margin-top:12px"><summary class="small" style="cursor:pointer">규칙 숫자를 바꾸면(같은 주행으로 잼 · 적용하지 않음 · %p)</summary><div class="tw"><table><tr><th>규칙</th><th class="n">지금 → 바꿔 봄</th><th class="n">틀림</th><th class="n">놓침</th><th class="n">늦음</th></tr>${rules}</table></div></details>` : ''}
+  <p class="mut small" style="margin-top:8px">판정기 ${esc(p.judge?.sha ?? '—')} · 묶음 ${esc(p.bundle?.input_hash ?? '—')} · 보정판 v${num(p.bundle?.corrections_version ?? 0)}</p>
+</section>`
+}
+
+// ── 단속 카메라 · 전국 도로망 (2026-11-19) — 실서비스가 「지금 앱에 주는 것」을 앱과 같은 공개 RPC로 직접 읽는다 ─────
+// 40~42 내내 도로망 묶음이 실서비스에 0건인 채로 아무도 몰랐다(11/19 발견 — 39 출시 뒤 할 일이 빠졌다).
+// 「만들었다」가 아니라 「실서비스에 실려 있나」를 위쪽에 둔다. 스냅숏이 아니라 페이지가 10분마다 직접 읽는다.
+const ROADS_RELOAD_MS = 10 * 60 * 1000
+/** 지도(OSM) 기준일이 이만큼 지나면 노랑 — 월 1회 build.sh(tool/speed_camera_roads/README.md) */
+const ROADS_STALE_DAYS = 40
+const CAMERA_TIMELINE = [
+  ['11.05', '도로망 기반(카카오·네이버 내비 방식)으로 바꾸기로 결정 — 39에 앱 판정을 넣음'],
+  ['11.13', '40 — 길안내 경로가 카메라 앞길을 타야 알림(도로망 데이터가 있을 때)'],
+  ['11.19', '실서비스에 도로망·이륜차 금지 데이터가 0건이었던 것 발견 → 첫 반영(release 1 · 방향 보정 v3: 혼자 선 카메라 5,246대). 그전 40~42 앱은 거리 30m만 봤다'],
+  ['11.19', '주간 정확도 배치를 실서비스 운영판으로 · 방향 보정을 주간 보정판에 합침'],
+]
+let R = null, rAt = 0
+async function loadRoads(force) {
+  if (!force && R && Date.now() - rAt < ROADS_RELOAD_MS) return
+  rAt = Date.now()
+  const [cam, ban] = await Promise.all([sb.rpc('speed_camera_roads_info'), sb.rpc('motorway_ban_info')])
+  const out = { cam: cam.error ? { err: cam.error.message } : cam.data, ban: ban.error ? { err: ban.error.message } : ban.data, corr: undefined }
+  // 실린 보정판 번호는 시도 파일 머리에만 있다 — 가장 작은 시도 파일 하나를 받아 머리만 읽는다
+  const reg = (out.cam?.regions ?? []).slice().sort((a, b) => a.bytes - b.bytes)[0]
+  if (reg?.url) { try { out.corr = (await rcr2Header(reg.url)).corrections ?? null } catch { out.corr = undefined } }
+  R = out
+  paintTop()
+}
+/** RCR2 머리 — 매직 4 · 형식 1 · uvarint(길이) · JSON (tool/speed_camera_roads/rcr2.py) */
+async function rcr2Header(url) {
+  const res = await fetch(url)
+  if (!res.ok) throw new Error(String(res.status))
+  const raw = new Uint8Array(await new Response(res.body.pipeThrough(new DecompressionStream('gzip'))).arrayBuffer())
+  let p = 5, n = 0, s = 0, b
+  do { b = raw[p++]; n += (b & 0x7f) * 2 ** s; s += 7 } while (b & 0x80)
+  return JSON.parse(new TextDecoder().decode(raw.subarray(p, p + n)))
+}
+const daysSince = (d) => (d ? (Date.now() - Date.parse(d)) / 86400000 : null)
+const ymd = (d) => { if (!d) return '—'; const p = kst(d); return `${p.year}.${p.month}.${p.day}` }
+function roadsRows() {
+  if (!R) return []
+  const c = R.cam, b = R.ban, rows = []
+  const weekly = S.camera ? sec('camera').data?.corrections?.version : null
+  if (c?.err) rows.push({ state: 'bad', name: '카메라 도로망 데이터', text: '못 읽었어요 — 개발자에게 알려 주세요' })
+  else if (!c) rows.push({ state: 'bad', name: '카메라 도로망 데이터', text: '실서비스에 없어요 — 앱은 경로선 30m 거리만 봐요(반대편·옆길 카메라가 울려요). tool/speed_camera_roads/build.sh 를 실서비스 대상으로' })
+  else if (c.enabled === false) rows.push({ state: 'warn', name: '카메라 도로망 데이터', text: '스위치로 꺼 둠(speed_camera_roads_enabled) — 앱은 거리만 봐요' })
+  else {
+    const age = daysSince(c.osm_timestamp)
+    rows.push({ state: age > ROADS_STALE_DAYS ? 'warn' : 'ok', name: '카메라 도로망 데이터', text: `release ${num(c.release)} · 카메라 ${num(c.camera_count)}대 · 시도 ${num((c.regions ?? []).length)}개 · 지도 기준 ${ymd(c.osm_timestamp)}${age > ROADS_STALE_DAYS ? ` — ${Math.round(age)}일 지났어요(월 1회 build.sh)` : ''}` })
+    const live = R.corr === undefined ? null : (R.corr?.version ?? 0)
+    if (live == null) rows.push({ state: 'warn', name: '방향 보정판', text: '실린 판 번호를 못 읽었어요' })
+    else if (isNum(weekly) && Number(weekly) > live) rows.push({ state: 'warn', name: '방향 보정판', text: `실서비스 v${live} · 주간 배치가 v${weekly}를 채택했는데 아직 안 실렸어요 — build.sh 다시` })
+    else rows.push({ state: 'ok', name: '방향 보정판', text: `v${live} 실림${isNum(weekly) ? ` · 주간 배치 최신 v${weekly}` : ''}` })
+  }
+  if (b?.err) rows.push({ state: 'bad', name: '이륜차 금지 도로', text: '못 읽었어요 — 개발자에게 알려 주세요' })
+  else if (!b) rows.push({ state: 'bad', name: '이륜차 금지 도로', text: '실서비스에 없어요 — 앱이 금지 도로 안내를 못 해요. tool/motorway_bans/build.sh' })
+  else if (b.enabled === false) rows.push({ state: 'warn', name: '이륜차 금지 도로', text: '스위치로 꺼 둠(motorway_ban_enabled)' })
+  else rows.push({ state: 'ok', name: '이륜차 금지 도로', text: `release ${num(b.release)} · 금지 ${num(Math.round(b.ban_km))}km · 노드링크 ${b.nodelink_date ?? '—'} · 지도 기준 ${ymd(b.osm_timestamp)}` })
+  return rows
+}
+function roadsIssues() {
+  return roadsRows().filter((r) => r.state !== 'ok').map((r) => ({ state: r.state, text: `${r.name} — ${r.text}` }))
+}
+function renderRoads() {
+  const head = '<h2 id="roads">🛣 단속 카메라 · 전국 도로망 <small>실서비스가 지금 앱에 주는 것을 직접 읽음 · 10분마다</small></h2>'
+  if (!R) return `<section class="today roads">${head}<p class="mut small">읽는 중…</p></section>`
+  const rows = roadsRows()
+  const live = rows.find((r) => r.name === '카메라 도로망 데이터')?.state === 'ok'
+  const say = live
+    ? '<span>실서비스 앱(40 이상)은 <b>도로망으로</b> 판정해요 — 카메라가 선 도로를 그 방향으로 탈 때 알려요.</span><span class="mut small">길안내 중 반대편·꺾는 길 거르기는 43 앱부터예요. 알림 기본값은 꺼짐(시험 중)이에요.</span>'
+    : '<span><b>실서비스 앱은 지금 도로망 없이</b> 경로선 30m 거리만 보고 알려요 — 반대편·옆길 카메라가 울려요.</span>'
+  const p = S.camera ? sec('camera').data ?? {} : null
+  const tw = p?.this_week ?? {}
+  const acc = p
+    ? `<p class="small" style="margin:10px 0 0">정확도(안심주행 · 주간 배치 · ${esc(p.week ?? '')}): 틀림 <b>${pctTxt(tw.bad_pct)}</b> · 놓침 <b>${pctTxt(tw.miss_pct)}</b> · 늦음 ${pctTxt(tw.late_pct)} — <a href="#camera" style="color:var(--fg)">자세히 ↓</a></p>`
+    : '<p class="mut small" style="margin:10px 0 0">정확도 주간 숫자가 아직 안 올라왔어요.</p>'
+  return `<section class="today roads">${head}
+  <div class="say">${say}</div>
+  <div class="tw"><table>${rows.map((r) => `<tr><td style="white-space:nowrap">${pill(r.state, STATE_TEXT[r.state])} ${esc(r.name)}</td><td>${esc(r.text)}</td></tr>`).join('')}</table></div>
+  ${acc}
+  <details style="margin-top:10px"><summary class="small" style="cursor:pointer">지금까지</summary><ul class="small" style="margin:6px 0 0 18px;padding:0">${CAMERA_TIMELINE.map(([d, t]) => `<li><b>${esc(d)}</b> ${esc(t)}</li>`).join('')}</ul></details>
 </section>`
 }
 
@@ -1560,6 +1714,7 @@ function paintTop() {
     safe('빨간 띠', () => renderBand(newest)),
     safe('머리', () => renderHeader(newest)),
     safe('오늘 한눈에', renderToday),
+    safe('단속 카메라 · 전국 도로망', renderRoads),
   ].join('')
   $('reloadBtn').onclick = () => load(true)
   $('logoutBtn').onclick = logout
@@ -1581,6 +1736,7 @@ function paint() {
     ].join('')}</div>`,
     safe('앱 크래시', renderCrashes),
     safe('스토어 리뷰', renderReviews),
+    safe('카메라 정확도 주간', renderCamera),
     safe('만료 예정', renderExpiries),
     safe('크루 목록', renderCrewList),
     safe('외부 자료', renderFresh),
@@ -1613,11 +1769,12 @@ async function load(manual) {
   }
   S = Object.fromEntries(data.map((r) => [r.section, r]))
   A = Object.fromEntries((ago24.data ?? []).map((r) => [r.section, r]))
-  newest = data.reduce((m, r) => (!['mgmt', 'infra', 'health', 'settle', 'reviews', 'crashes', 'db'].includes(r.section) && (!m || r.taken_at > m) ? r.taken_at : m), null)
+  newest = data.reduce((m, r) => (!['mgmt', 'infra', 'health', 'settle', 'reviews', 'crashes', 'db', 'camera'].includes(r.section) && (!m || r.taken_at > m) ? r.taken_at : m), null)
   lastRead = new Date()
   paint()
   show('app')
   loadSeries(manual === true)
+  loadRoads(manual === true).catch(() => {})
 }
 
 async function gate() {
@@ -1634,7 +1791,7 @@ async function gate() {
 async function logout() {
   clearInterval(timer)
   await sb.auth.signOut()
-  S = {}; A = {}; newest = null; G = null; gAt = 0
+  S = {}; A = {}; newest = null; G = null; gAt = 0; R = null; rAt = 0
   destroyCharts()
   $('app').innerHTML = ''
   $('loginPw').value = ''
